@@ -1,26 +1,194 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap');
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+:root {
+  overflow-x: hidden;
+  --pieloscuro: #cb997e;
+  --pielclaro: #ddbea9;
+  --pielblanco: #ffe8d6;
+  --verdegris: #b7b7a4;
+  --verdeclaro: #a5a58d;
+  --verdeoscuro: #6b705c;
+  --gradient1: linear-gradient(90deg, var(--pielblanco), var(--pielclaro));
+  --gradient2: linear-gradient(90deg, var(--verdeclaro), var(--verdeoscuro));
+  --gradient3: linear-gradient(360deg, var(--pieloscuro), var(--pielblanco));
 }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  margin: 0;
+  color: var(--pieloscuro);
+}
+
+p {
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  color: var(--verdeoscuro);
+  margin: 0;
+}
+
+/* Clases de utilidad para usar las variables CSS */
+.bg-piel-oscuro {
+  background-color: var(--pieloscuro) !important;
+}
+.bg-piel-claro {
+  background-color: var(--pielclaro) !important;
+}
+.bg-piel-blanco {
+  background-color: var(--pielblanco) !important;
+}
+.bg-verde-gris {
+  background-color: var(--verdegris) !important;
+}
+.bg-verde-claro {
+  background-color: var(--verdeclaro) !important;
+}
+.bg-verde-oscuro {
+  background-color: var(--verdeoscuro) !important;
+}
+
+.text-piel-blanco {
+  color: var(--pielblanco) !important;
+}
+.text-piel-claro {
+  color: var(--pielclaro) !important;
+}
+.text-piel-oscuro {
+  color: var(--pieloscuro) !important;
+}
+.text-verde-oscuro {
+  color: var(--verdeoscuro) !important;
+}
+.text-verde-gris {
+  color: var(--verdegris) !important;
+}
+.text-verde-claro {
+  color: var(--verdeclaro) !important;
+}
+
+.bg-gradient-1 {
+  background: var(--gradient1) !important;
+}
+.bg-gradient-2 {
+  background: var(--gradient2) !important;
+}
+.bg-gradient-3 {
+  background: var(--gradient3) !important;
+}
+
+/* Clases hover para colores personalizados */
+.hover\:bg-gradient-1:hover {
+  background: var(--gradient1) !important;
+}
+.hover\:bg-gradient-2:hover {
+  background: var(--gradient2) !important;
+}
+.hover\:bg-gradient-3:hover {
+  background: var(--gradient3) !important;
+}
+.hover\:bg-piel-oscuro:hover {
+  background-color: var(--pieloscuro) !important;
+}
+.hover\:bg-piel-claro:hover {
+  background-color: var(--pielclaro) !important;
+}
+.hover\:bg-piel-blanco:hover {
+  background-color: var(--pielblanco) !important;
+}
+.hover\:bg-verde-gris:hover {
+  background-color: var(--verdegris) !important;
+}
+.hover\:bg-verde-claro:hover {
+  background-color: var(--verdeclaro) !important;
+}
+.hover\:bg-verde-oscuro:hover {
+  background-color: var(--verdeoscuro) !important;
+}
+.hover\:text-verde-oscuro:hover {
+  color: var(--verdeoscuro) !important;
+}
+.hover\:text-piel-blanco:hover {
+  color: var(--pielblanco) !important;
+}
+
+.border-verde-oscuro {
+  color: var(--verdeoscuro);
+}
+.border-piel-oscuro {
+  color: var(--pieloscuro);
+}
+.border-piel-oscuro {
+  color: var(--pieloscuro);
+}
+
+.border-piel-claro {
+  color: var(--pielclaro);
+}
+
+.border-piel-blanco {
+  color: var(--pielblanco);
+}
+
+.border-verde-gris {
+  color: var(--verdegris);
+}
+
+.border-verde-claro {
+  color: var(--verdeclaro);
+}
+
+.border-verde-oscuro {
+  color: var(--verdeoscuro);
+}
+.from-piel-oscuro {
+  background: var(--pieloscuro);
+}
+.from-piel-claro {
+  background: var(--pielclaro);
+}
+.from-piel-blanco {
+  background: var(--pielblanco);
+}
+.to-piel-blanco {
+  background: var(--pielblanco);
+}
+.to-piel-claro {
+  background: var(--pielclaro);
+}
+.to-piel-oscuro {
+  background: var(--pieloscuro);
+}
+
+
+
+
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: var(--pielblanco);
+    --foreground: #000000;
   }
 }
 
 body {
   background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--verdeoscuro);
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  margin: 0;
+  line-height: 1.5;
+}
+
+html {
+  overflow-x: hidden;
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 0;
+  text-align: center;
 }
