@@ -1,7 +1,10 @@
+
 import NavBarAcademy from "@/components/layouts/xiosAcademy/NavBarAcademy";
 import React from "react";
 
 const ByXioLayout = ({ children }: { children: React.ReactNode }) => {
+
+
   return (
 
       <div className="flex flex-col h-screen">
@@ -9,7 +12,7 @@ const ByXioLayout = ({ children }: { children: React.ReactNode }) => {
           <header className=" w-full">
             <NavBarAcademy />
           </header>
-          <main className="flex-1">{children}</main>
+        <main className="flex-1">{children}</main> 
         </div>
         <footer className="bg-gray-800 text-white p-4">
           <h2>Xiomara Sanchez Terapeuta FOOTER</h2>

@@ -10,6 +10,8 @@ import { usePathname } from "next/navigation";
 import { IoMdCloseCircle } from "react-icons/io";
 import { CgMenuGridR } from "react-icons/cg";
 import { IoSchoolSharp } from "react-icons/io5";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 const menuItems = [
   {
@@ -45,9 +47,8 @@ const menuItems = [
 ];
 
 const NavBarAcademy = () => {
+  const user = useSelector((state: RootState) => state.auth?.user);
   const [openMenu, setOpenMenu] = useState(false);
-  const [openStudentsButton, setOpenStudentsButton] = useState(false);
-  const [isStudent, setIsStudent] = useState(true);
   const pathname = usePathname();
 
   const width = useWindowSize();
@@ -57,8 +58,9 @@ const NavBarAcademy = () => {
 
   const handleOpenMenu = () => {
     setOpenMenu(!openMenu);
-    setOpenStudentsButton(false);
   };
+
+  const isStudent = user?.role === "student";
 
   return (
     <div className="w-full relative">
@@ -135,7 +137,7 @@ const NavBarAcademy = () => {
             )}
 
             {/* Portal de estudiantes */}
-            {isStudent && (
+            {isStudent ? (
               <Link href="/xios-academy/student-portal">
                 <button
                   className={`p-2 absolute right-4 top-4 z-50 
@@ -146,6 +148,19 @@ const NavBarAcademy = () => {
                 }`}
                 >
                   <IoSchoolSharp size={34} color="white" />
+                </button>
+              </Link>
+            ) : (
+              <Link href="/xios-academy/student-portal">
+                <button
+                  className={`p-2 absolute right-4 top-4 z-50 
+                bg-black rounded-full shadow-md ${
+                  isActive({ href: "/xios-academy/student-portal" })
+                    ? "bg-piel-claro"
+                    : "bg-amber-400"
+                }`}
+                >
+                  Quiero ser estudiante!
                 </button>
               </Link>
             )}
@@ -186,12 +201,12 @@ const NavBarAcademy = () => {
           <div className="flex items-center justify-center gap-2">
             {isStudent ? (
               <Link
-                href="/xios-academy/workshops"
+                href="/xios-academy/student-portal"
                 className={`rounded-2xl bg-verde-oscuro transition-all duration-100 hover:bg-piel-claro hover:text-verde-oscuro text-sm`}
               >
                 <button
                   className={` rounded-3xl font-semibold px-2 py-1 ${
-                    isActive({ href: "/xios-academy/workshops" })
+                    isActive({ href: "/xios-academy/student-portal" })
                       ? "text-verde-oscuro bg-piel-blanco border-b-verde-oscuro border-1"
                       : "text-white"
                   }`}
