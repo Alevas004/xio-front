@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const AboutMe = () => {
   return (
@@ -15,8 +16,8 @@ const AboutMe = () => {
         </div>
 
         {/* Texto */}
-        <div className="space-y-6">
-          <h1 className="text-4xl font-bold text-verde-oscuro leading-tight">
+        <div className="space-y-6 bg-gradient-1 p-5 rounded-2xl">
+          <h1 className="text-4xl font-bold text-verde-oscuro italic leading-tight">
             Xiomara Sánchez
           </h1>
           <p className="text-lg text-verde-oscuro/80 leading-relaxed text-start">
@@ -56,12 +57,12 @@ const AboutMe = () => {
 
           {/* CTA */}
           <div className="pt-4">
-            <a
-              href="/contacto"
+            <Link
+              href="/xiomarasanchezterapeuta/contact"
               className="bg-verde-oscuro text-piel-blanco px-6 py-3 rounded-full text-lg font-semibold shadow-md hover:bg-verde-claro transition-all"
             >
               Conoce más y conecta conmigo
-            </a>
+            </Link>
           </div>
         </div>
       </div>

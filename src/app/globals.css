@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap");
 @import "tailwindcss";
 
 *,
@@ -15,20 +15,27 @@
   --verdegris: #b7b7a4;
   --verdeclaro: #a5a58d;
   --verdeoscuro: #6b705c;
+  --white: #ffffff;
   --gradient1: linear-gradient(90deg, var(--pielblanco), var(--pielclaro));
   --gradient2: linear-gradient(90deg, var(--verdeclaro), var(--verdeoscuro));
   --gradient3: linear-gradient(360deg, var(--pieloscuro), var(--pielblanco));
+  --gradient-navbar: linear-gradient(to bottom, var(--verdeoscuro), var(--white));
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Playfair Display', serif;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Playfair Display", serif;
   font-weight: 700;
   margin: 0;
   color: var(--pieloscuro);
 }
 
 p {
-  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  font-family: "Inter", Arial, Helvetica, sans-serif;
   font-weight: 400;
   color: var(--verdeoscuro);
   margin: 0;
@@ -72,6 +79,9 @@ p {
 .text-verde-claro {
   color: var(--verdeclaro) !important;
 }
+.text-white {
+  color: white !important;
+}
 
 .bg-gradient-1 {
   background: var(--gradient1) !important;
@@ -82,6 +92,10 @@ p {
 .bg-gradient-3 {
   background: var(--gradient3) !important;
 }
+.bg-gradient-navbar {
+  background: var(--gradient-navbar) !important;
+}
+
 
 /* Clases hover para colores personalizados */
 .hover\:bg-gradient-1:hover {
@@ -156,6 +170,9 @@ p {
 .from-piel-blanco {
   background: var(--pielblanco);
 }
+.from-verde-oscuro {
+  background: var(--verdeoscuro);
+}
 .to-piel-blanco {
   background: var(--pielblanco);
 }
@@ -165,14 +182,13 @@ p {
 .to-piel-oscuro {
   background: var(--pieloscuro);
 }
-
-
-
-
+.to-white {
+  background: white;
+}
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: var(--pielblanco);
+    --background: #fdf4ee;
     --foreground: #000000;
   }
 }
@@ -180,7 +196,7 @@ p {
 body {
   background: var(--background);
   color: var(--verdeoscuro);
-  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  font-family: "Inter", Arial, Helvetica, sans-serif;
   margin: 0;
   line-height: 1.5;
 }

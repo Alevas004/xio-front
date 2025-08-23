@@ -41,7 +41,7 @@ const ServiceCard = () => {
         randomService.map((service) => (
           <article
             key={service.id}
-            className="w-full bg-piel-blanco rounded-2xl shadow-xl border border-piel-claro overflow-hidden h-full flex flex-col"
+            className="w-full rounded-2xl shadow-xl border-1 border-verde-oscuro overflow-hidden h-full flex flex-col"
           >
             <div className="relative h-56 md:h-48 lg:h-56">
               {service.image?.endsWith(".mp4") ? (
@@ -93,18 +93,8 @@ const ServiceCard = () => {
                   </ul>
                 </div>
               </div>
-              <div className="p-3 flex flex-col gap-2 justify-between items-center md:flex-row">
-                <Link
-                  className="inline-block px-5 py-2 rounded-full bg-verde-oscuro text-piel-blanco font-semibold hover:bg-piel-blanco hover:text-verde-oscuro hover:border-2 hover:border-verde-oscuro"
-                  href="#contacto"
-                >
-                  Reservar
-                </Link>
-                <button className="text-sm text-verde-oscuro border-2 border-verde-oscuro rounded-full px-4 py-2 hover:bg-verde-oscuro hover:text-piel-blanco">
-                  Más detalles
-                </button>
-              </div>
             </div>
+            
           </article>
         ))}
     </>

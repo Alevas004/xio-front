@@ -23,6 +23,7 @@ module.exports = {
         "gradient-1": "linear-gradient(90deg, #ffe8d6, #ddbea9)",
         "gradient-2": "linear-gradient(90deg, #a5a58d, #6b705c)",
         "gradient-3": "linear-gradient(360deg, #cb997e, #ffe8d6)",
+        "gradient-navbar": "linear-gradient(to bottom left, #6b705c, #ffffff)",
       },
       // Alternativa usando gradientColorStops
       gradientColorStops: {

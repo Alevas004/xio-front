@@ -186,43 +186,51 @@ const NavBarApps = () => {
           </div>
         </div>
       ) : (
-        <nav className="flex items-center px-10 justify-between gap-4 bg-verde-oscuro text-white p-4 relative z-50">
-          <div className="flex gap-4">
+        <nav className="flex items-center px-8 justify-between gap-6 bg-white py-4 relative z-50">
+          {/* Logo/Brand Section */}
+          <div className="flex items-center">
+            <h1 className="text-3xl font-bold  bg-clip-text text-transparent">
+              XIO&apos;S
+            </h1>
+          </div>
+
+          {/* Companies Navigation */}
+          <div className="flex gap-2">
             {companies.map((item) => (
-              <div key={item.href} className="">
+              <div key={item.href}>
                 <Link
                   href={item.href}
-                  className={`flex items-center justify-center gap-1 w-full rounded-3xl font-semibold px-2 py-1 ${
+                  className={`flex items-center justify-center gap-2 px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105 ${
                     isActive(item)
-                      ? "text-verde-oscuro bg-piel-blanco border-b-verde-oscuro border-1"
-                      : "text-white"
+                      ? "bg-gradient-2 text-white shadow-md"
+                      : "text-verde-oscuro hover:bg-verde-gris hover:text-verde-oscuro"
                   }`}
                 >
-                  <button
-                    className={`flex items-center justify-center gap-1 w-full rounded-3xl font-semibold px-2 py-1 `}
-                  >
-                    {item.label}
-                  </button>
+                  {item.label}
                 </Link>
               </div>
             ))}
           </div>
-          <div className="flex gap-2">
+
+          {/* User Menu */}
+          <div className="flex gap-3">
             {[...menuUserItems]
               .sort((a, b) => a.order - b.order)
               .map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`rounded-2xl bg-verde-oscuro transition-all duration-100 hover:bg-piel-claro hover:text-verde-oscuro `}
+                  className={`flex items-center justify-center gap-2 px-4 py-2 rounded-xl font-medium transition-all duration-300 ${
+                    item.label === "Salir" || item.label === "Login"
+                      ? "bg-gradient-2 text-white hover:text-piel-blanco shadow-md hover:shadow-lg"
+                      : isActive(item)
+                      ? "bg-white border-verde-oscuro text-piel-blanco shadow-md"
+                      : "text-verde-oscuro hover:text-piel-blanco hover:bg-verde-oscuro border border-verde-oscuro hover:border-verde-claro"
+                  }`}
                 >
                   <button
                     onClick={item.label === "Salir" ? item.logOut : undefined}
-                    className={`flex items-center justify-center gap-1 w-full rounded-3xl font-semibold px-2 py-1 ${
-                      isActive(item)
-                        ? "text-verde-oscuro bg-piel-blanco border-b-verde-oscuro border-1"
-                        : "text-white"
-                    }`}
+                    className="flex items-center justify-center gap-2 w-full"
                   >
                     {item?.icono}
                     {item.label}

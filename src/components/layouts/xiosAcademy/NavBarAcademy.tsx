@@ -1,7 +1,7 @@
 "use client";
 import useWindowSize from "@/hooks/useWindowSize";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaPeopleCarry } from "react-icons/fa";
 import { GrContact } from "react-icons/gr";
 import { PiHandArrowUpBold } from "react-icons/pi";
@@ -50,8 +50,16 @@ const NavBarAcademy = () => {
   const user = useSelector((state: RootState) => state.auth?.user);
   const [openMenu, setOpenMenu] = useState(false);
   const pathname = usePathname();
-
   const width = useWindowSize();
+
+  // Este flag evita que rendericemos en SSR
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) return null; // nada se renderiza hasta que estamos en cliente
+
   const isMobile = (width ?? 0) < 900;
 
   const isActive = (link: { href: string }) => pathname === link.href;

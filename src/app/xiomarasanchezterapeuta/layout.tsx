@@ -1,5 +1,6 @@
 import NavBarXS from "@/components/layouts/xiomarasanchezterapeuta/NavBarXS";
 import React from "react";
+import FooterXS from "./components/FooterXS";
 
 const XiomaraSanchezTerapeutaLayout = ({
   children,
@@ -14,8 +15,8 @@ const XiomaraSanchezTerapeutaLayout = ({
         </header>
         <main className="flex-1">{children}</main>
       </div>
-      <footer className="bg-gray-800 text-white p-4">
-        <h2>Xiomara Sanchez Terapeuta FOOTER</h2>
+      <footer className="bg-gradient-2">
+        <FooterXS />
       </footer>
     </div>
   );

@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const Contact = () => {
   return (
-    <section className="bg-gradient-1 py-16 px-4">
+    <section className=" py-16 px-4">
       <div className="flex flex-col items-center justify-center mb-5">
         {/* Columna de texto e info */}
         <div className="max-w-[400px] flex flex-col justify-center space-y-6">
@@ -40,17 +40,17 @@ const Contact = () => {
       </div>
       <section className="bg-gradient-2 py-16 px-4 rounded-2xl">
         <div className="max-w-4xl mx-auto text-center space-y-6">
-          <h2 className="text-3xl font-bold text-piel-blanco italic">
+          <h2 className="text-3xl font-bold text-white italic">
             ¡Hablemos ahora!
           </h2>
-          <p className=" text-piel-claro">
+          <p className=" text-piel-blanco">
             Escríbeme por WhatsApp y resolveré todas tus dudas al instante.
           </p>
           <Link
             href="https://wa.me/573135058584?text=¡Hola!%20Quiero%20más%20información%20sobre%20tus%20servicios"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 bg-verde-oscuro text-piel-blanco px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:bg-verde-claro transition-all"
+            className="inline-flex items-center gap-3 bg-verde-oscuro text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:bg-verde-claro transition-all"
           >
             <FaWhatsapp className="text-2xl" />
             Escríbeme en WhatsApp

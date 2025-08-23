@@ -145,11 +145,9 @@ const NavBarXS = () => {
           </div>
         </div>
       ) : (
-        <nav className="flex justify-between items-center w-full h-[60px] px-6 bg-white shadow-md">
-          <div className="flex items-center">
-            <h2 className="font-bold text-lg">
-              XIOMARA <br /> SÁNCHEZ
-            </h2>
+        <nav className="flex justify-center items-center w-full h-[60px] px-6 bg-[#ffffff] shadow-md relative">
+          <div className="absolute top-2 left-3 flex items-center bg-[#ffffff] w-28 h-28 z-10 rounded-full justify-center">
+           <img src="/logo-xiomara-sanchez.webp" alt="xiomara sanchez terapeuta" className="h-24 w-24 object-cover" />
           </div>
 
           <div className="flex items-center justify-center gap-2">
@@ -159,13 +157,13 @@ const NavBarXS = () => {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`rounded-2xl bg-verde-oscuro transition-all duration-100 hover:bg-piel-claro hover:text-verde-oscuro `}
+                  className={`rounded-2xl transition-all duration-100 hover:bg-verde-gris hover:text-verde-oscuro `}
                 >
                   <button
                     className={`flex items-center justify-center gap-1 w-full rounded-3xl font-semibold px-2 py-1 ${
                       isActive(item)
-                        ? "text-verde-oscuro bg-piel-blanco border-b-verde-oscuro border-1"
-                        : "text-white"
+                        ? "text-white bg-verde-oscuro  border-b-black border-1"
+                        : "text-verde-oscuro border-1 border-verde-oscuro"
                     }`}
                   >
                     {item?.icono}
