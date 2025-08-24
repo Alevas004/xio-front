@@ -82,6 +82,9 @@ p {
 .text-white {
   color: white !important;
 }
+.text-transparent {
+  color: transparent !important;
+}
 
 .bg-gradient-1 {
   background: var(--gradient1) !important;
@@ -130,6 +133,9 @@ p {
 }
 .hover\:text-piel-blanco:hover {
   color: var(--pielblanco) !important;
+}
+.hover\:text-white:hover {
+  color: var(--white) !important;
 }
 
 .border-verde-oscuro {

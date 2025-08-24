@@ -22,7 +22,7 @@ export const usePost = <TData = any, TResponse = any>(url: string, options?: { w
             const res = await axios.post(`${BASE_URL}${url}`, data, {
                 headers: validationRole
             });
-            console.log(res.data)
+            console.log('Data recibida',res.data)
             setData(res.data);
             setLoading(false);
             setError(null);
@@ -31,7 +31,6 @@ export const usePost = <TData = any, TResponse = any>(url: string, options?: { w
             console.error("Error posting data:", error);
             setError(error.response?.data.message || error.message);
             setLoading(false);
-            throw error;
         } finally {
             setLoading(false);
         }

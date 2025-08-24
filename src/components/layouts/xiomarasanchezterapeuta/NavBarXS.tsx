@@ -3,12 +3,11 @@ import useWindowSize from "@/hooks/useWindowSize";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
-import { CgMenuGridR } from "react-icons/cg";
 import { IoMdCloseCircle } from "react-icons/io";
 import { MdHome } from "react-icons/md";
 import { PiHandArrowUpBold } from "react-icons/pi";
 import { GrContact } from "react-icons/gr";
-import { IoWomanSharp } from "react-icons/io5";
+import { IoWomanSharp, IoNavigate  } from "react-icons/io5";
 
 const NavBarXS = () => {
   const [openMenu, setOpenMenu] = useState(false);
@@ -86,13 +85,13 @@ const NavBarXS = () => {
               {openMenu ? (
                 <IoMdCloseCircle size={34} color="white" />
               ) : (
-                <CgMenuGridR size={34} color="white" />
+                <IoNavigate   size={30} color="white" className="rotate-180" />
               )}
             </button>
 
             {/* Menú circular */}
             {openMenu && (
-              <div className="absolute -top-[40px] -right-[60px] w-[250px] h-[250px] rounded-full bg-gradient-2 shadow-xl z-40">
+              <div className="absolute -top-[40px] -right-[60px] w-[250px] h-[250px] rounded-full bg-white shadow-xl z-40">
                 {[...menuItems]
                   .sort((a, b) => b.order - a.order)
                   .map((item, index) => {
@@ -113,10 +112,10 @@ const NavBarXS = () => {
                       <Link
                         key={item.href}
                         href={item.href}
-                        className={`absolute rounded-full text-sm font-semibold transition-all duration-300 hover:bg-piel-claro hover:text-verde-oscuro ${
+                        className={`absolute rounded-full text-sm font-semibold transition-all duration-300 hover:bg-verde-gris ${
                           isActive
-                            ? "text-verde-oscuro bg-piel-claro"
-                            : "text-piel-blanco"
+                            ? "text-white bg-verde-oscuro  border-b-black border-1"
+                        : "text-verde-oscuro border-1 border-verde-oscuro"
                         }`}
                         style={{
                           left: `calc(50% + ${x}px)`,
@@ -129,11 +128,7 @@ const NavBarXS = () => {
                       >
                         <button
                           onClick={() => setOpenMenu(false)}
-                          className={`flex flex-col items-center w-full justify-center gap-1  rounded-3xl font-semibold px-2 py-1 ${
-                            isActive
-                              ? "text-verde-oscuro bg-piel-blanco border-b-verde-oscuro border-1"
-                              : "text-white"
-                          }`}
+                         className={`flex items-center justify-center gap-1 w-full rounded-3xl font-semibold px-2 py-1 `}
                         >
                           {item.label}
                         </button>

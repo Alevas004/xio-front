@@ -7,7 +7,7 @@ import { FiLogIn } from "react-icons/fi";
 import { useState } from "react";
 import useWindowSize from "@/hooks/useWindowSize";
 import { LuCircleUser } from "react-icons/lu";
-import { BsBuildingsFill } from "react-icons/bs";
+import { IoStorefront } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import { logout } from "@/redux/slices/authSlice";
@@ -99,18 +99,18 @@ const NavBarApps = () => {
           <div className="relative ">
             {/* Botón de usuario */}
             <button
-              className="bg-piel-claro p-2 absolute right-4 bottom-10 z-50
-              bg-verde-oscuro rounded-full shadow-md "
+              className=" p-2 absolute right-4 bottom-10 z-50
+              bg-black rounded-full shadow-md "
               onClick={handleOpenMenuUser}
             >
               {openMenuUser ? (
-                <IoMdCloseCircle size={44} color="var(--pielblanco)" />
+                <IoMdCloseCircle size={40} color="var(--white)" />
               ) : (
-                <LuCircleUser size={44} color="white" />
+                <LuCircleUser size={40} color="white" />
               )}
             </button>
             {openMenuUser && (
-              <div className="absolute bottom-30 right-4 w-fit rounded-lg bg-gradient-2 z-40 shadow-lg">
+              <div className="absolute bottom-30 right-4 w-fit rounded-lg bg-white p-2 z-40 shadow-lg">
                 <div className="flex flex-col justify-center items-center gap-2">
                   {[...menuUserItems]
                     .sort((a, b) => a.order - b.order)
@@ -118,21 +118,17 @@ const NavBarApps = () => {
                       <Link
                         key={item.href}
                         href={item.href}
-                        className={`p-2 rounded-lg text-sm font-semibold w-[100px] transition-all duration-300 hover:bg-verde-claro hover:text-verde-oscuro ${
+                        className={`flex items-center w-[100px] justify-center gap-2 px-4 py-2 rounded-xl font-medium transition-all duration-300 ${
                           isActive(item)
-                            ? "text-verde-oscuro bg-piel-claro"
-                            : "text-piel-blanco"
+                            ? "bg-verde-oscuro border-verde-oscuro text-white shadow-md"
+                            : "text-verde-oscuro hover:text-piel-blanco hover:bg-verde-oscuro border border-verde-oscuro hover:border-verde-claro"
                         }`}
                       >
                         <button
                           onClick={
                             item.label === "Salir" ? item.logOut : undefined
                           }
-                          className={`flex flex-col items-center w-full justify-center gap-1  rounded-3xl font-semibold px-2 py-1 ${
-                            isActive(item)
-                              ? "text-verde-oscuro bg-piel-blanco border-b-verde-oscuro border-1"
-                              : "text-white"
-                          }`}
+                          className={`flex flex-col items-center w-full justify-center gap-1  rounded-3xl font-semibold px-2 py-1`}
                         >
                           {item?.icono}
                           {item.label}
@@ -144,36 +140,32 @@ const NavBarApps = () => {
             )}
             {/* Botón de empresas */}
             <button
-              className="bg-piel-claro p-2 absolute left-4 bottom-10 z-50 rounded-full shadow-md bg-verde-oscuro"
+              className=" p-2 absolute left-4 bottom-10 z-50 rounded-full shadow-md bg-black"
               onClick={handleOpenMenuCompanies}
             >
               {openMenuCompanies ? (
-                <IoMdCloseCircle size={44} color="var(--pielblanco)" />
+                <IoMdCloseCircle size={40} color="var(--white)" />
               ) : (
-                <BsBuildingsFill size={44} color="white" />
+                <IoStorefront size={40} color="white" />
               )}
             </button>
             {openMenuCompanies && (
-              <div className="absolute bottom-30 left-4 w-fit rounded-lg bg-gradient-2 z-40 shadow-lg">
-                <div className="flex flex-col justify-center items-center gap-2">
+              <div className="absolute bottom-30 left-4 w-fit rounded-lg bg-white z-40 shadow-lg">
+                <div className="flex flex-col justify-center items-center gap-2 p-2">
                   {[...companies]
                     .sort((a, b) => a.order - b.order)
                     .map((item) => (
                       <Link
                         key={item.href}
                         href={item.href}
-                        className={`p-2 rounded-lg text-sm font-semibold w-[100px] transition-all duration-300 hover:bg-verde-claro hover:text-verde-oscuro ${
+                        className={`flex items-center w-[100px] justify-center gap-2 px-4 py-2 rounded-xl font-medium transition-all duration-300 ${
                           isActive(item)
-                            ? "text-verde-oscuro bg-piel-claro"
-                            : "text-piel-blanco"
+                            ? "bg-verde-oscuro border-verde-oscuro text-white shadow-md"
+                            : "text-verde-oscuro hover:text-piel-blanco hover:bg-verde-oscuro border border-verde-oscuro hover:border-verde-claro"
                         }`}
                       >
                         <button
-                          className={`flex flex-col items-center w-full justify-center gap-1  rounded-3xl font-semibold px-2 py-1 ${
-                            isActive(item)
-                              ? "text-verde-oscuro bg-piel-blanco border-b-verde-oscuro border-1"
-                              : "text-white"
-                          }`}
+                          className={`flex flex-col items-center w-full justify-center gap-1  rounded-3xl font-semibold px-2 py-1`}
                           onClick={() => setOpenMenuCompanies(false)}
                         >
                           {item.label}
@@ -189,9 +181,12 @@ const NavBarApps = () => {
         <nav className="flex items-center px-8 justify-between gap-6 bg-white py-4 relative z-50">
           {/* Logo/Brand Section */}
           <div className="flex items-center">
-            <h1 className="text-3xl font-bold  bg-clip-text text-transparent">
-              XIO&apos;S
-            </h1>
+            <Link
+              href="/"
+              className="text-3xl font-bold  bg-verde-oscuro px-2 py-1 rounded-lg"
+            >
+              <h1 className="text-white">XIO&apos;S</h1>
+            </Link>
           </div>
 
           {/* Companies Navigation */}
@@ -224,8 +219,8 @@ const NavBarApps = () => {
                     item.label === "Salir" || item.label === "Login"
                       ? "bg-gradient-2 text-white hover:text-piel-blanco shadow-md hover:shadow-lg"
                       : isActive(item)
-                      ? "bg-white border-verde-oscuro text-piel-blanco shadow-md"
-                      : "text-verde-oscuro hover:text-piel-blanco hover:bg-verde-oscuro border border-verde-oscuro hover:border-verde-claro"
+                      ? "bg-white border-verde-oscuro border-1 text-verde-oscuro shadow-md"
+                      : "text-verde-oscuro hover:text-white hover:bg-verde-oscuro border border-verde-oscuro hover:border-verde-claro"
                   }`}
                 >
                   <button

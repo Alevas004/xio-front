@@ -62,7 +62,7 @@ const LoginForm = () => {
   }, [data, dispatch]);
 
   return (
-    <div className="w-full h-100 flex flex-col items-center justify-center">
+    <div className="w-full py-5 flex flex-col items-center justify-center">
       <form action="" onSubmit={handleSubmit(onSubmit)}>
         {error && (
           <>
