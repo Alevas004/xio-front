@@ -42,7 +42,7 @@ const ProductCardHome = () => {
         randomProducts.map((product) => (
           <div
             key={product.id}
-            className=" max-w-[350px] bg-piel-blanco rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 group mx-auto"
+            className=" max-w-[350px] bg-[#fdf4ee] rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 group mx-auto"
           >
             {/* Imagen */}
             <div className="relative w-full h-64 overflow-hidden">
