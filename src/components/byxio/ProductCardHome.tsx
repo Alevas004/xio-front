@@ -23,16 +23,7 @@ export interface Product {
   updatedAt: string; // ISO date string
 }
 
-const ProductCardHome = () => {
-  const {
-    data: products,
-    loading,
-    error,
-    refetch,
-  } = useGet<Product[]>("/byxio/products", { withAuth: false });
-
-  if (loading) return <p>Cargando...</p>;
-  if (error) return <p>Error al cargar productos</p>;
+const ProductCardHome = ({products}: {products: Product[]}) => {
 
   const randomProducts = products ? shuffle(products).slice(0, 3) : [];
 

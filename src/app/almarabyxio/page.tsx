@@ -1,4 +1,4 @@
-import ProductCardHome from "@/components/byxio/ProductCardHome";
+import ProductCardHome, { Product } from "@/components/byxio/ProductCardHome";
 import Image from "next/image";
 import Link from "next/link";
 import { Metadata } from "next";
@@ -13,6 +13,9 @@ import {
   FiArrowRight,
   FiShoppingBag,
 } from "react-icons/fi";
+import { PaginationData } from "./products/page";
+
+const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_BASE_URL;
 
 export const metadata: Metadata = {
   title: "ByXio - Productos Naturales de Bienestar | Ecommerce Especializado",
@@ -33,7 +36,26 @@ export const metadata: Metadata = {
   },
 };
 
-export default function HomeEcommerce() {
+export default async function HomeEcommerce() {
+  let data: { products: Product[]; pagination: PaginationData | null } = {
+    products: [],
+    pagination: null,
+  };
+
+  try {
+    const res = await fetch(`${BASE_URL}/byxio/products`, {
+      cache: "no-store",
+    });
+
+    if (res.ok) {
+      data = await res.json();
+    }
+  } catch (error) {
+    console.log(error);
+  }
+
+  const products: Product[] = data?.products || [];
+
   return (
     <main className="bg-gradient-2 text-verde-oscuro">
       {/* HERO */}
@@ -59,13 +81,13 @@ export default function HomeEcommerce() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link
-              href="/byxio/products"
+              href="/almarabyxio/products"
               className="bg-piel-blanco text-verde-oscuro px-8 py-4 font-bold rounded-full hover:bg-piel-claro hover:text-verde-oscuro transition-all duration-300 transform hover:scale-105 shadow-lg"
             >
               Explorar Productos
             </Link>
             <Link
-              href="#destacados"
+              href="/almarabyxio/products"
               className="border-2 border-piel-claro text-piel-claro px-8 py-4 font-semibold rounded-full hover:bg-verde-oscuro hover:text-piel-blanco transition-all duration-300"
             >
               Ver Destacados
@@ -118,7 +140,7 @@ export default function HomeEcommerce() {
                 Vitaminas y minerales naturales
               </p>
               <Link
-                href="/byxio/products?category=suplementos"
+                href="/almarabyxio/products?category=suplementos"
                 className="text-piel-oscuro hover:text-verde-oscuro font-medium"
               >
                 Ver productos →
@@ -136,7 +158,7 @@ export default function HomeEcommerce() {
                 Productos para tu rutina diaria
               </p>
               <Link
-                href="/byxio/products?category=cuidado"
+                href="/almarabyxio/products?category=cuidado+de+la+piel"
                 className="text-piel-oscuro hover:text-verde-oscuro font-medium"
               >
                 Ver productos →
@@ -154,7 +176,7 @@ export default function HomeEcommerce() {
                 Aceites esenciales y difusores
               </p>
               <Link
-                href="/byxio/products?category=aromaterapia"
+                href="/almarabyxio/products?category=aromaterapia"
                 className="text-piel-oscuro hover:text-verde-oscuro font-medium"
               >
                 Ver productos →
@@ -172,7 +194,7 @@ export default function HomeEcommerce() {
                 Productos exclusivos y de lujo
               </p>
               <Link
-                href="/byxio/products?category=premium"
+                href="/almarabyxio/products?category=premium"
                 className="text-piel-oscuro hover:text-verde-oscuro font-medium"
               >
                 Ver productos →
@@ -194,11 +216,11 @@ export default function HomeEcommerce() {
             </p>
           </header>
           <div className="mt-6">
-            <ProductCardHome />
+            <ProductCardHome products={products} />
           </div>
           <div className="text-center mt-12">
             <Link
-              href="/byxio/products"
+              href="/almarabyxio/products"
               className="inline-flex items-center bg-verde-oscuro text-piel-blanco px-8 py-4 font-semibold rounded-full hover:bg-piel-oscuro transition-all duration-300 shadow-lg"
             >
               Ver todos los productos
@@ -372,7 +394,7 @@ export default function HomeEcommerce() {
           </div>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link
-              href="/byxio/products"
+              href="/almarabyxio/products"
               className="inline-flex items-center bg-piel-blanco text-verde-oscuro font-bold px-8 py-4 rounded-full hover:bg-verde-claro hover:text-white transition-all duration-300 transform hover:scale-105 shadow-lg"
             >
               <FiShoppingBag className="mr-2 w-5 h-5" />

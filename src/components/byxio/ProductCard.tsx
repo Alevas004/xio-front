@@ -23,24 +23,12 @@ export interface Product {
   updatedAt: string; // ISO date string
 }
 
-const ProductCard = () => {
-  const {
-    data: products,
-    loading,
-    error,
-    refetch,
-  } = useGet<Product[]>("/byxio/products", { withAuth: false });
+const ProductCard = ({products}: {products: Product[]}) => {
 
-  if (loading) {
-    return <p>Cargando productos...</p>;
-  }
-  if (error) {
-    return <p>Error al cargar productos</p>;
-  }
 
   const handleProductById = (id: string) => {
     // Redirigir a la página del producto
-    window.location.href = `/byxio/products/${id}`;
+    window.location.href = `/almarabyxio/products/${id}`;
   }
 
   return (

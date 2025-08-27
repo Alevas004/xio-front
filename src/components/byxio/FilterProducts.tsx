@@ -1,39 +1,101 @@
-'use client'
+"use client";
 import { FaFilter } from "react-icons/fa6";
 
 import React, { useState } from "react";
+import { Product } from "./ProductCard";
+import { FiFilter } from "react-icons/fi";
+import FilterCategories from "./FilterCategories";
+import useWindowSize from "@/hooks/useWindowSize";
+import { CgClose } from "react-icons/cg";
 
-const FilterProducts = () => {
+interface FilterProductsProps {
+  currentCategory: string[];
+  products: Product[];
+}
+
+const FilterProducts = ({ currentCategory, products }: FilterProductsProps) => {
   const [openMenu, setOpenMenu] = useState(false);
+
+  const width = useWindowSize();
+
+  const isMobile = (width ?? 0) < 1024;
+
+  const handleCloseMenu = () => {
+    setOpenMenu(false);
+  };
+
   return (
-    <div>
-      <button onClick={() => setOpenMenu(!openMenu)} className="fixed top-30 left-4 z-50 bg-gray-200 p-2 rounded-full shadow-md hover:bg-gray-300 transition-colors duration-300">
-        <FaFilter size={24} />
-      </button>
-      {openMenu && (
-        <section className="fixed top-30 left-15 bg-gray-100 p-4 z-10">
-          <p>Filtrar por</p>
-          <ul>
-            <li>
-              <button>Aceites</button>
-            </li>
-            <li>
-              <button>Camisas</button>
-            </li>
-            <li>
-              <button>Pantalones</button>
-            </li>
-            <li>
-              <button>Medias</button>
-            </li>
-            <li>
-              <button>Camisas</button>
-            </li>
-            <li>
-              <button>Pantalones</button>
-            </li>
-          </ul>
-        </section>
+    <div className="flex flex-col lg:flex-row gap-8">
+      {isMobile ? (
+        <div className="fixed top-0 left-0 transition-transform duration-300 z-40 mx-auto ">
+          <div className="relative">
+            <button
+              onClick={() => setOpenMenu(!openMenu)}
+              className="absolute top-30 left-4 md:top-25 md:left-10 z-50 bg-black p-2 rounded-full shadow-m"
+            >
+              <FaFilter size={30} color="white" />
+            </button>
+            {openMenu && (
+              <div
+                className="fixed -top-10 left-0 w-full h-full bg-black/30"
+                onClick={handleCloseMenu}
+              >
+                <div
+                  className="absolute top-50 left-20 w-80 z-40"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div className="bg-white rounded-2xl p-6 shadow-lg relative">
+                    <button
+                      className="absolute top-2 right-2 text-verde-claro hover:text-verde-oscuro"
+                      onClick={handleCloseMenu}
+                    >
+                      <CgClose size={30} />
+                    </button>
+                    <div className="flex items-center space-x-2 mb-6">
+                      <FiFilter className="w-5 h-5 text-verde-oscuro" />
+                      <h2 className="text-xl font-semibold text-verde-oscuro">
+                        Filtros
+                      </h2>
+                    </div>
+
+                    {/* Categories */}
+                    <div className="mb-8">
+                      <h3 className="font-semibold text-gray-800 mb-3">
+                        Categorías
+                      </h3>
+                      <FilterCategories
+                        initialValue={currentCategory}
+                        products={products}
+                        closeMenu={handleCloseMenu}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      ) : (
+        <aside className="lg:block w-80 flex-shrink-0">
+          <div className="bg-white rounded-2xl p-6 shadow-lg sticky top-8">
+            <div className="flex items-center space-x-2 mb-6">
+              <FiFilter className="w-5 h-5 text-verde-oscuro" />
+              <h2 className="text-xl font-semibold text-verde-oscuro">
+                Filtros
+              </h2>
+            </div>
+
+            {/* Categories */}
+            <div className="mb-8">
+              <h3 className="font-semibold text-gray-800 mb-3">Categorías</h3>
+              <FilterCategories
+                initialValue={currentCategory}
+                products={products}
+                closeMenu={() => {}}
+              />
+            </div>
+          </div>
+        </aside>
       )}
     </div>
   );

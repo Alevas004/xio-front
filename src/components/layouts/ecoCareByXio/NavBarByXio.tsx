@@ -14,25 +14,25 @@ import { BsBagHeartFill } from "react-icons/bs";
 const menuItems = [
   {
     label: "Acerca",
-    href: "/byxio/about-us",
+    href: "/almarabyxio/about-us",
     order: 4,
     icono: <FaPeopleCarry size={20} />,
   },
   {
     label: "Contáctanos",
-    href: "/byxio/contact",
+    href: "/almarabyxio/contact",
     order: 3,
     icono: <GrContact size={18} />,
   },
   {
     label: "Productos",
-    href: "/byxio/products",
+    href: "/almarabyxio/products",
     order: 2,
     icono: <PiHandArrowUpBold size={22} />,
   },
   {
     label: "Inicio",
-    href: "/byxio",
+    href: "/almarabyxio",
     order: 1,
     icono: <MdHome size={22} />,
   },
@@ -135,7 +135,7 @@ const NavBarByXio = () => {
           </div>
         </div>
       ) : (
-        <nav className="flex justify-between items-center w-full h-[60px] px-6 bg-white shadow-md">
+        <nav className="flex justify-between items-center w-full h-[60px] lg:px-50  md:px-30 bg-white shadow-md">
           <div className="flex items-center justify-center gap-2">
             {[...menuItems]
               .sort((a, b) => a.order - b.order)
@@ -168,12 +168,10 @@ const NavBarByXio = () => {
         </nav>
       )}
       <div
-        className={`fixed  flex items-center gap-2${
-          isMobile ? " top-6 right-4" : " top-40 right-10"
-        } z-50`}
+        className={`fixed top-6 right-4 lg:top-20 lg:right-10 md:top-24 md:right-10  z-50`}
       >
         <button
-          className="bg-piel-claro p-2 rounded-full shadow-md bg-verde-oscuro"
+          className=" p-2 rounded-full shadow-md bg-black"
           onClick={handleOpenCart}
         >
           {openCart ? (

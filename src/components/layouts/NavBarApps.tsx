@@ -43,7 +43,7 @@ const NavBarApps = () => {
     },
     {
       label: "EcoCare by Xio",
-      href: "/byxio",
+      href: "/almarabyxio",
       order: 2,
       icono: <CgProfile size={20} />,
     },
