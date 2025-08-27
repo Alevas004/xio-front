@@ -46,7 +46,7 @@ export async function generateMetadata({
   const page = searchParams.page || "1";
 
   // Base metadata
-  let title = "Productos Naturales ByXio | Tienda Online de Bienestar";
+  let title = "Productos Naturales AlmaraByXio | Tienda Online de Bienestar";
   let description =
     "Explora nuestra colección completa de productos naturales para el bienestar: suplementos, aromaterapia, cuidado personal y más.";
 
@@ -60,15 +60,15 @@ export async function generateMetadata({
       aceites: "Aceites Esenciales Premium",
     };
 
-    title = `${categoryTitles[category] || "Productos"} | ByXio Tienda Natural`;
+    title = `${categoryTitles[category] || "Productos"} | AlmaraByXio Tienda Natural`;
     description = `Descubre nuestra selección de ${categoryTitles[
       category
-    ]?.toLowerCase()} naturales de alta calidad. Envío gratis en compras superiores a $100.000`;
+    ]?.toLowerCase()} naturales de alta calidad. Envío gratis en compras superiores a $150.000`;
   }
 
   // 🔍 SEO por búsqueda
   if (search) {
-    title = `"${search}" - Resultados de Búsqueda | ByXio`;
+    title = `"${search}" - Resultados de Búsqueda | AlmaraByXio`;
     description = `Encuentra productos relacionados con "${search}" en nuestra tienda de productos naturales.`;
   }
 
@@ -89,7 +89,7 @@ export async function generateMetadata({
     },
     robots: "index, follow",
     alternates: {
-      canonical: `/byxio/products${category ? `?category=${category}` : ""}${
+      canonical: `/almarabyxio/products${category ? `?category=${category}` : ""}${
         page !== "1" ? `${category ? "&" : "?"}page=${page}` : ""
       }`,
     },
@@ -142,14 +142,14 @@ const Products = async ({ searchParams }: ProductsPageProps) => {
   const getBreadcrumbs = () => {
     const breadcrumbs = [
       { name: "Inicio", href: "/" },
-      { name: "Productos", href: "/byxio/products" },
+      { name: "Productos", href: "/almarabyxio/products" },
     ];
     if (currentCategory.length > 0) {
       breadcrumbs.push({
         name:
           currentCategory[0]?.charAt(0).toUpperCase() +
           currentCategory[0]?.slice(1),
-        href: `/byxio/products?category=${currentCategory[0]}`,
+        href: `/almarabyxio/products?category=${currentCategory[0]}`,
       });
     }
     return breadcrumbs;
