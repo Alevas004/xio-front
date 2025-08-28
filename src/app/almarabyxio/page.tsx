@@ -67,8 +67,12 @@ export default async function HomeEcommerce() {
           className="object-cover"
           priority
         />
+
         <div className="absolute inset-0 bg-black/70" />
         <div className="relative z-10 max-w-4xl mx-auto">
+          <div className="flex items-center justify-center mb-10 md:hidden">
+            <img src="./almarabyxio.webp" alt="almarabyxio-logo" />
+          </div>
           <h1 className="text-4xl md:text-7xl text-piel-blanco font-bold mb-4 italic">
             <span className=" text-verde-oscuro bg-piel-blanco px-2 rounded-2xl">
               Bienestar

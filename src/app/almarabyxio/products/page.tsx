@@ -15,6 +15,8 @@ import Link from "next/link";
 import SearchBar from "@/components/byxio/SearchBar";
 import PaginationButtons from "@/components/byxio/PaginationButtons";
 import FilterProducts from "@/components/byxio/FilterProducts";
+import almarabyxio from "../../../../public/almarabyxio.webp";
+import Image from "next/image";
 
 interface ProductsPageProps {
   searchParams?: Promise<{
@@ -60,7 +62,9 @@ export async function generateMetadata({
       aceites: "Aceites Esenciales Premium",
     };
 
-    title = `${categoryTitles[category] || "Productos"} | AlmaraByXio Tienda Natural`;
+    title = `${
+      categoryTitles[category] || "Productos"
+    } | AlmaraByXio Tienda Natural`;
     description = `Descubre nuestra selección de ${categoryTitles[
       category
     ]?.toLowerCase()} naturales de alta calidad. Envío gratis en compras superiores a $150.000`;
@@ -89,9 +93,9 @@ export async function generateMetadata({
     },
     robots: "index, follow",
     alternates: {
-      canonical: `/almarabyxio/products${category ? `?category=${category}` : ""}${
-        page !== "1" ? `${category ? "&" : "?"}page=${page}` : ""
-      }`,
+      canonical: `/almarabyxio/products${
+        category ? `?category=${category}` : ""
+      }${page !== "1" ? `${category ? "&" : "?"}page=${page}` : ""}`,
     },
   };
 }
@@ -157,54 +161,54 @@ const Products = async ({ searchParams }: ProductsPageProps) => {
 
   return (
     <main className="min-h-screen ">
-      {/* 🍞 BREADCRUMBS para SEO */}
-      <nav className="bg-gray-50 py-4">
-        <div className="container mx-auto px-4">
-          <ol className="flex items-center justify-center space-x-2 text-sm">
-            {getBreadcrumbs().map((item, index) => (
-              <li key={item.href} className="flex items-center">
-                {index > 0 && (
-                  <FiChevronRight className="w-4 h-4 text-gray-400 mx-2" />
-                )}
-                <Link
-                  href={item.href}
-                  className={
-                    index === getBreadcrumbs().length - 1
-                      ? "text-piel-oscuro font-semibold"
-                      : "text-gray-600 hover:text-piel-oscuro transition-colors"
-                  }
-                >
-                  {index === 0 && <FiHome className="w-4 h-4 mr-1 inline" />}
-                  {item.name}
-                </Link>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </nav>
-
       {/* Header Section - Dinámico según filtros */}
-      <header className="bg-gradient-2 text-white py-16">
+      <header className="bg-black text-white py-10 md:py-8">
+      
         <div className="container mx-auto px-4">
-          <div className="text-center max-w-4xl mx-auto">
+          <div className="text-center max-w-4xl mx-auto mt-10 md:mt-0 ">
             <h1 className="text-4xl md:text-6xl font-bold mb-4">
               {currentCategory.length > 0 ? (
-                <>
+                <div>
+                  <div className="flex flex-col items-center justify-center">
+                    <Image
+                      src={almarabyxio}
+                      alt="almarabyxio-logo"
+                      width={200}
+                      height={60}
+                      className="md:hidden mb-5"
+                    />
+                  </div>
                   <span className="text-piel-claro">
                     {currentCategory[0]?.charAt(0).toUpperCase() +
                       currentCategory[0]?.slice(1)}
                   </span>{" "}
                   Naturales
-                </>
+                </div>
               ) : currentSearch ? (
-                <>
+                <div>
+                  <div className="flex flex-col items-center justify-center">
+                    <Image
+                      src={almarabyxio}
+                      alt="almarabyxio-logo"
+                      width={200}
+                      height={60}
+                      className="md:hidden mb-5"
+                    />
+                  </div>
                   Resultados para{" "}
                   <span className="text-piel-claro">
                     &ldquo;{currentSearch}&rdquo;
                   </span>
-                </>
+                </div>
               ) : (
-                <div className="flex items-center justify-center">
+                <div className="flex flex-col items-center justify-center">
+                  <Image
+                    src={almarabyxio}
+                    alt="almarabyxio-logo"
+                    width={200}
+                    height={60}
+                    className="md:hidden mb-8"
+                  />
                   <h2 className="bg-gradient-1 w-fit px-2 rounded-2xl text-center text-verde-oscuro">
                     {" "}
                     Nuestros <span className="text-piel-oscuro">Productos</span>
@@ -249,6 +253,32 @@ const Products = async ({ searchParams }: ProductsPageProps) => {
           </div>
         </div>
       </header>
+
+      {/* 🍞 BREADCRUMBS para SEO */}
+      <nav className="bg-gray-50 py-4">
+        <div className="container mx-auto px-4">
+          <ol className="flex items-center justify-center space-x-2 text-sm">
+            {getBreadcrumbs().map((item, index) => (
+              <li key={item.href} className="flex items-center">
+                {index > 0 && (
+                  <FiChevronRight className="w-4 h-4 text-gray-400 mx-2" />
+                )}
+                <Link
+                  href={item.href}
+                  className={
+                    index === getBreadcrumbs().length - 1
+                      ? "text-piel-oscuro font-semibold"
+                      : "text-gray-600 hover:text-piel-oscuro transition-colors"
+                  }
+                >
+                  {index === 0 && <FiHome className="w-4 h-4 mr-1 inline" />}
+                  {item.name}
+                </Link>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </nav>
 
       {/* Quick Categories */}
       {/* <section className="py-12 bg-white border-b border-gray-200">

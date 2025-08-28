@@ -1,8 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import { useGet } from "@/hooks/useGet";
 
+import { addItem } from "@/redux/slices/cartSlice";
 import React from "react";
+import { useDispatch } from "react-redux";
 
 export interface Product {
   id: string;
@@ -23,13 +24,12 @@ export interface Product {
   updatedAt: string; // ISO date string
 }
 
-const ProductCard = ({products}: {products: Product[]}) => {
-
-
+const ProductCard = ({ products }: { products: Product[] }) => {
+  const dispatch = useDispatch();
   const handleProductById = (id: string) => {
     // Redirigir a la página del producto
     window.location.href = `/almarabyxio/products/${id}`;
-  }
+  };
 
   return (
     <section className="grid grid-cols-1 gap-2 md:grid-cols-3 md:gap-8 mx-auto ">
@@ -78,10 +78,24 @@ const ProductCard = ({products}: {products: Product[]}) => {
               </p>
 
               {/* Botón */}
-              <button className="mt-4 w-full bg-verde-oscuro text-piel-blanco py-2 rounded-lg hover:bg-verde-claro hover:text-verde-oscuro transition-colors duration-300">
-                Agregar al carrito
+              <button
+                className="mt-3 w-full bg-piel-oscuro text-white py-2 rounded"
+                onClick={() =>
+                  dispatch(
+                    addItem({
+                      id: product.id,
+                      name: product.name,
+                      price: product.price,
+                      image: product.image,
+                      stock: product.stock, // opcional
+                      quantity: 1,
+                    })
+                  )
+                }
+              >
+                Añadir al carrito
               </button>
-              <button 
+              <button
                 onClick={() => handleProductById(product.slug)}
                 className="mt-2 w-full bg-verde-claro text-verde-oscuro py-2 rounded-lg hover:bg-verde-oscuro hover:text-piel-blanco transition-colors duration-300"
               >

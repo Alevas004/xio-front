@@ -27,11 +27,11 @@ const FilterProducts = ({ currentCategory, products }: FilterProductsProps) => {
   return (
     <div className="flex flex-col lg:flex-row gap-8">
       {isMobile ? (
-        <div className="fixed top-0 left-0 transition-transform duration-300 z-40 mx-auto ">
+        <div className="fixed bottom-0 left-0 transition-transform duration-300 z-40 mx-auto ">
           <div className="relative">
             <button
               onClick={() => setOpenMenu(!openMenu)}
-              className="absolute top-30 left-4 md:top-25 md:left-10 z-50 bg-black p-2 rounded-full shadow-m"
+              className="absolute bottom-30 left-4 md:top-25 md:left-10 z-50 bg-black p-2 rounded-full shadow-m"
             >
               <FaFilter size={30} color="white" />
             </button>

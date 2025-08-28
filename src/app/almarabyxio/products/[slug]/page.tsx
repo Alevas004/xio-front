@@ -4,16 +4,16 @@ import { useParams } from "next/navigation";
 import Image from "next/image";
 import React, { useState } from "react";
 import {
-  FiShoppingCart,
-  FiShare2,
   FiTruck,
   FiShield,
   FiRefreshCw,
   FiStar,
-  FiMinus,
-  FiPlus,
   FiZoomIn,
+  FiChevronRight,
+  FiHome,
 } from "react-icons/fi";
+import { Link } from "lucide-react";
+import AddToCartSlug from "@/components/byxio/AddToCartSlug";
 
 export interface Product {
   id: string;
@@ -39,7 +39,6 @@ export interface Product {
 const ProductById = () => {
   const { slug } = useParams();
   const [selectedImage, setSelectedImage] = useState(0);
-  const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState<
     "description" | "specs" | "reviews"
   >("description");
@@ -87,20 +86,49 @@ const ProductById = () => {
       minimumFractionDigits: 0,
     }).format(price);
 
-  const handleQuantityChange = (delta: number) => {
-    setQuantity((prev) => Math.max(1, Math.min(prev + delta, product.stock)));
+  // 📈 BREADCRUMBS para SEO
+  const getBreadcrumbs = () => {
+    const breadcrumbs = [
+      { name: "Inicio", href: "/" },
+      { name: "Productos", href: "/almarabyxio/products" },
+    ];
+    if (product.category.length > 0) {
+      breadcrumbs.push({
+        name:
+          product.category.charAt(0).toUpperCase() + product.category.slice(1),
+        href: `/almarabyxio/products?category=${product.category}`,
+      });
+    }
+    return breadcrumbs;
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-piel-blanco to-white">
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Breadcrumb */}
-        <nav className="mb-8 text-sm">
-          <span className="text-gray-500">Inicio</span>
-          <span className="mx-2 text-gray-400">/</span>
-          <span className="text-gray-500 capitalize">{product.category}</span>
-          <span className="mx-2 text-gray-400">/</span>
-          <span className="text-verde-oscuro font-medium">{product.name}</span>
+        <nav className="bg-gray-50 py-4">
+          <div className="container mx-auto px-4">
+            <ol className="flex items-center justify-center space-x-2 text-sm">
+              {getBreadcrumbs().map((item, index) => (
+                <li key={item.href} className="flex items-center">
+                  {index > 0 && (
+                    <FiChevronRight className="w-4 h-4 text-gray-400 mx-2" />
+                  )}
+                  <Link
+                    href={item.href}
+                    className={
+                      index === getBreadcrumbs().length - 1
+                        ? "text-piel-oscuro font-semibold"
+                        : "text-gray-600 hover:text-piel-oscuro transition-colors"
+                    }
+                  >
+                    {index === 0 && <FiHome className="w-4 h-4 mr-1 inline" />}
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
+            </ol>
+          </div>
         </nav>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -210,42 +238,7 @@ const ProductById = () => {
             </div>
 
             {/* Cantidad y acciones */}
-            <div className="space-y-4">
-              <div className="flex items-center space-x-4">
-                <span className="font-medium text-gray-700">Cantidad:</span>
-                <div className="flex items-center border-2 border-gray-200 rounded-lg">
-                  <button
-                    onClick={() => handleQuantityChange(-1)}
-                    disabled={quantity <= 1}
-                    className="p-2 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    <FiMinus className="w-4 h-4" />
-                  </button>
-                  <span className="px-4 py-2 font-medium">{quantity}</span>
-                  <button
-                    onClick={() => handleQuantityChange(1)}
-                    disabled={quantity >= product.stock}
-                    className="p-2 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    <FiPlus className="w-4 h-4" />
-                  </button>
-                </div>
-                <span className="text-sm text-gray-600">
-                  ({product.stock} disponibles)
-                </span>
-              </div>
-
-              <div className="flex space-x-3">
-                <button className="flex-1 bg-verde-oscuro text-white py-3 px-6 rounded-xl font-medium hover:bg-verde-claro hover:text-verde-oscuro transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg">
-                  <FiShoppingCart className="w-5 h-5" />
-                  <span>Agregar al carrito</span>
-                </button>
-
-                <button className="p-3 rounded-xl border-2 border-gray-200 text-gray-500 hover:border-verde-oscuro hover:text-verde-oscuro transition-all duration-300">
-                  <FiShare2 className="w-5 h-5" />
-                </button>
-              </div>
-            </div>
+            <AddToCartSlug product={product} />
 
             {/* Beneficios */}
             <div className="bg-white rounded-xl p-6 shadow-sm space-y-4">

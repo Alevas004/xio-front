@@ -17,26 +17,26 @@ const Contact = () => {
     {
       icon: FiPhone,
       title: "Teléfono",
-      value: "+57 300 123 4567",
-      subtitle: "Lunes a Viernes 8:00 AM - 6:00 PM",
+      value: "+57 313 505 8584",
+      subtitle: "Lunes a Viernes 7:00 AM - 7:00 PM",
     },
     {
       icon: FiMail,
       title: "Email",
-      value: "",
+      value: "xiosanchezinfo@gmail.com",
       subtitle: "Respuesta en menos de 24 horas",
     },
     {
       icon: FiMapPin,
       title: "Ubicación",
-      value: "Bogotá, Colombia",
-      subtitle: "Zona Rosa, Chapinero",
+      value: "Quindio, Colombia",
+      subtitle: "Zona cafetera, Armenia",
     },
     {
       icon: FiClock,
       title: "Horarios",
-      value: "Lun - Vie: 8:00 AM - 6:00 PM",
-      subtitle: "Sáb: 9:00 AM - 2:00 PM",
+      value: "Lun - Vie: 8:00 AM - 5:00 PM",
+      subtitle: "",
     },
   ];
 
@@ -61,19 +61,19 @@ const Contact = () => {
           </p>
         </div>
 
-        <div className="flex flex-col gap-12">
+        <div className="flex flex-col justify-center items-center">
           {/* Información de contacto */}
-          <div className="space-y-8 flex flex-col md:flex-row justify-between items-center">
-            <div className="bg-gradient-to-br from-verde-oscuro to-verde-claro rounded-3xl p-8 md:p-10 text-white relative overflow-hidden">
+          <div className="flex flex-col md:flex-row gap-10 justify-between items-center">
+            <div className="bg-gradient-2 rounded-3xl p-8 md:p-10 relative overflow-hidden">
               {/* Decoración */}
               <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -translate-y-20 translate-x-20"></div>
               <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/5 rounded-full translate-y-16 -translate-x-16"></div>
 
               <div className="relative z-10">
-                <h3 className="text-2xl font-bold mb-2">
+                <h3 className="text-2xl font-bold mb-2 text-piel-blanco ">
                   Información de contacto
                 </h3>
-                <p className="text-green-100 mb-8 leading-relaxed">
+                <p className="text-white mb-8 leading-relaxed">
                   Estamos disponibles para atenderte. Elige la forma que
                   prefieras para contactarnos.
                 </p>
@@ -84,17 +84,17 @@ const Contact = () => {
                       key={index}
                       className="flex items-start w-full space-x-4"
                     >
-                      <div className="flex-shrink-0 p-3 bg-black/20 backdrop-blur-sm rounded-xl">
+                      <div className="flex-shrink-0 p-3 bg-black/30 backdrop-blur-sm rounded-xl">
                         <info.icon className="w-6 h-6 text-white" />
                       </div>
                       <div className="flex flex-col justify-start">
-                        <h4 className="font-semibold text-lg text-start">
+                        <h4 className="font-semibold text-lg text-start text-piel-blanco">
                           {info.title}
                         </h4>
-                        <p className="text-green-50 font-medium text-start">
+                        <p className="text-white font-medium text-start ">
                           {info.value}
                         </p>
-                        <p className="text-green-100 text-sm text-start">
+                        <p className="text-white text-sm text-start">
                           {info.subtitle}
                         </p>
                       </div>

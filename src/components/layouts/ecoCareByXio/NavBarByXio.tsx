@@ -10,6 +10,9 @@ import { usePathname } from "next/navigation";
 import { IoMdCloseCircle } from "react-icons/io";
 import { CgMenuGridR } from "react-icons/cg";
 import { BsBagHeartFill } from "react-icons/bs";
+import almarabyxio from "../../../../public/almarabyxio.webp";
+import Image from "next/image";
+import CartAlmara from "@/components/byxio/CartAlmara";
 
 const menuItems = [
   {
@@ -82,7 +85,7 @@ const NavBarByXio = () => {
 
             {/* Menú circular */}
             {openMenu && (
-              <div className="absolute -top-[40px] -left-[60px] w-[250px] h-[250px] rounded-full bg-gradient-2 shadow-xl z-40">
+              <div className="absolute -top-[40px] -left-[60px] w-[250px] h-[250px] rounded-full bg-white shadow-xl z-40">
                 {[...menuItems]
                   .sort((a, b) => b.order - a.order)
                   .map((item, index) => {
@@ -103,10 +106,10 @@ const NavBarByXio = () => {
                       <Link
                         key={item.href}
                         href={item.href}
-                        className={`absolute rounded-full text-sm font-semibold transition-all duration-300 hover:bg-piel-claro hover:text-verde-oscuro ${
+                        className={`absolute rounded-full text-sm font-semibold transition-all duration-300 hover:bg-verde-gris ${
                           isActive
-                            ? "text-verde-oscuro bg-piel-claro"
-                            : "text-piel-blanco"
+                            ? "text-white bg-verde-oscuro  border-b-black border-1"
+                            : "text-verde-oscuro border-1 border-verde-oscuro"
                         }`}
                         style={{
                           left: `calc(50% + ${x}px)`,
@@ -119,11 +122,7 @@ const NavBarByXio = () => {
                       >
                         <button
                           onClick={() => setOpenMenu(false)}
-                          className={`flex flex-col items-center w-full justify-center gap-1  rounded-3xl font-semibold px-2 py-1 ${
-                            isActive
-                              ? "text-verde-oscuro bg-piel-blanco border-b-verde-oscuro border-1"
-                              : "text-white"
-                          }`}
+                          className={`flex items-center justify-center gap-1 w-full rounded-3xl font-semibold px-2 py-1 `}
                         >
                           {item.label}
                         </button>
@@ -135,7 +134,7 @@ const NavBarByXio = () => {
           </div>
         </div>
       ) : (
-        <nav className="flex justify-between items-center w-full h-[60px] lg:px-50  md:px-30 bg-white shadow-md">
+        <nav className="flex md:justify-evenly md:gap-3 lg:justify-between items-center w-full h-[60px] lg:px-50  md:px-0 md:pr-30 md:pl-10 bg-white shadow-md">
           <div className="flex items-center justify-center gap-2">
             {[...menuItems]
               .sort((a, b) => a.order - b.order)
@@ -143,13 +142,13 @@ const NavBarByXio = () => {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`rounded-2xl bg-verde-oscuro transition-all duration-100 hover:bg-piel-claro hover:text-verde-oscuro `}
+                  className={`rounded-2xl transition-all duration-100 hover:bg-verde-gris hover:text-verde-oscuro `}
                 >
                   <button
                     className={`flex items-center justify-center gap-1 w-full rounded-3xl font-semibold px-2 py-1 ${
                       isActive(item)
-                        ? "text-verde-oscuro bg-piel-blanco border-b-verde-oscuro border-1"
-                        : "text-white"
+                        ? "text-white bg-verde-oscuro  border-b-black border-1"
+                        : "text-verde-oscuro border-1 border-verde-oscuro"
                     }`}
                   >
                     {item?.icono}
@@ -159,34 +158,18 @@ const NavBarByXio = () => {
               ))}
           </div>
 
-          <div className="flex items-center">
-            <h2 className="font-bold text-lg m-0 p-0">
-              EcoCare <br />{" "}
-              <span className="text-xs p-0 m-0">By Xiomara Sanchez</span>
-            </h2>
-          </div>
+          <Image
+            src={almarabyxio}
+            alt="almarabyxio-logo"
+            width={130}
+            height={40}
+          />
         </nav>
       )}
       <div
-        className={`fixed top-6 right-4 lg:top-20 lg:right-10 md:top-24 md:right-10  z-50`}
+       
       >
-        <button
-          className=" p-2 rounded-full shadow-md bg-black"
-          onClick={handleOpenCart}
-        >
-          {openCart ? (
-            <IoMdCloseCircle size={34} color="white" />
-          ) : (
-            <BsBagHeartFill size={34} color="white" />
-          )}
-        </button>
-        {openCart && (
-          <div className="absolute top-14 right-4 w-[300px] bg-white/70 shadow-lg rounded-lg p-4">
-            <h3 className="text-lg font-semibold mb-2">Carrito de Compras</h3>
-            <p>Aquí se mostrarán los productos del carrito.</p>
-            {/* agregar la lógica para mostrar los productos del carrito */}
-          </div>
-        )}
+        <CartAlmara />
       </div>
     </div>
   );

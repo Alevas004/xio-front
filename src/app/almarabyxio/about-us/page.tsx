@@ -151,9 +151,9 @@ const AboutUs = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
               <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-lg flex flex-col justify-center items-center">
-                <div className="flex items-center">
-                  <div className="p-3 bg-gradient-to-r from-verde-oscuro to-verde-claro rounded-xl">
-                    <FiTarget className="w-6 h-6 text-verde-claro" />
+                <div className="flex items-center gap-2">
+                  <div className="p-3 bg-gradient-2 rounded-xl">
+                    <FiTarget className="w-6 h-6 text-white" />
                   </div>
                   <h3 className="text-2xl font-bold text-verde-oscuro">
                     Nuestra Misión
@@ -167,9 +167,9 @@ const AboutUs = () => {
               </div>
 
               <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 shadow-lg flex flex-col justify-center items-center">
-                <div className="flex items-center">
-                  <div className="p-3 bg-gradient-to-r from-piel-oscuro to-piel-claro rounded-xl">
-                    <FiTrendingUp className="w-6 h-6 text-verde-claro" />
+                <div className="flex items-center gap-2">
+                  <div className="p-3 bg-gradient-2 rounded-xl">
+                    <FiTrendingUp className="w-6 h-6 text-white" />
                   </div>
                   <h3 className="text-2xl font-bold text-verde-oscuro">
                     Nuestra Visión
@@ -190,25 +190,27 @@ const AboutUs = () => {
                 <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-12 -translate-x-12"></div>
 
                 <div className="relative">
-                  <h3 className="text-3xl font-bold">Lo que nos mueve</h3>
+                  <h3 className="text-3xl font-bold text-piel-blanco">
+                    Lo que nos mueve
+                  </h3>
                   <div className="space-y-4 mt-3 flex flex-col items-start justify-start">
                     <div className="flex items-start space-x-3">
-                      <FiHeart className="w-6 h-6 text-verde-claro mt-1 flex-shrink-0" />
-                      <p className="text-start">
+                      <FiHeart className="w-6 h-6 text-white mt-1 flex-shrink-0" />
+                      <p className="text-start text-white">
                         La creencia de que cada persona tiene el poder de
                         transformar su vida
                       </p>
                     </div>
                     <div className="flex items-start space-x-3">
-                      <FiUsers className="w-6 h-6 text-verde-claro mt-1 flex-shrink-0" />
-                      <p className="text-start">
+                      <FiUsers className="w-6 h-6 text-white mt-1 flex-shrink-0" />
+                      <p className="text-start text-white">
                         La pasión por construir comunidades auténticas y
                         conectadas
                       </p>
                     </div>
                     <div className="flex items-start space-x-3">
-                      <FiGlobe className="w-6 h-6 text-verde-claro mt-1 flex-shrink-0" />
-                      <p className="text-start">
+                      <FiGlobe className="w-6 h-6 text-white mt-1 flex-shrink-0" />
+                      <p className="text-start text-white">
                         El compromiso con un impacto positivo en el planeta
                       </p>
                     </div>
@@ -262,7 +264,7 @@ const AboutUs = () => {
 
                 <div className="relative ">
                   <div className="inline-flex items-center justify-center w-12 h-12 bg-verde-oscuro opacity-80 rounded-2xl">
-                    <value.icon className="w-8 h-8 text-piel-blanco" />
+                    <value.icon className="w-8 h-8 text-white" />
                   </div>
                   <h3 className="text-xl font-bold text-verde-oscuro mb-4">
                     {value.title}
@@ -406,17 +408,19 @@ const AboutUs = () => {
         </div>
 
         <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            ¿Listo para comenzar tu journey?
-          </h2>
-          <p className="text-xl text-green-100 mb-10 leading-relaxed">
-            Únete a nuestra comunidad y descubre productos que transformarán tu
-            experiencia de bienestar. Comienza hoy tu camino hacia una vida más
-            plena y consciente.
-          </p>
+          <div className="mb-5">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              ¿Listo para comenzar tu journey?
+            </h2>
+            <p className="md:text-xl text-white mb-10 leading-relaxed">
+              Únete a nuestra comunidad y descubre productos que transformarán
+              tu experiencia de bienestar. Comienza hoy tu camino hacia una vida
+              más plena y consciente.
+            </p>
+          </div>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="/byxio/products"
+              href="/almarabyxio/products"
               className="bg-white text-verde-oscuro px-8 py-4 rounded-xl font-semibold text-lg hover:bg-gray-50 hover:scale-105 transition-all duration-300"
             >
               Explorar productos
