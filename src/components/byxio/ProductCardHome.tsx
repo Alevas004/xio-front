@@ -1,31 +1,19 @@
 /* eslint-disable @next/next/no-img-element */
-"use client";
-import { useGet } from "@/hooks/useGet";
+
 import { shuffle } from "@/utils/suffle";
 
 import React from "react";
+import { Product } from "./ProductCard";
+import { formatPrice } from "@/utils/formatPrice";
+import Link from "next/link";
 
-export interface Product {
-  id: string;
-  name: string;
-  short_description: string;
-  long_description: string;
-  price: number;
-  stock: number;
-  image: string;
-  images: string[];
-  category: string;
-  tags: string[];
-  isActive: boolean;
-  isFeatured: boolean;
-  isSold: boolean;
-  createdAt: string; // ISO date string
-  updatedAt: string; // ISO date string
-}
 
-const ProductCardHome = ({products}: {products: Product[]}) => {
-
+const ProductCardHome = ({ products }: { products: Product[] }) => {
   const randomProducts = products ? shuffle(products).slice(0, 3) : [];
+
+  const discounts = products.map(
+    (product) => product.price - product.price * (product.discountValue / 100)
+  );
 
   return (
     <section className="grid grid-cols-1 gap-2 md:grid-cols-3 md:gap-8 mx-auto ">
@@ -54,6 +42,16 @@ const ProductCardHome = ({products}: {products: Product[]}) => {
                   Destacado
                 </span>
               )}
+              {product.isNew && (
+                <span className="absolute top-3 right-3 bg-green-500 text-white text-xs px-3 py-1 rounded-full shadow-md">
+                  Nuevo
+                </span>
+              )}
+              {product.hasDiscount && (
+                <span className="absolute bottom-3 right-3 bg-red-500 text-white  font-bold text-sm px-3 py-1 rounded-full shadow-md">
+                  -{product.discountValue}%
+                </span>
+              )}
             </div>
 
             {/* Contenido */}
@@ -66,17 +64,20 @@ const ProductCardHome = ({products}: {products: Product[]}) => {
               </p>
               <p className="mt-3 text-xl font-bold text-verde-oscuro">
                 $
-                {product.price.toLocaleString("es-ES", {
-                  currency: "COP",
-                  minimumFractionDigits: 0,
-                })}{" "}
-                <span className="text-sm text-gray-600">COP</span>
+                {product.hasDiscount
+                  ? formatPrice(discounts[products.indexOf(product)])
+                  : formatPrice(product.price)}
               </p>
+              {product.hasDiscount && (
+                <span className="text-sm text-gray-600 line-through">
+                  ${formatPrice(product.price)}
+                </span>
+              )}
 
               {/* Botón */}
-              <button className="mt-4 w-full bg-verde-oscuro text-piel-blanco py-2 rounded-lg hover:bg-verde-claro hover:text-verde-oscuro transition-colors duration-300">
-                Agregar al carrito
-              </button>
+              <Link href={`/almarabyxio/products/${product.slug}`} className="mt-4 w-full bg-gradient-2 text-white py-2 rounded-lg hover:bg-verde-claro hover:text-white transition-colors duration-300">
+                Ver Producto
+              </Link>
             </div>
           </div>
         ))}

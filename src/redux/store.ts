@@ -1,10 +1,30 @@
 "use client";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistReducer, persistStore } from "redux-persist";
-import storage from "redux-persist/lib/storage";
+import createWebStorage from "redux-persist/lib/storage/createWebStorage";
 import cartReducer from "./slices/cartSlice";
-
 import auth from "./slices/authSlice";
+
+// 🔒 Configuración segura para SSR (Next.js compatible)
+const createNoopStorage = () => {
+  return {
+    getItem() {
+      return Promise.resolve(null);
+    },
+    setItem(_key: string, value: string) {
+      return Promise.resolve(value);
+    },
+    removeItem() {
+      return Promise.resolve();
+    },
+  };
+};
+
+// 🌐 Storage que funciona tanto en cliente como servidor
+const storage =
+  typeof window !== "undefined"
+    ? createWebStorage("local")
+    : createNoopStorage();
 
 const rootReducer = combineReducers({
   auth: auth,

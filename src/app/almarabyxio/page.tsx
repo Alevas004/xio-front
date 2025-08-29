@@ -73,26 +73,26 @@ export default async function HomeEcommerce() {
           <div className="flex items-center justify-center mb-10 md:hidden">
             <img src="./almarabyxio.webp" alt="almarabyxio-logo" />
           </div>
-          <h1 className="text-4xl md:text-7xl text-piel-blanco font-bold mb-4 italic">
-            <span className=" text-verde-oscuro bg-piel-blanco px-2 rounded-2xl">
+          <h1 className="text-4xl md:text-7xl text-white font-bold mb-4 italic">
+            <span className=" text-verde-oscuro bg-white px-2 rounded-2xl">
               Bienestar
             </span>{" "}
             que se siente
           </h1>
-          <p className="text-xl md:text-2xl text-piel-claro mb-8 leading-relaxed">
+          <p className="text-xl md:text-2xl text-piel-blanco mb-8 leading-relaxed">
             Descubre productos naturales que elevan tu energía y cuidan de ti.
             Calidad premium, resultados reales.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link
               href="/almarabyxio/products"
-              className="bg-piel-blanco text-verde-oscuro px-8 py-4 font-bold rounded-full hover:bg-piel-claro hover:text-verde-oscuro transition-all duration-300 transform hover:scale-105 shadow-lg"
+              className="bg-white text-verde-oscuro px-8 py-4 font-bold rounded-full hover:bg-piel-blanco hover:text-verde-oscuro transition-all duration-300 transform hover:scale-105 shadow-lg"
             >
               Explorar Productos
             </Link>
             <Link
               href="/almarabyxio/products"
-              className="border-2 border-piel-claro text-piel-claro px-8 py-4 font-semibold rounded-full hover:bg-verde-oscuro hover:text-piel-blanco transition-all duration-300"
+              className="border-2 border-piel-blanco text-piel-blanco px-8 py-4 font-semibold rounded-full hover:bg-verde-oscuro hover:text-white transition-all duration-300"
             >
               Ver Destacados
             </Link>
@@ -124,7 +124,7 @@ export default async function HomeEcommerce() {
       <section className="py-15 bg-gradient-2">
         <div className="max-w-6xl mx-auto px-6">
           <header className="text-center mb-10 flex flex-col items-center justify-center">
-            <h2 className="text-4xl md:text-5xl text-piel-blanco font-bold mb-4 italic">
+            <h2 className="text-4xl md:text-5xl text-white font-bold mb-4 italic">
               Nuestras Categorías
             </h2>
             <p className="text-xl text-piel-blanco bg-verde-oscuro w-fit px-2 rounded-2xl">
@@ -133,7 +133,7 @@ export default async function HomeEcommerce() {
           </header>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <article className="bg-piel-blanco rounded-2xl p-6 text-center hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 group">
+            <article className="bg-white rounded-2xl p-6 text-center hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 group">
               <div className="w-16 h-16 bg-verde-oscuro rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
                 <FiStar className="w-8 h-8 text-white" />
               </div>
@@ -151,7 +151,7 @@ export default async function HomeEcommerce() {
               </Link>
             </article>
 
-            <article className="bg-piel-blanco rounded-2xl p-6 text-center hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 group">
+            <article className="bg-white rounded-2xl p-6 text-center hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 group">
               <div className="w-16 h-16 bg-verde-oscuro rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
                 <FiHeart className="w-8 h-8 text-white" />
               </div>
@@ -169,7 +169,7 @@ export default async function HomeEcommerce() {
               </Link>
             </article>
 
-            <article className="bg-piel-blanco rounded-2xl p-6 text-center hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 group">
+            <article className="bg-white rounded-2xl p-6 text-center hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 group">
               <div className="w-16 h-16 bg-verde-oscuro rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
                 <FiGift className="w-8 h-8 text-white" />
               </div>
@@ -187,7 +187,7 @@ export default async function HomeEcommerce() {
               </Link>
             </article>
 
-            <article className="bg-piel-blanco rounded-2xl p-6 text-center hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 group">
+            <article className="bg-white rounded-2xl p-6 text-center hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 group">
               <div className="w-16 h-16 bg-verde-oscuro rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
                 <FiAward className="w-8 h-8 text-white" />
               </div>
@@ -225,7 +225,7 @@ export default async function HomeEcommerce() {
           <div className="text-center mt-12">
             <Link
               href="/almarabyxio/products"
-              className="inline-flex items-center bg-verde-oscuro text-piel-blanco px-8 py-4 font-semibold rounded-full hover:bg-piel-oscuro transition-all duration-300 shadow-lg"
+              className="inline-flex items-center bg-gradient-2 text-white px-8 py-4 font-semibold rounded-full hover:bg-piel-oscuro transition-all duration-300 shadow-lg"
             >
               Ver todos los productos
               <FiArrowRight className="ml-2 w-5 h-5" />
@@ -238,16 +238,16 @@ export default async function HomeEcommerce() {
       <section className="py-10">
         <div className="max-w-6xl mx-auto px-6">
           <header className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl text-piel-blanco font-bold mb-4">
+            <h2 className="text-4xl md:text-5xl text-white font-bold italic mb-4">
               ¿Por qué elegir ByXio?
             </h2>
-            <p className="text-xl text-piel-claro">
+            <p className="text-xl text-piel-blanco">
               Más que una tienda, somos tu aliado en el bienestar
             </p>
           </header>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <article className="bg-piel-blanco rounded-2xl p-8 text-center hover:shadow-2xl transition-all duration-300">
+            <article className="bg-white rounded-2xl p-8 text-center hover:shadow-2xl transition-all duration-300">
               <div className="w-16 h-16 bg-verde-gris rounded-full flex items-center justify-center mx-auto mb-6">
                 <FiTruck className="w-8 h-8 text-white" />
               </div>
@@ -260,8 +260,8 @@ export default async function HomeEcommerce() {
               </p>
             </article>
 
-            <article className="bg-piel-blanco rounded-2xl p-8 text-center hover:shadow-2xl transition-all duration-300">
-              <div className="w-16 h-16 bg-piel-oscuro rounded-full flex items-center justify-center mx-auto mb-6">
+            <article className="bg-white rounded-2xl p-8 text-center hover:shadow-2xl transition-all duration-300">
+              <div className="w-16 h-16 bg-verde-claro rounded-full flex items-center justify-center mx-auto mb-6">
                 <FiShield className="w-8 h-8 text-white" />
               </div>
               <h3 className="text-xl font-semibold text-verde-oscuro mb-4">
@@ -273,7 +273,7 @@ export default async function HomeEcommerce() {
               </p>
             </article>
 
-            <article className="bg-piel-blanco rounded-2xl p-8 text-center hover:shadow-2xl transition-all duration-300">
+            <article className="bg-white rounded-2xl p-8 text-center hover:shadow-2xl transition-all duration-300">
               <div className="w-16 h-16 bg-verde-claro rounded-full flex items-center justify-center mx-auto mb-6">
                 <FiStar className="w-8 h-8 text-white" />
               </div>
@@ -290,7 +290,7 @@ export default async function HomeEcommerce() {
       </section>
 
       {/* TESTIMONIALS */}
-      <section className="py-10 bg-gradient-1">
+      <section className="py-10 bg-[#fdf4ee]">
         <div className="max-w-6xl mx-auto px-6">
           <header className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl text-verde-oscuro font-bold mb-4 italic">
@@ -388,7 +388,7 @@ export default async function HomeEcommerce() {
       <section className="py-20 text-center border-t border-verde-gris">
         <div className="max-w-4xl mx-auto px-6">
           <div className="flex flex-col items-center justify-center mb-3">
-            <h2 className="text-4xl md:text-5xl text-piel-blanco font-bold mb-6 italic">
+            <h2 className="text-4xl md:text-5xl text-white font-bold mb-6 italic">
               Vive tu bienestar hoy mismo
             </h2>
             <p className="text-xl text-piel-blanco bg-verde-oscuro px-2 rounded-2xl">
@@ -399,14 +399,14 @@ export default async function HomeEcommerce() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link
               href="/almarabyxio/products"
-              className="inline-flex items-center bg-piel-blanco text-verde-oscuro font-bold px-8 py-4 rounded-full hover:bg-verde-claro hover:text-white transition-all duration-300 transform hover:scale-105 shadow-lg"
+              className="inline-flex items-center bg-white text-verde-oscuro font-bold px-8 py-4 rounded-full hover:bg-verde-claro hover:text-white transition-all duration-300 transform hover:scale-105 shadow-lg"
             >
               <FiShoppingBag className="mr-2 w-5 h-5" />
               Explorar Tienda
             </Link>
             <Link
               href="/xio-auth/users/register"
-              className="border-2 border-piel-blanco text-piel-blanco px-8 py-4 font-semibold rounded-full hover:bg-piel-blanco hover:text-verde-oscuro transition-all duration-300"
+              className="border-2 border-piel-blanco text-piel-blanco px-8 py-4 font-semibold rounded-full hover:bg-white hover:text-verde-oscuro transition-all duration-300"
             >
               Crear Cuenta
             </Link>

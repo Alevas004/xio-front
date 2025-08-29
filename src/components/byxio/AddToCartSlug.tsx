@@ -13,12 +13,15 @@ const AddToCartSlug = ({ product }: { product: Product }) => {
     setQuantity((prev) => Math.max(1, Math.min(prev + delta, product.stock)));
   };
 
+  const discount =
+    product.price - product.price * (product.discountValue / 100);
+
   const handleAddToCart = () => {
     dispatch(
       addItem({
         id: product.id,
         name: product.name,
-        price: product.price,
+        price: product.hasDiscount ? discount : product.price,
         image: product.image,
         stock: product.stock,
         quantity,
@@ -57,13 +60,19 @@ const AddToCartSlug = ({ product }: { product: Product }) => {
       </div>
 
       <div className="flex space-x-3">
-        <button
-          className="flex-1 bg-verde-oscuro text-white py-3 px-6 rounded-xl font-medium hover:bg-verde-claro hover:text-verde-oscuro transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg"
-          onClick={handleAddToCart}
-        >
-          <FiShoppingCart className="w-5 h-5" />
-          <span>Agregar al carrito</span>
-        </button>
+        {product.isSold ? (
+          <button className="flex-1 bg-black text-white py-3 px-6 rounded-xl font-medium cursor-not-allowed">
+            Agotado
+          </button>
+        ) : (
+          <button
+            className="flex-1 bg-verde-oscuro text-white py-3 px-6 rounded-xl font-medium hover:bg-verde-claro hover:text-white transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg"
+            onClick={handleAddToCart}
+          >
+            <FiShoppingCart className="w-5 h-5" />
+            <span>Agregar al carrito</span>
+          </button>
+        )}
 
         <button className="p-3 rounded-xl border-2 border-gray-200 text-gray-500 hover:border-verde-oscuro hover:text-verde-oscuro transition-all duration-300">
           <FiShare2 className="w-5 h-5" />

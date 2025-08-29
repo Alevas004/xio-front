@@ -129,7 +129,7 @@ const AboutUs = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-piel-blanco via-white to-piel-claro/30">
+    <div className="min-h-screen bg-white">
       {/* Hero Section */}
       <section className="relative py-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-verde-oscuro/5 to-piel-oscuro/5"></div>
@@ -278,7 +278,7 @@ const AboutUs = () => {
       </section>
 
       {/* Timeline */}
-      <section className="py-20 bg-gradient-1">
+      <section className="py-20 bg-[#fdf4ee]">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16 flex flex-col items-center justify-center">
             <h2 className="text-4xl md:text-5xl font-bold text-verde-oscuro italic">

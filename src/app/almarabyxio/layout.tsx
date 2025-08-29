@@ -1,3 +1,4 @@
+import FooterBX from "@/components/byxio/FooterBX";
 import NavBarByXio from "@/components/layouts/ecoCareByXio/NavBarByXio";
 import ProviderCart from "@/redux/ProviderCart";
 import React from "react";
@@ -10,10 +11,10 @@ const ByXioLayout = ({ children }: { children: React.ReactNode }) => {
           <header className=" w-full">
             <NavBarByXio />
           </header>
-          <main className="flex-1">{children}</main>
+          <main className="flex-1 bg-[#fdffff]">{children}</main>
         </div>
-        <footer className="bg-gray-800 text-white p-4">
-          <h2>Xiomara Sanchez Terapeuta FOOTER</h2>
+        <footer className=" bg-gradient-2 text-white p-4">
+          <FooterBX />
         </footer>
       </div>
     </ProviderCart>

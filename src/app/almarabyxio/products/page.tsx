@@ -37,66 +37,213 @@ export interface PaginationData {
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_BASE_URL;
 
-// 🎯 SEO DINÁMICO: Metadata que cambia según searchParams
+// 🚀 **SEO ÉPICO MEJORADO** - generateMetadata
 export async function generateMetadata({
   searchParams,
 }: {
-  searchParams: { category?: string; search?: string; page?: string };
+  searchParams: Promise<{ category?: string; search?: string; page?: string }>;
 }): Promise<Metadata> {
-  const category = searchParams.category;
-  const search = searchParams.search;
-  const page = searchParams.page || "1";
+  // 🔄 Await searchParams (Next.js 15 requirement)
+  const params = await searchParams;
+  const category = params.category;
+  const search = params.search;
+  const page = params.page || "1";
 
-  // Base metadata
-  let title = "Productos Naturales AlmaraByXio | Tienda Online de Bienestar";
+  // 📊 Categorías con data rica para SEO
+  const categoryData: {
+    [key: string]: { title: string; description: string; keywords: string[] };
+  } = {
+    suplementos: {
+      title: "Suplementos Naturales Premium",
+      description:
+        "Suplementos naturales de alta calidad para tu bienestar. Vitaminas, minerales y extractos naturales con envío gratis. ¡Mejora tu salud naturalmente!",
+      keywords: [
+        "suplementos naturales",
+        "vitaminas",
+        "minerales",
+        "extractos naturales",
+        "salud natural",
+      ],
+    },
+    aromaterapia: {
+      title: "Aromaterapia y Aceites Esenciales",
+      description:
+        "Aceites esenciales puros y productos de aromaterapia. Relájate y equilibra tu energía con nuestros aceites certificados. Calidad garantizada.",
+      keywords: [
+        "aceites esenciales",
+        "aromaterapia",
+        "relajación",
+        "bienestar",
+        "aceites puros",
+      ],
+    },
+    "cuidado-personal": {
+      title: "Cuidado Personal Natural",
+      description:
+        "Productos naturales para el cuidado personal. Cosméticos ecológicos, cremas naturales y productos de higiene sin químicos. Tu piel lo agradecerá.",
+      keywords: [
+        "cuidado personal natural",
+        "cosméticos ecológicos",
+        "productos sin químicos",
+        "cuidado de la piel",
+      ],
+    },
+    cosmetica: {
+      title: "Cosmética Natural y Ecológica",
+      description:
+        "Cosmética 100% natural y ecológica. Maquillaje vegano, cremas anti-edad naturales y productos de belleza sostenibles. Belleza consciente.",
+      keywords: [
+        "cosmética natural",
+        "maquillaje vegano",
+        "belleza ecológica",
+        "productos sostenibles",
+      ],
+    },
+    aceites: {
+      title: "Aceites Esenciales Premium",
+      description:
+        "Aceites esenciales de la más alta calidad. Extracción por destilación, certificados orgánicos. Para difusión, masajes y uso terapéutico.",
+      keywords: [
+        "aceites esenciales premium",
+        "aceites orgánicos",
+        "aceites terapéuticos",
+        "destilación natural",
+      ],
+    },
+  };
+
+  // 🎯 SEO dinámico basado en contexto
+  let title =
+    "Productos Naturales AlmaraByXio | Tienda Online #1 en Bienestar Natural";
   let description =
-    "Explora nuestra colección completa de productos naturales para el bienestar: suplementos, aromaterapia, cuidado personal y más.";
+    "🌿 Tienda líder en productos naturales de Colombia. Suplementos, aromaterapia, cuidado personal. ✅ Envío gratis ✅ Garantía 30 días ✅ +1000 clientes satisfechos";
+  let keywords = [
+    "productos naturales colombia",
+    "tienda natural online",
+    "suplementos naturales",
+    "aromaterapia",
+    "bienestar natural",
+    "almara byxio",
+    "envío gratis",
+    "productos ecológicos",
+  ];
 
-  // 🔍 SEO por categoría
-  if (category) {
-    const categoryTitles: { [key: string]: string } = {
-      suplementos: "Suplementos Naturales",
-      aromaterapia: "Aromaterapia y Aceites Esenciales",
-      "cuidado-personal": "Cuidado Personal Natural",
-      cosmetica: "Cosmética Natural",
-      aceites: "Aceites Esenciales Premium",
-    };
-
-    title = `${
-      categoryTitles[category] || "Productos"
-    } | AlmaraByXio Tienda Natural`;
-    description = `Descubre nuestra selección de ${categoryTitles[
-      category
-    ]?.toLowerCase()} naturales de alta calidad. Envío gratis en compras superiores a $150.000`;
+  // 🔍 SEO por categoría (SÚPER OPTIMIZADO)
+  if (category && categoryData[category]) {
+    const catData = categoryData[category];
+    title = `${catData.title} | AlmaraByXio - Envío Gratis`;
+    description = catData.description;
+    keywords = [...keywords, ...catData.keywords];
   }
 
-  // 🔍 SEO por búsqueda
+  // 🔍 SEO por búsqueda (SÚPER ESPECÍFICO)
   if (search) {
-    title = `"${search}" - Resultados de Búsqueda | AlmaraByXio`;
-    description = `Encuentra productos relacionados con "${search}" en nuestra tienda de productos naturales.`;
+    title = `"${search}" - ${
+      search.length > 15 ? "Productos Encontrados" : "Resultados de Búsqueda"
+    } | AlmaraByXio`;
+    description = `Encontramos productos naturales relacionados con "${search}". Calidad garantizada, envío gratis en compras +$150.000. ¡Descubre lo que buscas!`;
+    keywords = [
+      ...keywords,
+      search.toLowerCase(),
+      `comprar ${search}`,
+      `${search} natural`,
+    ];
   }
 
-  // 📄 SEO por página
+  // 📄 SEO por página (MEJORADO)
   if (page !== "1") {
     title = `${title} - Página ${page}`;
+    description = `${description} Página ${page} de resultados.`;
   }
+
+  // 🏷️ Keywords optimizadas
+  const keywordsString = keywords.join(", ");
 
   return {
     title,
     description,
-    keywords:
-      "productos naturales, suplementos, aromaterapia, cuidado personal, tienda online, bienestar, wellness, aceites esenciales",
+    keywords: keywordsString,
+
+    // 🌐 Open Graph ÉPICO
     openGraph: {
       title,
       description,
       type: "website",
+      url: `https://tudominio.com/almarabyxio/products${
+        category ? `?category=${category}` : ""
+      }${page !== "1" ? `${category ? "&" : "?"}page=${page}` : ""}`,
+      images: [
+        {
+          url: "https://tudominio.com/images/og-products-almara.jpg",
+          width: 1200,
+          height: 630,
+          alt: "Productos Naturales AlmaraByXio",
+          type: "image/jpeg",
+        },
+        {
+          url: "https://tudominio.com/images/almara-logo.png",
+          width: 800,
+          height: 600,
+          alt: "Logo AlmaraByXio",
+        },
+      ],
+      siteName: "AlmaraByXio",
+      locale: "es_CO",
+      countryName: "Colombia",
     },
-    robots: "index, follow",
+
+    // 🐦 Twitter Card OPTIMIZADO
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["https://tudominio.com/images/og-products-almara.jpg"],
+      creator: "@almarabyxio",
+      site: "@almarabyxio",
+    },
+
+    // 🤖 Robots y crawling
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
+        "max-snippet": 160,
+        "max-video-preview": 30,
+      },
+    },
+
+    //  URLs canónicas
     alternates: {
       canonical: `/almarabyxio/products${
         category ? `?category=${category}` : ""
       }${page !== "1" ? `${category ? "&" : "?"}page=${page}` : ""}`,
     },
+
+    // 📊 Metadatos adicionales
+    other: {
+      "og:locale:alternate": "en_US",
+      "fb:app_id": "tu_facebook_app_id",
+      "article:author": "AlmaraByXio",
+      "article:publisher": "https://facebook.com/almarabyxio",
+    },
+
+    // 🏢 Información de la empresa
+    applicationName: "AlmaraByXio",
+    referrer: "origin-when-cross-origin",
+  };
+}
+
+// 🎨 Viewport Configuration (separado de metadata)
+export function generateViewport() {
+  return {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 5,
+    themeColor: "#10B981", // verde de la marca
+    colorScheme: "light",
   };
 }
 
@@ -159,11 +306,106 @@ const Products = async ({ searchParams }: ProductsPageProps) => {
     return breadcrumbs;
   };
 
+  // 🏗️ **JSON-LD STRUCTURED DATA ÉPICO** para la página de productos
+  const breadcrumbs = getBreadcrumbs();
+
+  const jsonLdBreadcrumb = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: breadcrumbs.map((crumb, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: crumb.name,
+      item: `https://tudominio.com${crumb.href}`,
+    })),
+  };
+
+  const jsonLdWebSite = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "AlmaraByXio",
+    url: "https://tudominio.com",
+    potentialAction: {
+      "@type": "SearchAction",
+      target:
+        "https://tudominio.com/almarabyxio/products?search={search_term_string}",
+      "query-input": "required name=search_term_string",
+    },
+  };
+
+  const jsonLdOrganization = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "AlmaraByXio",
+    url: "https://tudominio.com",
+    logo: "https://tudominio.com/images/almara-logo.png",
+    sameAs: [
+      "https://facebook.com/almarabyxio",
+      "https://instagram.com/almarabyxio",
+      "https://twitter.com/almarabyxio",
+    ],
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: "+57-XXX-XXX-XXXX",
+      contactType: "customer service",
+      availableLanguage: ["Spanish"],
+    },
+  };
+
+  const jsonLdItemList =
+    products.length > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          numberOfItems: products.length,
+          itemListElement: products.slice(0, 10).map((product, index) => ({
+            "@type": "ListItem",
+            position: index + 1,
+            item: {
+              "@type": "Product",
+              name: product.name,
+              description: product.short_description,
+              image: product.image?.startsWith("http")
+                ? product.image
+                : `${BASE_URL}${product.image}`,
+              url: `https://tudominio.com/almarabyxio/products/${product.slug}`,
+              offers: {
+                "@type": "Offer",
+                price: product.price,
+                priceCurrency: "COP",
+                availability:
+                  product.stock > 0
+                    ? "https://schema.org/InStock"
+                    : "https://schema.org/OutOfStock",
+              },
+            },
+          })),
+        }
+      : null;
+
   return (
     <main className="min-h-screen ">
+      {/* 🤖 JSON-LD STRUCTURED DATA */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumb) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdOrganization) }}
+      />
+      {jsonLdItemList && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdItemList) }}
+        />
+      )}
       {/* Header Section - Dinámico según filtros */}
       <header className="bg-black text-white py-10 md:py-8">
-      
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto mt-10 md:mt-0 ">
             <h1 className="text-4xl md:text-6xl font-bold mb-4">

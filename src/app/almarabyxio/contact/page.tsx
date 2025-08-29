@@ -48,7 +48,7 @@ const Contact = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-piel-blanco via-white to-piel-claro/30">
+    <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 py-12">
         {/* Header */}
         <div className="flex flex-col items-center mb-16">
