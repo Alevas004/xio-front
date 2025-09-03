@@ -60,7 +60,7 @@ const RegisterForm = () => {
   const [success, setSuccess] = useState(false);
   //? POST DATA
 
-  const { postData, data, error, loading } = usePost("/xio/users/register", {
+  const { create, data, error, loading } = usePost("/xio/users/register", {
     withAuth: false,
   });
 
@@ -92,7 +92,7 @@ const RegisterForm = () => {
 
   const onSubmit = (formData: RegisterFormInputs) => {
     console.log("data enviada", formData);
-    postData(formData);
+    create(formData);
   };
 
   useEffect(() => {

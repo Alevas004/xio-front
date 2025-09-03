@@ -1,7 +1,7 @@
 "use client";
 import { RootState } from "@/redux/store";
 import axios from "axios";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useMemo } from "react";
 import { useSelector } from "react-redux";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_BASE_URL;
@@ -13,21 +13,38 @@ interface UseGetResult<T> {
   refetch: () => Promise<T | void>;
 }
 
-export const useGet = <T>(url: string, options?: { withAuth: boolean }): UseGetResult<T> => {
+export const useGet = <T>(
+  url: string,
+  options?: { withAuth: boolean; queryParams?: Record<string, string | number> }
+): UseGetResult<T> => {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const token = useSelector((store: RootState) => store.auth.token);
+
+  // Extraer y memoizar las dependencias
+  const withAuth = options?.withAuth;
+  const queryParams = useMemo(
+    () => options?.queryParams,
+    [options?.queryParams]
+  );
 
   const getData = useCallback(async () => {
     setLoading(true);
     try {
-      const validationRole = options?.withAuth
+      const validationRole = withAuth
         ? {
             Authorization: `Bearer ${token}`,
           }
         : {};
-      const res = await axios.get(`${BASE_URL}${url}`, {
+
+      // Construir URL con query params
+      const queryString = queryParams
+        ? "?" +
+          new URLSearchParams(queryParams as Record<string, string>).toString()
+        : "";
+
+      const res = await axios.get(`${BASE_URL}${url}${queryString}`, {
         headers: validationRole,
       });
       if (res.status === 200) {
@@ -36,12 +53,12 @@ export const useGet = <T>(url: string, options?: { withAuth: boolean }): UseGetR
         setLoading(false);
         return;
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error(error);
-      setError(error);
+      setError(String(error));
       setLoading(false);
     }
-  }, [url, options?.withAuth, token]);
+  }, [url, withAuth, queryParams, token]);
 
   useEffect(() => {
     getData();

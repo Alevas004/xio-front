@@ -22,16 +22,26 @@ type LoginSchema = z.infer<typeof loginSchema>;
 
 type Inputs = LoginSchema;
 
+type LoginResponse = {
+  token: string;
+  user: LoginSchema;
+}
+
 const LoginForm = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   //* USE POST
-  const { data, error, loading, postData } = usePost<LoginSchema>(
+  const { data, error, loading, create } = usePost<LoginResponse>(
     "/xio//users/login",
     {
       withAuth: false,
     }
-  );
+  ) as unknown as {
+    data: LoginResponse | undefined;
+    error: string | null;
+    loading: boolean;
+    create: (body: Omit<LoginResponse, "token" | "user"> & Inputs) => void;
+  };
 
   //* USE FORM
   const {
@@ -47,8 +57,8 @@ const LoginForm = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<Inputs> = (formData) => {
-    postData(formData);
+  const onSubmit= (formData: Inputs) => {
+    create(formData);
   };
 
   useEffect(() => {

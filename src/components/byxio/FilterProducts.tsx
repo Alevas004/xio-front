@@ -4,16 +4,17 @@ import { FaFilter } from "react-icons/fa6";
 import React, { useState } from "react";
 import { Product } from "./ProductCard";
 import { FiFilter } from "react-icons/fi";
-import FilterCategories from "./FilterCategories";
+import FilterCategories, { CategoryWithCount } from "./FilterCategories";
 import useWindowSize from "@/hooks/useWindowSize";
 import { CgClose } from "react-icons/cg";
 
 interface FilterProductsProps {
   currentCategory: string[];
   products: Product[];
+  availableCategories: CategoryWithCount[];
 }
 
-const FilterProducts = ({ currentCategory, products }: FilterProductsProps) => {
+const FilterProducts = ({ currentCategory, products, availableCategories }: FilterProductsProps) => {
   const [openMenu, setOpenMenu] = useState(false);
 
   const width = useWindowSize();
@@ -67,6 +68,7 @@ const FilterProducts = ({ currentCategory, products }: FilterProductsProps) => {
                         initialValue={currentCategory}
                         products={products}
                         closeMenu={handleCloseMenu}
+                        availableCategories={availableCategories}
                       />
                     </div>
                   </div>
@@ -92,6 +94,7 @@ const FilterProducts = ({ currentCategory, products }: FilterProductsProps) => {
                 initialValue={currentCategory}
                 products={products}
                 closeMenu={() => {}}
+                availableCategories={availableCategories}
               />
             </div>
           </div>

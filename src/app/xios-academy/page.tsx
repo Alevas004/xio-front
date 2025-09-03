@@ -1,7 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { cookies } from "next/headers";
-import XiosAcademyClient, { Course } from "./components/XiosAcademyClient";
+import XiosAcademyClient, { Course } from "../../components/xios-academy/XiosAcademyClient";
 import { shuffle } from "@/utils/suffle";
 
 // Metadatos para SEO
@@ -22,9 +21,6 @@ export const metadata = {
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_BASE_URL;
 
 const XiosAcademyPage = async () => {
-  // Obtener el token de las cookies del servidor
-  // const cookieStore = await cookies();
-  // const token = cookieStore.get("token")?.value;
 
   let courses: Course[] = [];
 

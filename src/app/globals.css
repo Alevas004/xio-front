@@ -131,6 +131,9 @@ p {
 .hover\:bg-verde-oscuro:hover {
   background-color: var(--verdeoscuro) !important;
 }
+.hover\:bg-white:hover {
+  background-color: var(--white) !important;
+}
 .hover\:text-verde-oscuro:hover {
   color: var(--verdeoscuro) !important;
 }

@@ -5,16 +5,16 @@ import { useSelector } from "react-redux";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_BASE_URL;
 
-export const usePost = <TData = unknown, TResponse = unknown>(
+export const useUpdate = <TData = unknown, TResponse = unknown>(
   url: string,
   options?: { withAuth: boolean }
 ) => {
   const [data, setData] = useState<TResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
- const token = useSelector((store: RootState) => store.auth.token);
+  const token = useSelector((store: RootState) => store.auth.token);
 
-  const create = async (data: TData) => {
+  const updateItem = async (id: string, body: TData) => {
     setLoading(true);
     try {
       const validationRole = options?.withAuth
@@ -22,23 +22,26 @@ export const usePost = <TData = unknown, TResponse = unknown>(
             Authorization: `Bearer ${token}`,
           }
         : {};
-
-      const res = await axios.post(`${BASE_URL}${url}`, data, {
+      const res = await axios.put(`${BASE_URL}/${url}/${id}`, body, {
         headers: validationRole,
       });
-      console.log("Data recibida", res.data);
-      setData(res.data);
-      setLoading(false);
-      setError(null);
-      return res.data;
+
+      if (res.status !== 200) {
+        throw new Error("Failed to update item");
+      }
+      if (res.status == 200) {
+        console.log(res.data);
+        setData(res.data);
+        setError(null);
+        setLoading(false);
+        return res.data;
+      }
     } catch (error: unknown) {
-      console.error("Error posting data:", error);
+      console.error("Error deleting item:", error);
       setError(String(error));
-      setLoading(false);
-    } finally {
       setLoading(false);
     }
   };
 
-  return { create, data, loading, error };
+  return { updateItem, data, error, loading };
 };

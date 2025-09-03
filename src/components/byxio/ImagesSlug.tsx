@@ -2,17 +2,30 @@
 import { Product } from "@/app/almarabyxio/products/[slug]/page";
 import Image from "next/image";
 import React from "react";
-import { FiZoomIn } from "react-icons/fi";
 
 const ImagesSlug = ({ product }: { product: Product }) => {
   const [selectedImage, setSelectedImage] = React.useState(0);
-  const allImages = [product.image, ...product.images];
+
+  // Filtrar imágenes válidas (que sean URLs completas)
+  const validImages = [product.image, ...product.images].filter(
+    (img) =>
+      img &&
+      (img.startsWith("http://") ||
+        img.startsWith("https://") ||
+        img.startsWith("/"))
+  );
+
+  const allImages = validImages.length > 0 ? validImages : [product.image];
+
+  // Asegurar que selectedImage esté dentro del rango válido
+  const safeSelectedImage =
+    selectedImage < allImages.length ? selectedImage : 0;
 
   return (
     <div className="space-y-4">
       <div className="relative bg-white rounded-2xl shadow-lg overflow-hidden group">
         <Image
-          src={allImages[selectedImage]}
+          src={allImages[safeSelectedImage]}
           alt={product.name}
           width={500}
           height={500}
@@ -22,11 +35,12 @@ const ImagesSlug = ({ product }: { product: Product }) => {
 
         {product.isSold && (
           <div className="absolute w-full h-full top-0 left-0 bg-black/70 text-white px-3 py-1 text-sm font-medium">
-            <h3 className="text-4xl font-semibold text-white absolute top-1/2 translate-y-[-50%] translate-x-[-50%] left-1/2">AGOTADO</h3>
+            <h3 className="text-4xl font-semibold text-white absolute top-1/2 translate-y-[-50%] translate-x-[-50%] left-1/2">
+              AGOTADO
+            </h3>
           </div>
         )}
 
-       
         {product.isFeatured && (
           <div className="absolute top-4 left-4 bg-verde-oscuro text-white px-3 py-1 rounded-full text-sm font-medium">
             Destacado
@@ -62,7 +76,7 @@ const ImagesSlug = ({ product }: { product: Product }) => {
               key={index}
               onClick={() => setSelectedImage(index)}
               className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all ${
-                selectedImage === index
+                safeSelectedImage === index
                   ? "border-verde-oscuro shadow-md"
                   : "border-gray-200 hover:border-gray-300"
               }`}

@@ -1,4 +1,4 @@
-"use client";
+
 import React from "react";
 import Link from "next/link";
 import {
@@ -16,6 +16,7 @@ import {
   FiHeart,
   FiTrendingUp,
 } from "react-icons/fi";
+import Image from "next/image";
 
 // Mapeo de iconos
 const iconMap = {
@@ -40,6 +41,7 @@ export interface Course {
   duration: string;
   students: number;
   rating: number;
+  images: string[] | null;
   price: number;
   category: string;
   level: string;
@@ -100,18 +102,21 @@ const XiosAcademyClient: React.FC<XiosAcademyClientProps> = ({
   learningPaths,
   testimonials,
 }) => {
+
+
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-piel-blanco via-white to-piel-claro/30">
+    <div className="min-h-screen ">
       {/* Hero Section */}
-      <section className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-1"></div>
-        <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-3 rounded-full -translate-y-48 translate-x-48"></div>
+      <section className="relative pb-10 pt-5 overflow-hidden">
+        <div className="absolute inset-0 bg-white"></div>
+        <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-1 rounded-full -translate-y-48 translate-x-48"></div>
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-piel-oscuro/20 to-verde-gris/10 rounded-full translate-y-32 -translate-x-32"></div>
 
         <div className="max-w-7xl mx-auto px-4 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div>
-              <div className="inline-flex items-center space-x-2 bg-verde-oscuro/10 px-4 py-2 rounded-full mb-6">
+              <div className="inline-flex items-center space-x-2 bg-verde-oscuro/10 px-4 py-2 rounded-full mb-2">
                 <FiBookOpen className="w-5 h-5 text-verde-oscuro" />
                 <span className="text-verde-oscuro font-semibold">
                   Xio&apos;s Academy
@@ -120,7 +125,7 @@ const XiosAcademyClient: React.FC<XiosAcademyClientProps> = ({
 
               <h1 className="text-5xl md:text-6xl font-bold text-verde-oscuro italic leading-tight">
                 Transforma tu vida a través del{" "}
-                <span className="bg-gradient-2 p-1 bg-clip-text text-piel-claro rounded-3xl">
+                <span className="bg-gradient-2 p-1 bg-clip-text text-white rounded-3xl">
                   aprendizaje
                 </span>
               </h1>
@@ -135,7 +140,7 @@ const XiosAcademyClient: React.FC<XiosAcademyClientProps> = ({
               <div className="flex flex-col items-center justify-center sm:flex-row gap-4 my-8">
                 <Link
                   href="/xios-academy/courses"
-                  className="bg-gradient-1 border-1 text-verde-claro px-8 py-4 rounded-xl font-semibold text-lg hover:shadow-lg hover:scale-105 transition-all duration-300 text-center"
+                  className="bg-gradient-1 border-1 text-verde-oscuro px-8 py-4 rounded-xl font-semibold text-lg hover:shadow-lg hover:scale-105 transition-all duration-300 text-center"
                 >
                   Explorar cursos
                 </Link>
@@ -172,7 +177,7 @@ const XiosAcademyClient: React.FC<XiosAcademyClientProps> = ({
                         <FiPlay className="w-6 h-6 text-white" />
                       </div>
                       <div>
-                        <h3 className="font-semibold text-xl">
+                        <h3 className="font-semibold text-xl text-start">
                           Clase gratuita
                         </h3>
                         <div className="text-sm text-verde-claro">
@@ -200,7 +205,7 @@ const XiosAcademyClient: React.FC<XiosAcademyClientProps> = ({
                     </div>
                   </div>
 
-                  <button className="w-full bg-gradient-to-r from-piel-oscuro to-piel-blanco text-verde-oscuro py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-300">
+                  <button className="w-full bg-gradient-2 text-white py-3 rounded-xl font-semibold cursor-pointer">
                     Comenzar ahora
                   </button>
                 </div>
@@ -219,7 +224,7 @@ const XiosAcademyClient: React.FC<XiosAcademyClientProps> = ({
               return (
                 <div key={index} className="text-center">
                   <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-2 rounded-2xl ">
-                    <IconComponent className="w-8 h-8 text-piel-blanco" />
+                    <IconComponent className="w-8 h-8 text-white" />
                   </div>
                   <div className="text-3xl md:text-4xl font-bold text-verde-oscuro mb-2">
                     {stat.number}
@@ -253,20 +258,22 @@ const XiosAcademyClient: React.FC<XiosAcademyClientProps> = ({
                   className="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
                 >
                   <div className="relative h-48">
-                    <img
-                      src={course.url}
+                    <Image
+                      src={course.images?.[0] ? course.images[0] : "/placeholder.png"}
                       alt={course.title}
+                      width={500}
+                      height={300}
                       className="object-cover w-full h-full"
                     />
                     <div className="bg-black/50 absolute w-full h-full top-0"></div>
                     <Link
                       href={`/xios-academy/student-portal/courses/${course.slug}`}
-                      className="absolute inset-0 flex items-center justify-center"
+                      className="absolute inset-0 flex items-center justify-center "
                     >
-                      <FiPlay className="w-16 h-16 text-piel-blanco" />
+                      <FiPlay className="w-16 h-16 text-white" />
                     </Link>
                     <div className="absolute top-4 left-1">
-                      <h4 className="text-sm font-semibold text-center text-piel-blanco">
+                      <h4 className="text-sm font-semibold text-center text-white">
                         Categoria:
                       </h4>
                       <ul className="bg-piel-blanco text-white px-3 py-1 rounded-2xl text-start">
@@ -284,10 +291,10 @@ const XiosAcademyClient: React.FC<XiosAcademyClientProps> = ({
                       </ul>
                     </div>
                     <div className="absolute top-4 right-4">
-                      <h4 className="text-sm font-semibold text-center text-piel-blanco">
+                      <h4 className="text-sm font-semibold text-center text-white">
                         Nivel:
                       </h4>
-                      <span className="bg-gradient-2 text-piel-blanco px-3 py-1 rounded-full text-sm font-semibold">
+                      <span className="bg-gradient-2 text-white px-3 py-1 rounded-full text-sm font-semibold">
                         {course.level}
                       </span>
                     </div>
@@ -350,7 +357,8 @@ const XiosAcademyClient: React.FC<XiosAcademyClientProps> = ({
                           style: "currency",
                           currency: "COP",
                           minimumFractionDigits: 0,
-                        })}{" "} <span className="text-xs">COP</span>
+                        })}{" "}
+                        <span className="text-xs">COP</span>
                       </div>
                       <Link
                         href={`/xios-academy/student-portal/courses/${course.slug}`}

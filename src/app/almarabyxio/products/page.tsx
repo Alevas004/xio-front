@@ -17,6 +17,7 @@ import PaginationButtons from "@/components/byxio/PaginationButtons";
 import FilterProducts from "@/components/byxio/FilterProducts";
 import almarabyxio from "../../../../public/almarabyxio.webp";
 import Image from "next/image";
+import { CategoryWithCount } from "@/components/byxio/FilterCategories";
 
 interface ProductsPageProps {
   searchParams?: Promise<{
@@ -31,9 +32,10 @@ export interface PaginationData {
   currentPage: number;
   totalPages: number;
   totalItems: number;
-  hasNextPage: boolean;
-  hasPrevPage: boolean;
+  hasNextPage?: boolean;
+  hasPrevPage?: boolean;
 }
+
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_BASE_URL;
 
@@ -268,9 +270,13 @@ const Products = async ({ searchParams }: ProductsPageProps) => {
   if (currentPage) query.set("page", currentPage.toString());
   if (currentSort) query.set("sort", currentSort);
 
-  let data: { products: Product[]; pagination: PaginationData | null } = {
+  let data: { 
+    products: Product[]; 
+    pagination: PaginationData | null; availableCategories: CategoryWithCount[] | null 
+  } = {
     products: [],
     pagination: null,
+    availableCategories: null,
   };
 
   try {
@@ -288,6 +294,9 @@ const Products = async ({ searchParams }: ProductsPageProps) => {
 
   const products: Product[] = data.products || [];
   const pagination: PaginationData | null = data.pagination;
+  const availableCategories: CategoryWithCount[] = data.availableCategories || [];
+  console.log(data);
+  console.log(availableCategories);
 
   // 📈 BREADCRUMBS para SEO
   const getBreadcrumbs = () => {
@@ -556,6 +565,7 @@ const Products = async ({ searchParams }: ProductsPageProps) => {
           <FilterProducts
             currentCategory={currentCategory}
             products={products}
+            availableCategories={availableCategories}
           />
 
           {/* Products Grid */}
