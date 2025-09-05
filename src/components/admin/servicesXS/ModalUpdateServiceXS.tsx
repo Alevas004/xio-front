@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Product } from "@/components/byxio/ProductCard";
 import {
   Select,
   SelectContent,
@@ -16,76 +15,93 @@ import z from "zod";
 
 const updateSchema = z
   .object({
-    name: z
+    title: z.string().min(2, "El título es obligatorio"),
+    sub_title: z.string().min(2, "El subtítulo es obligatorio"),
+    description_short: z
       .string()
-      .min(2, "El nombre es obligatorio y debe tener al menos 2 caracteres")
-      .max(100, "El nombre no puede superar los 100 caracteres"),
-
-    short_description: z
-      .string()
-      .min(10, "La descripción corta es obligatoria")
+      .min(10, "La descripción corta debe tener al menos 10 caracteres")
       .max(200, "La descripción corta no puede superar los 200 caracteres"),
-
-    long_description: z
+    detailed_description: z
       .string()
-      .min(20, "La descripción larga es obligatoria")
-      .max(2000, "La descripción larga no puede superar los 2000 caracteres"),
-
-    price: z.preprocess(
-      (val) => Number(val),
-      z
-        .number("El precio debe ser un número")
-        .positive("El precio debe ser mayor que 0")
-    ),
-
-    stock: z
-      .number("El stock debe ser un número")
-      .int("El stock debe ser un número entero")
-      .min(0, "El stock no puede ser negativo"),
-
-    image: z.string().url("La imagen debe ser una URL válida"),
-
-    // Campos como arrays que se manejarán con setValueAs
-    images: z.array(z.string()).min(0, "Cada imagen debe ser una URL válida"),
-    tags: z.array(z.string()).min(0, "Al menos una etiqueta es obligatoria"),
-    caracteristics: z
-      .array(z.string())
-      .min(0, "Al menos una característica es obligatoria"),
-    includes: z
-      .array(z.string())
-      .min(0, "Al menos una inclusión es obligatoria"),
-
-    category: z
+      .min(20, "La descripción detallada debe tener al menos 20 caracteres"),
+    image: z.string().url("Debe ser una URL válida"),
+    images: z
+      .array(z.string().url("Cada imagen debe ser una URL válida"))
+      .nullable(),
+    benefits: z.array(z.string()).nullable().optional(),
+    for_who: z.string().min(5, "Debe indicar a quién va dirigido"),
+    price: z.number().positive("El precio debe ser un número positivo"),
+    duration: z.number().positive("La duración debe ser un número positivo"),
+    phrase_hook: z
       .string()
-      .min(2, "La categoría es obligatoria y debe tener al menos 2 caracteres")
+      .min(5, "El gancho debe tener al menos 5 caracteres"),
+    category: z.string()
+      .min(2, "La categoría es obligatoria")
       .max(100, "La categoría no puede superar los 100 caracteres"),
-
-    isActive: z.boolean().default(false),
-    isFeatured: z.boolean().default(false),
-    hasDiscount: z.boolean().default(false),
-    isNew: z.boolean().default(false),
-    isSold: z.boolean().default(false),
-
-    discountValue: z
-      .number("El valor de descuento debe ser un número")
-      .min(0, "El descuento no puede ser negativo")
-      .default(0),
+    is_active: z.boolean(),
   })
   .partial();
 
 export type UpdateFormValues = z.infer<typeof updateSchema>;
 
+export interface User {
+  id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+  vat: string;
+  gender: "male" | "female" | "other";
+  profile_picture: string;
+  country: string;
+  city: string;
+  address: string;
+  date_of_birth: string; // si quieres más fuerte -> Date
+  role: string;
+  email_verified: boolean;
+  isActive: boolean;
+  isProfessional: boolean;
+  certifications: string[];
+  clients_count: number;
+  specialties: string[];
+  years_experience: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ServiceUpdate {
+  id: string;
+  title: string;
+  sub_title: string;
+  description_short: string;
+  detailed_description: string;
+  image: string;
+  images: string[] | null;
+  benefits?: string[] | null;
+  for_who: string;
+  price: number;
+  duration: number;
+  phrase_hook: string;
+  category: string;
+  is_active: boolean;
+  slug: string;
+  createdAt: string;
+  updatedAt: string;
+  userId: string;
+  user: User;
+}
+
 interface UpdateProps {
-  product: Product;
+  service: ServiceUpdate;
   onClose: () => void;
-  onSave: (data: UpdateFormValues) => Promise<void>;
+  onSave: (data: ServiceUpdate) => Promise<void>;
   error: string | null;
   loading: boolean;
   isOpen: boolean;
 }
 
-const ModalUpdate = ({
-  product,
+const ModalUpdateServiceXS = ({
+  service,
   onClose,
   onSave,
   error,
@@ -100,26 +116,12 @@ const ModalUpdate = ({
     control,
   } = useForm({
     resolver: zodResolver(updateSchema),
+    defaultValues: service,
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const getErrorMessage = (error: any) => {
-    return error?.message || (typeof error === "string" ? error : "");
-  };
-
   useEffect(() => {
-    // Convertir arrays a strings para el formulario y manejar valores null
-    const formData = {
-      ...product,
-      images: Array.isArray(product.images) ? product.images : [],
-      tags: Array.isArray(product.tags) ? product.tags : [],
-      caracteristics: Array.isArray(product.caracteristics)
-        ? product.caracteristics
-        : [],
-      includes: Array.isArray(product.includes) ? product.includes : [],
-    };
-    reset(formData);
-  }, [product, reset]);
+    reset(service);
+  }, [service, reset]);
 
   if (!isOpen) {
     return null;
@@ -147,8 +149,8 @@ const ModalUpdate = ({
               </svg>
             </div>
             <div>
-              <h2 className="text-xl font-bold text-white">Editar Producto</h2>
-              <p className="text-sm text-white/80">{product.name}</p>
+              <h2 className="text-xl font-bold text-white">Editar Servicio</h2>
+              <p className="text-sm text-white/80">{service.title}</p>
             </div>
           </div>
           <button
@@ -208,7 +210,7 @@ const ModalUpdate = ({
                   />
                 </svg>
                 <span className="text-sm font-medium">
-                  Actualizando producto...
+                  Actualizando servicio...
                 </span>
               </div>
             )}
@@ -217,7 +219,36 @@ const ModalUpdate = ({
 
         {/* Form Content */}
         <div className="max-h-[calc(90vh-140px)] overflow-y-auto">
-          <form onSubmit={handleSubmit(onSave)} className="p-6">
+          <form
+            onSubmit={handleSubmit((data) => {
+              // Fill missing required fields with fallback values from service
+              const completeData: ServiceUpdate = {
+                id: service.id,
+                title: data.title ?? service.title,
+                sub_title: data.sub_title ?? service.sub_title,
+                description_short:
+                  data.description_short ?? service.description_short,
+                detailed_description:
+                  data.detailed_description ?? service.detailed_description,
+                price: data.price ?? service.price,
+                duration: data.duration ?? service.duration,
+                image: data.image ?? service.image,
+                images: data.images ?? service.images,
+                category: data.category ?? service.category,
+                benefits: data.benefits ?? service.benefits,
+                for_who: data.for_who ?? service.for_who,
+                phrase_hook: data.phrase_hook ?? service.phrase_hook,
+                is_active: data.is_active ?? service.is_active,
+                slug: service.slug,
+                createdAt: service.createdAt,
+                updatedAt: service.updatedAt,
+                userId: service.userId,
+                user: service.user,
+              };
+              return onSave(completeData);
+            })}
+            className="p-6"
+          >
             <div className="grid gap-8">
               {/* Información Básica */}
               <div className="rounded-xl bg-gradient-to-br from-gray-50 to-gray-100 p-6">
@@ -230,20 +261,20 @@ const ModalUpdate = ({
                 <div className="grid gap-4 md:grid-cols-2">
                   <div className="space-y-2">
                     <Label
-                      htmlFor="name"
+                      htmlFor="title"
                       className="text-sm font-medium text-gray-700"
                     >
-                      Nombre del producto
+                      Título del servicio
                     </Label>
                     <Input
                       type="text"
-                      id="name"
-                      {...register("name")}
+                      id="title"
+                      {...register("title")}
                       className="border-gray-300 focus:border-verde-oscuro focus:ring-verde-oscuro"
                     />
-                    {errors.name && (
+                    {errors.title && (
                       <p className="text-xs text-red-600">
-                        {getErrorMessage(errors.name)}
+                        {errors.title.message}
                       </p>
                     )}
                   </div>
@@ -267,11 +298,24 @@ const ModalUpdate = ({
                             <SelectValue placeholder="Selecciona una categoría" />
                           </SelectTrigger>
                           <SelectContent className="bg-white">
-                            <SelectItem value="aceites">🌿 Aceites</SelectItem>
-                            <SelectItem value="suplementos">
-                              💊 Suplementos
+                            <SelectItem value="masaje-prenatal">
+                              🤰 Masaje Prenatal
                             </SelectItem>
-                            <SelectItem value="kits">📦 Kits</SelectItem>
+                            <SelectItem value="masaje-terapeutico">
+                              🧘‍♀️ Masaje Terapéutico
+                            </SelectItem>
+                            <SelectItem value="drenaje-linfatico">
+                              � Drenaje Linfático
+                            </SelectItem>
+                            <SelectItem value="reflexologia">
+                              👣 Reflexología
+                            </SelectItem>
+                            <SelectItem value="aromaterapia">
+                              🌸 Aromaterapia
+                            </SelectItem>
+                            <SelectItem value="relajacion">
+                              �️ Relajación
+                            </SelectItem>
                           </SelectContent>
                         </Select>
                       )}
@@ -285,40 +329,61 @@ const ModalUpdate = ({
 
                   <div className="space-y-2">
                     <Label
-                      htmlFor="short_description"
+                      htmlFor="sub_title"
                       className="text-sm font-medium text-gray-700"
                     >
-                      Descripción corta
+                      Subtítulo del servicio
                     </Label>
                     <Input
                       type="text"
-                      id="short_description"
-                      {...register("short_description")}
+                      id="sub_title"
+                      {...register("sub_title")}
                       className="border-gray-300 focus:border-verde-oscuro focus:ring-verde-oscuro"
                     />
-                    {errors.short_description && (
+                    {errors.sub_title && (
                       <p className="text-xs text-red-600">
-                        {errors.short_description.message}
+                        {errors.sub_title.message}
                       </p>
                     )}
                   </div>
 
                   <div className="space-y-2">
                     <Label
-                      htmlFor="long_description"
+                      htmlFor="description_short"
                       className="text-sm font-medium text-gray-700"
                     >
-                      Descripción larga
+                      Descripción corta
                     </Label>
                     <Input
                       type="text"
-                      id="long_description"
-                      {...register("long_description")}
+                      id="description_short"
+                      {...register("description_short")}
                       className="border-gray-300 focus:border-verde-oscuro focus:ring-verde-oscuro"
                     />
-                    {errors.long_description && (
+                    {errors.description_short && (
                       <p className="text-xs text-red-600">
-                        {errors.long_description.message}
+                        {errors.description_short.message}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="col-span-2 space-y-2">
+                    <Label
+                      htmlFor="detailed_description"
+                      className="text-sm font-medium text-gray-700"
+                    >
+                      Descripción detallada
+                    </Label>
+                    <textarea
+                      id="detailed_description"
+                      rows={4}
+                      {...register("detailed_description")}
+                      className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-verde-oscuro focus:outline-none focus:ring-1 focus:ring-verde-oscuro"
+                      placeholder="Describe en detalle los beneficios y procedimientos del servicio..."
+                    />
+                    {errors.detailed_description && (
+                      <p className="text-xs text-red-600">
+                        {errors.detailed_description.message}
                       </p>
                     )}
                   </div>
@@ -357,40 +422,42 @@ const ModalUpdate = ({
 
                   <div className="space-y-2">
                     <Label
-                      htmlFor="stock"
+                      htmlFor="duration"
                       className="text-sm font-medium text-gray-700"
                     >
-                      📦 Stock
+                      ⏰ Duración (minutos)
                     </Label>
                     <Input
-                      type="number"
-                      id="stock"
-                      {...register("stock", { valueAsNumber: true })}
+                      type="text"
+                      id="duration"
+                      {...register("duration", { valueAsNumber: true })}
                       className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                      placeholder="60 min, 90 min, etc."
                     />
-                    {errors.stock && (
+                    {errors.duration && (
                       <p className="text-xs text-red-600">
-                        {errors.stock.message}
+                        {errors.duration.message}
                       </p>
                     )}
                   </div>
 
                   <div className="space-y-2">
                     <Label
-                      htmlFor="discountValue"
+                      htmlFor="for_who"
                       className="text-sm font-medium text-gray-700"
                     >
-                      🏷️ Descuento
+                      👥 Para quién
                     </Label>
                     <Input
-                      type="number"
-                      id="discountValue"
-                      {...register("discountValue", { valueAsNumber: true })}
+                      type="text"
+                      id="for_who"
+                      {...register("for_who")}
                       className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                      placeholder="Embarazadas, adultos, deportistas, etc."
                     />
-                    {errors.discountValue && (
+                    {errors.for_who && (
                       <p className="text-xs text-red-600">
-                        {errors.discountValue.message}
+                        {errors.for_who.message}
                       </p>
                     )}
                   </div>
@@ -458,26 +525,26 @@ const ModalUpdate = ({
                 </div>
               </div>
 
-              {/* Detalles del Producto */}
+              {/* Beneficios y Frase */}
               <div className="rounded-xl bg-gradient-to-br from-green-50 to-emerald-100 p-6">
                 <h3 className="mb-4 flex items-center text-lg font-semibold text-gray-800">
                   <div className="mr-3 flex h-6 w-6 items-center justify-center rounded-full bg-green-600">
                     <span className="text-xs font-bold text-white">4</span>
                   </div>
-                  Detalles del Producto
+                  Beneficios y Mensaje
                 </h3>
                 <div className="grid gap-4">
                   <div className="space-y-2">
                     <Label
-                      htmlFor="tags"
+                      htmlFor="benefits"
                       className="text-sm font-medium text-gray-700"
                     >
-                      🏷️ Tags (separados por comas)
+                      ✨ Beneficios (separados por comas)
                     </Label>
                     <Input
                       type="text"
-                      id="tags"
-                      {...register("tags", {
+                      id="benefits"
+                      {...register("benefits", {
                         setValueAs: (value) =>
                           Array.isArray(value)
                             ? value
@@ -489,157 +556,59 @@ const ModalUpdate = ({
                             : [],
                       })}
                       className="border-gray-300 focus:border-green-500 focus:ring-green-500"
+                      placeholder="Reduce el estrés, alivia tensiones, mejora la circulación..."
                     />
-                    {errors.tags && (
+                    {errors.benefits && (
                       <p className="text-xs text-red-600">
-                        {errors.tags.message}
+                        {errors.benefits.message}
                       </p>
                     )}
                   </div>
 
                   <div className="space-y-2">
                     <Label
-                      htmlFor="caracteristics"
+                      htmlFor="phrase_hook"
                       className="text-sm font-medium text-gray-700"
                     >
-                      ⭐ Características (separadas por comas)
+                      � Frase gancho
                     </Label>
                     <Input
                       type="text"
-                      id="caracteristics"
-                      {...register("caracteristics", {
-                        setValueAs: (value) =>
-                          Array.isArray(value)
-                            ? value
-                            : typeof value === "string"
-                            ? value
-                                .split(",")
-                                .map((item: string) => item.trim())
-                                .filter((item) => item)
-                            : [],
-                      })}
+                      id="phrase_hook"
+                      {...register("phrase_hook")}
                       className="border-gray-300 focus:border-green-500 focus:ring-green-500"
+                      placeholder="Una experiencia única de bienestar y relajación..."
                     />
-                    {errors.caracteristics && (
+                    {errors.phrase_hook && (
                       <p className="text-xs text-red-600">
-                        {errors.caracteristics.message}
-                      </p>
-                    )}
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label
-                      htmlFor="includes"
-                      className="text-sm font-medium text-gray-700"
-                    >
-                      📋 Incluye (separado por comas)
-                    </Label>
-                    <Input
-                      type="text"
-                      id="includes"
-                      {...register("includes", {
-                        setValueAs: (value) =>
-                          Array.isArray(value)
-                            ? value
-                            : typeof value === "string"
-                            ? value
-                                .split(",")
-                                .map((item: string) => item.trim())
-                                .filter((item) => item)
-                            : [],
-                      })}
-                      className="border-gray-300 focus:border-green-500 focus:ring-green-500"
-                    />
-                    {errors.includes && (
-                      <p className="text-xs text-red-600">
-                        {errors.includes.message}
+                        {errors.phrase_hook.message}
                       </p>
                     )}
                   </div>
                 </div>
               </div>
 
-              {/* Estados del Producto */}
+              {/* Estado del Servicio */}
               <div className="rounded-xl bg-gradient-to-br from-amber-50 to-orange-100 p-6">
                 <h3 className="mb-4 flex items-center text-lg font-semibold text-gray-800">
                   <div className="mr-3 flex h-6 w-6 items-center justify-center rounded-full bg-amber-600">
                     <span className="text-xs font-bold text-white">5</span>
                   </div>
-                  Estados del Producto
+                  Estado del Servicio
                 </h3>
-                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                <div className="grid gap-4">
                   <div className="flex items-center space-x-3 rounded-lg bg-white p-3 shadow-sm">
                     <input
                       type="checkbox"
-                      id="isActive"
-                      {...register("isActive")}
+                      id="is_active"
+                      {...register("is_active")}
                       className="h-4 w-4 rounded border-gray-300 text-verde-oscuro focus:ring-verde-oscuro"
                     />
                     <Label
-                      htmlFor="isActive"
+                      htmlFor="is_active"
                       className="text-sm font-medium text-gray-700"
                     >
-                      ✅ Activo
-                    </Label>
-                  </div>
-
-                  <div className="flex items-center space-x-3 rounded-lg bg-white p-3 shadow-sm">
-                    <input
-                      type="checkbox"
-                      id="isFeatured"
-                      {...register("isFeatured")}
-                      className="h-4 w-4 rounded border-gray-300 text-yellow-600 focus:ring-yellow-500"
-                    />
-                    <Label
-                      htmlFor="isFeatured"
-                      className="text-sm font-medium text-gray-700"
-                    >
-                      ⭐ Destacado
-                    </Label>
-                  </div>
-
-                  <div className="flex items-center space-x-3 rounded-lg bg-white p-3 shadow-sm">
-                    <input
-                      type="checkbox"
-                      id="hasDiscount"
-                      {...register("hasDiscount")}
-                      className="h-4 w-4 rounded border-gray-300 text-red-600 focus:ring-red-500"
-                    />
-                    <Label
-                      htmlFor="hasDiscount"
-                      className="text-sm font-medium text-gray-700"
-                    >
-                      🏷️ Tiene descuento
-                    </Label>
-                  </div>
-
-                  <div className="flex items-center space-x-3 rounded-lg bg-white p-3 shadow-sm">
-                    <input
-                      type="checkbox"
-                      id="isNew"
-                      {...register("isNew")}
-                      className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                    />
-                    <Label
-                      htmlFor="isNew"
-                      className="text-sm font-medium text-gray-700"
-                    >
-                      🆕 Es nuevo
-                    </Label>
-                  </div>
-
-                  <div className="flex items-center space-x-3 rounded-lg bg-white p-3 shadow-sm">
-                    <input
-                      type="checkbox"
-                      id="isSold"
-                      {...register("isSold")}
-                      className="h-4 w-4 rounded border-gray-300 text-gray-600 focus:ring-gray-500"
-                    />
-                    <Label
-                      htmlFor="isSold"
-                      className="text-sm font-medium text-gray-700"
-                    >
-                      ❌ Vendido
+                      ✅ Servicio activo
                     </Label>
                   </div>
                 </div>
@@ -679,7 +648,7 @@ const ModalUpdate = ({
                     <span>Actualizando...</span>
                   </div>
                 ) : (
-                  "💾 Actualizar Producto"
+                  "💾 Actualizar Servicio"
                 )}
               </Button>
             </div>
@@ -690,4 +659,4 @@ const ModalUpdate = ({
   );
 };
 
-export default ModalUpdate;
+export default ModalUpdateServiceXS;

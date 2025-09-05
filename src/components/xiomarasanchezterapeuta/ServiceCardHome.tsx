@@ -1,26 +1,12 @@
 "use client";
+import { Service } from "@/app/xiomarasanchezterapeuta/services-xs/page";
 import { useGet } from "@/hooks/useGet";
 import { shuffle } from "@/utils/suffle";
-import Link from "next/link";
 
-type Service = {
-  id: string;
-  title: string;
-  sub_title?: string;
-  description_short: string;
-  detailed_description?: string;
-  image?: string;
-  benefits?: string;
-  for_who?: string;
-  price?: number;
-  duration?: number;
-  phrase_hook?: string;
-  category?: string;
-  is_active?: boolean;
-  userId?: string;
-};
 
-const ServiceCard = () => {
+
+
+const ServiceCardHome = () => {
   const {
     data: service,
     error,
@@ -84,7 +70,7 @@ const ServiceCard = () => {
                     Beneficios
                   </h4>
                   <ul className="list-inside space-y-1 text-verde-oscuro">
-                    {(service.benefits ?? "").split(",").map((b, i) => {
+                    {(service.benefits ?? []).map((b, i) => {
                       const t = b?.trim();
                       if (!t) return null;
                       const cap = t[0]?.toUpperCase() + t.slice(1);
@@ -101,4 +87,4 @@ const ServiceCard = () => {
   );
 };
 
-export default ServiceCard;
+export default ServiceCardHome;

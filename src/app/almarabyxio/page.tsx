@@ -1,4 +1,3 @@
-import ProductCardHome, { Product } from "@/components/byxio/ProductCardHome";
 import Image from "next/image";
 import Link from "next/link";
 import { Metadata } from "next";
@@ -14,6 +13,8 @@ import {
   FiShoppingBag,
 } from "react-icons/fi";
 import { PaginationData } from "./products/page";
+import { Product } from "@/components/byxio/ProductCard";
+import ProductCardHome from "@/components/byxio/ProductCardHome";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_BASE_URL;
 

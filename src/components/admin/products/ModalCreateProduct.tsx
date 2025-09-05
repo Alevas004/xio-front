@@ -9,11 +9,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useEffect } from "react";
+import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import z from "zod";
 
-const updateSchema = z.object({
+const createSchema = z.object({
   name: z
     .string()
     .min(2, "El nombre es obligatorio y debe tener al menos 2 caracteres")
@@ -71,7 +71,7 @@ const updateSchema = z.object({
     .default(0).optional(),
 });
 
-export type UpdateFormValues = z.infer<typeof updateSchema>;
+export type CreateFormValues = z.infer<typeof createSchema>;
 
 export interface ProductCreate {
   name: string;
@@ -115,7 +115,7 @@ const ModalCreateProduct = ({
     reset,
     control,
   } = useForm({
-    resolver: zodResolver(updateSchema),
+    resolver: zodResolver(createSchema),
     defaultValues: {
       name: "",
       short_description: "",

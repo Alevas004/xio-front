@@ -32,9 +32,9 @@ export interface Product {
 
 const ProductCard = ({ products }: { products: Product[] }) => {
   const dispatch = useDispatch();
-  const handleProductById = (id: string) => {
+  const handleProductById = (slug: string) => {
     // Redirigir a la página del producto
-    window.location.href = `/almarabyxio/products/${id}`;
+    window.location.href = `/almarabyxio/products/${slug}`;
   };
 
   const discounts = products.map((product) =>

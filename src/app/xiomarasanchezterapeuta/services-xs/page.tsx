@@ -1,198 +1,270 @@
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
+import { Metadata } from "next";
+import ServiceCard from "@/components/xiomarasanchezterapeuta/ServiceCard";
+import FilterServices from "@/components/xiomarasanchezterapeuta/FilterServices";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_BASE_URL;
 
-interface Service {
-  id: number;
+// SEO Metadata Premium
+export const metadata: Metadata = {
+  title: "Servicios de Terapia y Bienestar | Xiomara Sánchez Terapeuta",
+  description:
+    "Descubre nuestros servicios especializados: masaje prenatal, terapéutico, drenaje linfático y más. Bienestar, equilibrio y renovación en el Eje Cafetero.",
+  keywords:
+    "masaje prenatal, masaje terapéutico, drenaje linfático, reflexología, aromaterapia, terapia, bienestar, Xiomara Sánchez, Eje Cafetero, Colombia",
+  authors: [{ name: "Xiomara Sánchez", url: "https://xiomarasanchez.com" }],
+  creator: "Xiomara Sánchez Terapeuta",
+  publisher: "XIOS",
+  robots: "index, follow",
+  openGraph: {
+    title: "Servicios de Terapia y Bienestar | Xiomara Sánchez",
+    description:
+      "Servicios especializados de terapia: masaje prenatal, terapéutico, drenaje linfático. Bienestar y renovación profesional.",
+    url: "https://xiomarasanchez.com/services",
+    siteName: "Xiomara Sánchez Terapeuta",
+    images: [
+      {
+        url: "/xiomara.webp",
+        width: 1200,
+        height: 630,
+        alt: "Servicios de Terapia Xiomara Sánchez",
+      },
+    ],
+    locale: "es_CO",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Servicios de Terapia y Bienestar | Xiomara Sánchez",
+    description:
+      "Servicios especializados de terapia y bienestar en el Eje Cafetero",
+    images: ["/xiomara.webp"],
+  },
+  alternates: {
+    canonical: "https://xiomarasanchez.com/services",
+  },
+};
+
+export interface User {
+  id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+  vat: string;
+  gender: "male" | "female" | "other";
+  profile_picture: string;
+  country: string;
+  city: string;
+  address: string;
+  date_of_birth: string; // si quieres más fuerte -> Date
+  role: string;
+  email_verified: boolean;
+  isActive: boolean;
+  isProfessional: boolean;
+  certifications: string[];
+  clients_count: number;
+  specialties: string[];
+  years_experience: string;
+  bio: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Service {
+  id: string;
   title: string;
   sub_title: string;
   description_short: string;
   detailed_description: string;
-  benefits: string;
+  image: string;
+  images: string[] | null;
+  benefits?: string[] | null;
   for_who: string;
   price: number;
   duration: number;
-  image: string;
   phrase_hook: string;
+  category: string;
+  is_active: boolean;
+  slug: string;
+  createdAt: string;
+  updatedAt: string;
+  userId: string;
+  user: User;
 }
 
-const ServiceXS = async () => {
+const ServiceXS = async ({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) => {
   let data: Service[] = [];
 
+  // Construir query params dinámicamente
+  const buildQueryParams = () => {
+    const params = new URLSearchParams();
+    
+    // Filtro por categoría
+    if (searchParams.category) {
+      const categories = Array.isArray(searchParams.category) 
+        ? searchParams.category 
+        : [searchParams.category];
+      categories.forEach(cat => params.append('category', cat));
+    }
+    
+    return params.toString();
+  };
+
+  const queryString = buildQueryParams();
+  const apiUrl = `${BASE_URL}/xiomarasanchezterapeuta/servicesxs${queryString ? `?${queryString}` : ''}`;
+
   try {
-    const res = await fetch(`${BASE_URL}/xiomarasanchezterapeuta/servicesxs`, {
+    const res = await fetch(apiUrl, {
       cache: "no-store",
     });
     if (res.ok) data = await res.json();
+    console.log(data, "data fetched servicesxs");
   } catch (error) {
     console.log("error getting services XS", error);
   }
 
   return (
     <div className="">
-      <section className="relative h-[70vh] w-full flex items-center justify-center">
-        {/* Fondo con video o imagen */}
+      {/* Hero Section  */}
+      <section className="relative h-[60vh] w-full flex items-center justify-center">
+        {/* Fondo con video */}
         <video
           className="absolute inset-0 w-full h-full object-cover"
-          src="/masaje_terapeutico_hover.webm" // o una imagen /images/hero.jpg
+          src="/masaje_terapeutico_hover.webm"
           autoPlay
           loop
           muted
           playsInline
         />
 
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-black/50" />
+        {/* Overlay elegante */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/70" />
 
-        {/* Contenido */}
-        <div className="relative z-10 text-center px-6 max-w-3xl">
-          <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6 drop-shadow-lg text-piel-blanco italic">
-            Bienestar, Equilibrio y Renovación
+        {/* Contenido del Hero - Más compacto */}
+        <div className="relative z-10 text-center px-6 max-w-4xl">
+          <div className="inline-flex items-center space-x-2 bg-white/20 backdrop-blur-md px-4 py-2 rounded-full border border-white/30 mb-4">
+            <span className="text-white font-medium text-sm">
+              ✨ Servicios Profesionales
+            </span>
+          </div>
+
+          <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4 drop-shadow-2xl text-white">
+            Bienestar, Equilibrio y{" "}
+            <span className="text-purple-200 italic">Renovación</span>
           </h1>
-          <p className="text-lg md:text-2xl mb-8 text-piel-claro">
-            Escoge el servicio que mejor se adapte a tus necesidades.
+
+          <p className="text-lg md:text-xl mb-6 text-purple-100 max-w-2xl mx-auto">
+            Descubre nuestros servicios especializados diseñados para tu
+            bienestar integral.
           </p>
-          <div className="flex justify-center gap-4 mt-5">
+
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link
               href="https://api.whatsapp.com/send/?phone=573135058584&text=%C2%A1Hola%21+Quiero+m%C3%A1s+informaci%C3%B3n+sobre+tus+servicios"
               target="_blank"
-              className="bg-verde-oscuro hover:bg-verde-claro text-white font-semibold px-8 py-4 rounded-full shadow-lg transition-all duration-300 hover:scale-105"
+              className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold px-8 py-3 rounded-full shadow-xl transition-all duration-300 hover:scale-105"
             >
-              Reserva ahora
+              💚 Reserva tu Cita
             </Link>
             <Link
               href="/xios-academy/student-portal"
-              className="bg-white text-verde-oscuro font-semibold px-8 py-4 rounded-full shadow-lg transition-all duration-300 hover:scale-105"
+              className="bg-white/20 backdrop-blur-md hover:bg-white/30 text-white font-bold px-8 py-3 rounded-full border border-white/30 shadow-xl transition-all duration-300 hover:scale-105"
             >
-              ¡Quiero ser terapeuta!
+              ⭐ ¡Quiero ser Terapeuta!
             </Link>
           </div>
         </div>
       </section>
-      {/* Nota informativa */}
-      <div className="backdrop-blur-lg bg-white/40 border-l-4 border-verde-oscuro p-6 mx-4 md:mx-12 my-10 rounded-xl shadow-md">
-        <h2 className="text-2xl font-bold text-verde-oscuro italic mb-2">
-          Nota importante
-        </h2>
-        <p className="text-piel-oscuro leading-relaxed">
-          El{" "}
-          <span className="font-semibold">
-            precio del servicio puede variar según la ubicación dentro del Eje
-            Cafetero
-          </span>
-          . También realizamos sesiones en otras ciudades de Colombia, pero
-          únicamente en
-          <span className="font-semibold"> fechas especiales de gira</span>.
-        </p>
+
+      {/* Header Simple */}
+      <div className="bg-white py-8">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold text-gray-900 mb-2">
+              Nuestros Servicios
+            </h2>
+            <p className="text-gray-600">{data.length} servicios disponibles</p>
+          </div>
+        </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 p-4">
-        {Array.isArray(data) &&
-          data.map((service) => (
-            <section
-              key={service.id}
-              className="max-w-[500px] w-full mx-auto rounded-3xl overflow-hidden shadow-xl border border-piel-claro flex flex-col h-full"
-            >
-              {/* Video o Imagen con overlay y hook */}
-              <div className="relative h-56 md:h-48 lg:h-56 ">
-                {service.image.endsWith(".mp4") ? (
-                  <video
-                    className="w-full h-full object-cover"
-                    src={service.image}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                  />
-                ) : (
-                  <Image
-                    src={service.image}
-                    alt={service.title}
-                    className="w-full h-full object-cover"
-                  />
-                )}
+      
+      {/* Componente de Filtros */}
+      <FilterServices services={data} />
 
-                <div className="absolute inset-0 bg-black/40 flex items-end p-6">
-                  <p className="text-piel-blanco text-2xl md:text-3xl font-bold drop-shadow-lg italic max-w-3xl">
-                    {service.phrase_hook}
-                  </p>
-                </div>
-              </div>
-
-              {/* Contenido */}
-              <div className="pr-6 pl-6 pt-6 space-y-4 flex-1 pb-3">
-                <h2 className="text-3xl font-bold italic">{service.title}</h2>
-                <p className="text-xl text-piel-oscuro italic">
-                  {service.sub_title}
-                </p>
-
-                <p className="mt-4 leading-relaxed">
-                  {service.detailed_description}
-                </p>
-
-                <div className="flex flex-col mt-6 bg-piel-claro/30 rounded-2xl gap-2">
-                  <div className="flex flex-col items-center">
-                    <h2 className="text-lg font-semibold mb-2">¿Es para ti?</h2>
-                    <p>{service.for_who}</p>
-                  </div>
-                  <div className="flex flex-col items-center">
-                    <h3 className="text-lg font-semibold mb-3">Beneficios</h3>
-                    <ul className="flex flex-col items-start">
-                      {service.benefits.split(",").map((benefit, i) => (
-                        <li key={i} className="text-verde-oscuro">
-                          <span className="text-verde-oscuro font-bold mr-2">
-                            •
-                          </span>
-                          {benefit.trim().charAt(0).toUpperCase() +
-                            benefit.trim().slice(1).toLowerCase()}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-
-                <div className="mt-6">
-                  <h3 className="mt-4 text-lg leading-relaxed">
-                    {service.description_short}
-                  </h3>
-                </div>
-
-                <p className="text-lg text-piel-oscuro ">
-                  {service.duration} min aprox.
-                </p>
-              </div>
-
-              {/* Footer con botón */}
-              <div className="mb-5">
-                <Link
-                  href={`https://api.whatsapp.com/send/?phone=573135058584&text=%C2%A1Hola%21+Quiero+reservar+el+servicio:+${service.title}`}
-                  target="_blank"
-                  className="w-full bg-piel-oscuro hover:bg-piel-claro text-white font-semibold px-8 py-4 rounded-full shadow-lg transition-all duration-300 hover:scale-105"
-                >
-                  Reservar ahora
-                </Link>
-              </div>
-            </section>
-          ))}
+      {/* Nota informativa mejorada */}
+      <div className="max-w-6xl mx-auto px-6 py-6">
+        <div className="bg-gradient-to-r from-purple-50 to-indigo-50 border-l-4 border-purple-500 p-6 rounded-xl shadow-sm">
+          <div className="flex items-start space-x-3">
+            <div className="p-2 bg-purple-500/20 rounded-lg">
+              <span className="text-purple-600">ℹ️</span>
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-purple-800 mb-2">
+                Información Importante
+              </h3>
+              <p className="text-purple-700 leading-relaxed">
+                El{" "}
+                <span className="font-semibold bg-purple-200/50 px-2 py-1 rounded">
+                  precio del servicio puede variar según la ubicación
+                </span>{" "}
+                dentro del Eje Cafetero. También realizamos sesiones en otras
+                ciudades de Colombia, pero únicamente en
+                <span className="font-semibold bg-purple-200/50 px-2 py-1 rounded ml-1">
+                  fechas especiales de gira
+                </span>
+                .
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
-      {/* Sección final CTA */}
-      <section className="mt-20 bg-gradient-2 py-16 px-6 rounded-3xl mx-4 md:mx-12 flex flex-col items-center justify-center mb-5">
-        <h2 className="text-3xl md:text-4xl font-bold text-white italic mb-4">
-          ¿Quieres que vayamos a tu ciudad?
-        </h2>
-        <p className="text-lg md:text-xl mb-8 max-w-2xl mx-auto text-piel-blanco">
-          Escríbenos y cuéntanos dónde te encuentras. Organizamos giras en
-          diferentes ciudades de Colombia para que disfrutes de nuestros
-          servicios.
-        </p>
-        <Link
-          href="https://api.whatsapp.com/send/?phone=573135058584&text=%C2%A1Hola!+Quiero+que+visiten+mi+ciudad"
-          target="_blank"
-          className="inline-block bg-white text-verde-oscuro font-semibold px-8 py-4 rounded-full shadow-lg transition-all duration-300 hover:scale-105 hover:bg-piel-blanco mt-6"
-        >
-          Escríbenos ahora
-        </Link>
+
+      {/* Grid de servicios */}
+      <div className="max-w-6xl mx-auto px-6 pb-12">
+        {data.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {data.map((service: Service) => (
+              <div
+                key={service.id}
+                className="transform hover:scale-105 transition-all duration-300"
+              >
+                <ServiceCard service={service} />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-12">
+            <div className="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="text-purple-400 text-3xl">🔍</span>
+            </div>
+            <h3 className="text-xl font-bold text-gray-700 mb-2">
+              No hay servicios disponibles
+            </h3>
+            <p className="text-gray-500">Los servicios se cargarán pronto</p>
+          </div>
+        )}
+      </div>
+
+      {/* CTA Final compacto */}
+      <section className="bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-700 py-12 mx-6 rounded-2xl mb-8">
+        <div className="text-center px-6 max-w-3xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            ¿Quieres que vayamos a tu ciudad?
+          </h2>
+          <p className="text-lg mb-6 text-purple-100 leading-relaxed">
+            Organizamos giras especiales en diferentes ciudades de Colombia.
+          </p>
+          <Link
+            href="https://api.whatsapp.com/send/?phone=573135058584&text=%C2%A1Hola!+Quiero+que+visiten+mi+ciudad"
+            target="_blank"
+            className="inline-flex items-center space-x-3 bg-white hover:bg-purple-50 text-purple-600 font-bold px-8 py-4 rounded-full shadow-xl transition-all duration-300 hover:scale-105"
+          >
+            <span>💚</span>
+            <span>Escríbenos Ahora</span>
+          </Link>
+        </div>
       </section>
     </div>
   );

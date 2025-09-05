@@ -1,6 +1,6 @@
 import NavBarXS from "@/components/layouts/xiomarasanchezterapeuta/NavBarXS";
 import React from "react";
-import FooterXS from "./components/FooterXS";
+import FooterXS from "../../components/xiomarasanchezterapeuta/FooterXS";
 
 const XiomaraSanchezTerapeutaLayout = ({
   children,

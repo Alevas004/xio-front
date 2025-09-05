@@ -2,8 +2,8 @@ import AnimatedSection from "./AnimatedSection";
 import { RiTeamFill } from "react-icons/ri";
 import { Metadata } from "next";
 import Link from "next/link";
-import ServiceCard from "./components/ServiceCard";
 import Image from "next/image";
+import ServiceCardHome from "../../components/xiomarasanchezterapeuta/ServiceCardHome";
 
 export const metadata: Metadata = {
   title: "Xiomara Sánchez - Terapeuta | Bienestar y Certificación",
@@ -94,7 +94,7 @@ export default function HomePage() {
             id="terapias"
             className="grid grid-cols-1 gap-3 px-10 md:p-0 md:grid-cols-3"
           >
-            <ServiceCard />
+            <ServiceCardHome />
           </section>
           <div className="mt-5 flex flex-col gap-2 justify-center items-center">
             <Link

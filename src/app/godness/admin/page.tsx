@@ -1,6 +1,8 @@
 "use client";
 
+import AcademyManager from "@/components/admin/academies/AcademyManager";
 import ProductManager from "@/components/admin/products/ProductManager";
+import ServiceManager from "@/components/admin/servicesXS/ServiceManager";
 import React, { useState } from "react";
 import {
   FiHome,
@@ -74,9 +76,9 @@ const GodnessAdminPage = () => {
       case "products":
         return <ProductManager />;
       case "courses":
-        return <CoursesContent />;
+        return <AcademyManager />;
       case "services":
-        return <ServicesContent />;
+        return <ServiceManager />;
       case "users":
         return <UsersContent />;
       case "analytics":
@@ -350,14 +352,7 @@ const CoursesContent = () => (
   </div>
 );
 
-const ServicesContent = () => (
-  <div className="bg-white rounded-lg shadow p-6">
-    <h3 className="text-lg font-semibold mb-4">Gestión de Servicios</h3>
-    <p className="text-gray-600">
-      Componente de gestión de servicios en desarrollo...
-    </p>
-  </div>
-);
+
 
 const UsersContent = () => (
   <div className="bg-white rounded-lg shadow p-6">

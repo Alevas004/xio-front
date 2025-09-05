@@ -1,7 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { Product } from "./ProductCard";
 
 export interface CategoryWithCount {
   category: string;
@@ -10,14 +9,12 @@ export interface CategoryWithCount {
 
 export interface FilterCategoriesProps {
   initialValue: string | string[];
-  products?: Product[];
   closeMenu: () => void;
   availableCategories: CategoryWithCount[];
 }
 
 const FilterCategories = ({
   initialValue = "",
-  products = [],
   closeMenu,
   availableCategories = [],
 }: FilterCategoriesProps) => {
@@ -53,10 +50,10 @@ const FilterCategories = ({
           ? prev.filter((c) => c !== category) // si ya está, quitar
           : [...prev, category] // si no está, agregar
     );
+     setTimeout(() => {
+      closeMenu();
+    }, 500);
   };
-
-  // Extraer categorías únicas FUERA del map
-  const uniqueCategories = [...new Set(availableCategories.map((p) => p))];
 
   // Fallback de categorías si no hay productos o categorías vacías
   const fallbackCategories = [
@@ -93,6 +90,7 @@ const FilterCategories = ({
               className="w-4 h-4 text-piel-oscuro rounded border-gray-300 focus:ring-piel-oscuro"
               checked={selectedCategory.includes(categoryData.category)}
               onChange={() => toggleCategory(categoryData.category)}
+             
             />
             <span className="text-gray-600 group-hover:text-verde-oscuro transition-colors">
               {categoryData.category?.charAt(0).toUpperCase() + categoryData.category?.slice(1)}
