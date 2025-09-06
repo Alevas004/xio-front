@@ -158,14 +158,51 @@ const ModalUpdateAcademy = ({
     formState: { errors },
     reset,
     control,
+    setValue,
   } = useForm<UpdateFormValues>({
     resolver: zodResolver(updateSchema),
     defaultValues: academy,
   });
 
   useEffect(() => {
-    reset();
-  }, [academy, reset]);
+    if (isOpen && academy) {
+      reset({
+        title: academy.title,
+        subtitle: academy.subtitle,
+        type: academy.type,
+        description_short: academy.description_short,
+        description_long: academy.description_long,
+        image: academy.image,
+        images: academy.images,
+        location: academy.location,
+        start_date: academy.start_date,
+        end_date: academy.end_date,
+        start_time: academy.start_time,
+        end_time: academy.end_time,
+        duration: academy.duration,
+        price: academy.price,
+        capacity: academy.capacity,
+        enrolled: academy.enrolled,
+        includes: academy.includes,
+        requirements: academy.requirements,
+        certificate: academy.certificate,
+        materials_included: academy.materials_included,
+        materials_description: academy.materials_description,
+        speaker: academy.speaker,
+        speakers: academy.speakers,
+        level: academy.level,
+        is_active: academy.is_active,
+      });
+
+      // Force set Select fields to ensure they update properly
+      setTimeout(() => {
+        setValue("type", academy.type);
+        setValue("level", academy.level);
+      }, 100);
+
+      setIncludeMaterials(academy.materials_included);
+    }
+  }, [academy, reset, isOpen, setValue]);
 
   if (!isOpen) {
     return null;

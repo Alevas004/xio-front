@@ -1,6 +1,7 @@
 "use client";
 
 import AcademyManager from "@/components/admin/academies/AcademyManager";
+import CourseManager from "@/components/admin/course/CourseManager";
 import ProductManager from "@/components/admin/products/ProductManager";
 import ServiceManager from "@/components/admin/servicesXS/ServiceManager";
 import React, { useState } from "react";
@@ -36,6 +37,12 @@ const GodnessAdminPage = () => {
       label: "Productos",
       icon: FiShoppingBag,
       description: "Gestión de productos By Xio",
+    },
+    {
+      id: "events",
+      label: "Eventos",
+      icon: FiBookOpen,
+      description: "Gestión de eventos Xios Academy",
     },
     {
       id: "courses",
@@ -75,8 +82,10 @@ const GodnessAdminPage = () => {
         return <DashboardContent />;
       case "products":
         return <ProductManager />;
-      case "courses":
+      case "events":
         return <AcademyManager />;
+      case "courses":
+        return <CourseManager />;
       case "services":
         return <ServiceManager />;
       case "users":
@@ -351,8 +360,6 @@ const CoursesContent = () => (
     </p>
   </div>
 );
-
-
 
 const UsersContent = () => (
   <div className="bg-white rounded-lg shadow p-6">
