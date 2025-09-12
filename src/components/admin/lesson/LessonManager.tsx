@@ -5,26 +5,27 @@ import { useGet } from "@/hooks/useGet";
 import { usePost } from "@/hooks/usePost";
 import { useUpdate } from "@/hooks/useUpdate";
 import React, { useEffect, useState } from "react";
-import ModalUpdateCourse, { Course, CourseUpdate } from "./ModalUpdateCourse";
-import ModalCreateCourse, { CourseCreate } from "./ModalCreateCourse";
-import ModalViewCourse from "./ModalViewCourse";
-import GetCourses from "./GetCourses";
+import GetLessons from "./GetLessons";
+import ModalUpdateLesson, { Lesson, LessonUpdate } from "./ModalUpdateLesson";
+import ModalCreateLesson, { LessonCreate } from "./ModalCreateLesson";
+import ModalViewLesson from "./ModalViewLesson";
+import { Course } from "../course/ModalUpdateCourse";
 
 interface GetData {
-  courses: Course[];
+  lessons: Lesson[];
 }
 
-const CourseManager = () => {
-  const [selectedCourse, setSelectedCourse] = useState<CourseUpdate | null>(
+const LessonManager = () => {
+  const [selectedLesson, setSelectedLesson] = useState<LessonUpdate | null>(
     null
   );
   const [editModal, setEditModal] = useState(false);
   const [createModal, setCreateModal] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [selectedCourseId, setSelectedCourseId] = useState<string>("all");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState<string>("");
   const [statusFilter, setStatusFilter] = useState<string>("all"); // "all", "active", "inactive"
-  const [viewCourse, setViewCourse] = useState<Course | null>(null);
+  const [viewLesson, setViewLesson] = useState<Lesson | null>(null);
 
   // Debounce para el searchTerm
   useEffect(() => {
@@ -39,8 +40,8 @@ const CourseManager = () => {
   const buildQueryParams = () => {
     const params = new URLSearchParams();
 
-    if (selectedCategory !== "all") {
-      params.append("type", selectedCategory);
+    if (selectedCourseId !== "all") {
+      params.append("courseId", selectedCourseId);
     }
 
     if (debouncedSearchTerm) {
@@ -58,38 +59,48 @@ const CourseManager = () => {
   const queryString = buildQueryParams();
 
   const { data, error, loading, refetch } = useGet<GetData>(
-    `/xios-courses/courses${queryString ? `?${queryString}` : ""}`,
+    `/xios-courses/course/lessons${queryString ? `?${queryString}` : ""}`,
     {
       withAuth: false,
     }
   );
 
-  const courses = data || [];
-  console.log("courses:", courses);
+  const lessons = data || [];
+  console.log("lessons:", lessons);
+
+  // Hook para obtener los cursos disponibles para el filtro
+  const { data: coursesData, loading: coursesLoading } = useGet(
+    "/xios-courses/courses",
+    { withAuth: false }
+  );
+  const courses = coursesData || [];
 
   const {
     updateItem,
     error: errorUpdate,
     loading: loadingUpdate,
-  } = useUpdate<CourseUpdate, Course>("xios-courses/courses", {
+  } = useUpdate<LessonUpdate, Lesson>("xios-courses/course/lessons", {
     withAuth: true,
   });
 
-  const { deleteItem, data: deleteData } = useDelete("xios-courses/courses", {
-    withAuth: true,
-  });
+  const { deleteItem, data: deleteData } = useDelete(
+    "xios-courses/course/lessons",
+    {
+      withAuth: true,
+    }
+  );
 
   const {
     create,
     error: errorPost,
     loading: loadingPost,
-  } = usePost<CourseCreate>("/xios-courses/courses/create", {
+  } = usePost<LessonCreate>("/xios-courses/course/lessons/create", {
     withAuth: true,
   });
 
-  //   //* FILTROS DE CATEGORÍAS
-  const handleCategoryChange = (type: string) => {
-    setSelectedCategory(type);
+  //   //* FILTROS DE LECCIONES
+  const handleCourseChange = (courseId: string) => {
+    setSelectedCourseId(courseId);
   };
 
   const handleStatusFilterChange = (status: string) => {
@@ -101,7 +112,7 @@ const CourseManager = () => {
   };
 
   const handleClearFilters = () => {
-    setSelectedCategory("all");
+    setSelectedCourseId("all");
     setStatusFilter("all");
     setSearchTerm("");
     setDebouncedSearchTerm("");
@@ -110,39 +121,39 @@ const CourseManager = () => {
   // Refetch cuando cambien los filtros
   useEffect(() => {
     refetch();
-  }, [selectedCategory, statusFilter, debouncedSearchTerm, refetch]);
+  }, [selectedCourseId, statusFilter, debouncedSearchTerm, refetch]);
 
-  const handleViewCourse = (course: Course) => {
-    setViewCourse(course);
+  const handleViewLesson = (lesson: Lesson) => {
+    setViewLesson(lesson);
   };
 
   //   //* UPDATE SERVICE
 
-  const handleInfoUpdate = (course: CourseUpdate) => {
-    setSelectedCourse(course);
+  const handleInfoUpdate = (lesson: LessonUpdate) => {
+    setSelectedLesson(lesson);
     setEditModal(true);
   };
 
-  const onEditCourse = async (body: CourseUpdate) => {
-    console.log("🔄 onEditCourse called with:", body);
-    if (!selectedCourse) {
-      console.log("❌ No selected course");
+  const onEditLesson = async (body: LessonUpdate) => {
+    console.log("🔄 onEditLesson called with:", body);
+    if (!selectedLesson) {
+      console.log("❌ No selected lesson");
       return;
     }
 
     console.log(
-      `Edit course with id: ${selectedCourse.id}`,
-      "info course for edit:",
+      `Edit lesson with id: ${selectedLesson.id}`,
+      "info lesson for edit:",
       body
     );
     const updateData = {
       ...body,
-      id: selectedCourse.id,
+      id: selectedLesson.id,
     };
 
     try {
       console.log("📤 Sending update request...");
-      await updateItem(selectedCourse.id, updateData);
+      await updateItem(selectedLesson.id, updateData);
       console.log("✅ Update successful");
       await refetch();
       setEditModal(false);
@@ -152,7 +163,7 @@ const CourseManager = () => {
   };
 
   //   //* CREATE SERVICE
-  const onCreateCourse = async (body: CourseCreate) => {
+  const onCreateLesson = async (body: LessonCreate) => {
     await create(body);
     await refetch();
     setCreateModal(false);
@@ -163,7 +174,7 @@ const CourseManager = () => {
   // Refetch automático cuando se elimina un servicio exitosamente
   useEffect(() => {
     if (deleteData) {
-      console.log("Curso eliminado exitosamente, refrescando lista...");
+      console.log("Lección eliminada exitosamente, refrescando lista...");
       refetch();
     }
   }, [deleteData, refetch]);
@@ -171,13 +182,13 @@ const CourseManager = () => {
   const onDelete = async (id: string) => {
     try {
       await deleteItem(id);
-      console.log("Iniciando eliminación del curso con id:", id);
+      console.log("Iniciando eliminación de la lección con id:", id);
       // El refetch se maneja automáticamente en useEffect cuando deleteData cambia
     } catch (error) {
       // Ignoramos el error ya que sabemos que la academia se elimina correctamente
       // pero el hook lanza error por el código de estado
       console.log(
-        "Error esperado del hook (curso eliminado exitosamente):",
+        "Error esperado del hook (lección eliminada exitosamente):",
         error
       );
     }
@@ -188,7 +199,7 @@ const CourseManager = () => {
       <div className="flex items-center justify-center py-12">
         <div className="text-center">
           <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">Cargando cursos...</p>
+          <p className="text-gray-600">Cargando lecciones...</p>
         </div>
       </div>
     );
@@ -201,53 +212,53 @@ const CourseManager = () => {
     );
 
   // Función para obtener el icono según la categoría
-  const getCategoryIcon = (category: string) => {
-    switch (category) {
-      case "entrepreneurship":
-        return "💼";
-      case "wellness":
-        return "🌿";
-      case "therapy":
-        return "💆‍♀️";
-      case "business":
-        return "📈";
-      case "personal-development":
-        return "🌟";
-      case "health":
-        return "🏥";
-      case "spirituality":
-        return "🧘‍♀️";
-      default:
-        return "📚";
-    }
-  };
+  // const getCategoryIcon = (category: string) => {
+  //   switch (category) {
+  //     case "entrepreneurship":
+  //       return "💼";
+  //     case "wellness":
+  //       return "🌿";
+  //     case "therapy":
+  //       return "💆‍♀️";
+  //     case "business":
+  //       return "📈";
+  //     case "personal-development":
+  //       return "🌟";
+  //     case "health":
+  //       return "🏥";
+  //     case "spirituality":
+  //       return "🧘‍♀️";
+  //     default:
+  //       return "📚";
+  //   }
+  // };
 
   // Función para traducir la categoría
-  const translateCategory = (category: string) => {
-    switch (category) {
-      case "entrepreneurship":
-        return "Emprendimiento";
-      case "wellness":
-        return "Bienestar";
-      case "therapy":
-        return "Terapia";
-      case "business":
-        return "Negocios";
-      case "personal-development":
-        return "Desarrollo Personal";
-      case "health":
-        return "Salud";
-      case "spirituality":
-        return "Espiritualidad";
-      default:
-        return category;
-    }
-  };
+  // const translateCategory = (category: string) => {
+  //   switch (category) {
+  //     case "entrepreneurship":
+  //       return "Emprendimiento";
+  //     case "wellness":
+  //       return "Bienestar";
+  //     case "therapy":
+  //       return "Terapia";
+  //     case "business":
+  //       return "Negocios";
+  //     case "personal-development":
+  //       return "Desarrollo Personal";
+  //     case "health":
+  //       return "Salud";
+  //     case "spirituality":
+  //       return "Espiritualidad";
+  //     default:
+  //       return category;
+  //   }
+  // };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-indigo-50">
       {/* Header Premium */}
-      <div className="bg-gradient-to-r from-green-600 via-green-400 to-green-500 shadow-2xl">
+      <div className="bg-gradient-to-r from-orange-600 via-red-500 to-orange-400 shadow-2xl">
         <div className="px-4 sm:px-6 py-6 sm:py-8 max-w-full w-full">
           <div className="flex flex-col gap-4 sm:gap-6">
             {/* Título y descripción */}
@@ -270,13 +281,13 @@ const CourseManager = () => {
                 </div>
                 <div className="flex items-center justify-center">
                   <h1 className="text-xl sm:text-3xl font-bold text-white">
-                    Gestión de Cursos
+                    Gestión de Lecciones
                   </h1>
                 </div>
               </div>
               <div>
                 <p className="text-sm sm:text-lg text-white font-medium">
-                  Administra los cursos de Xio&apos;s academy
+                  Administra las lecciones de los cursos de Xio&apos;s Academy
                 </p>
               </div>
               <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-xs sm:text-sm text-white">
@@ -287,7 +298,7 @@ const CourseManager = () => {
                 <div className="flex items-center space-x-2">
                   <div className="h-2 w-2 bg-blue-400 rounded-full"></div>
                   <span>
-                    {Array.isArray(courses) ? courses.length : 0} cursos
+                    {Array.isArray(lessons) ? lessons.length : 0} lecciones
                   </span>
                 </div>
               </div>
@@ -315,7 +326,7 @@ const CourseManager = () => {
                       />
                     </svg>
                   </div>
-                  <span className="text-sm">Crear Nuevo Curso</span>
+                  <span className="text-sm">Crear Nueva Lección</span>
                 </div>
                 <div className="absolute inset-0 rounded-xl sm:rounded-2xl bg-gradient-to-r from-purple-600/0 via-purple-600/0 to-purple-600/0 group-hover:from-purple-600/5 group-hover:via-purple-600/10 group-hover:to-purple-600/5 transition-all duration-300"></div>
               </button>
@@ -363,31 +374,56 @@ const CourseManager = () => {
               </div>
             </div>
 
-            {/* Filtros de Categoría - Segunda fila en móvil */}
+            {/* Filtros de Curso - Segunda fila en móvil */}
             <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
               <span className="text-white/80 font-medium text-sm">
-                Categoría:
+                Filtrar por Curso:
               </span>
               <div className="flex-1 sm:flex-none">
                 <select
-                  value={selectedCategory}
-                  onChange={(e) => handleCategoryChange(e.target.value)}
+                  value={selectedCourseId}
+                  onChange={(e) => handleCourseChange(e.target.value)}
                   className="w-full px-3 py-2 bg-white/20 border border-white/30 rounded-lg text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-white/50 focus:bg-white/30 transition-all"
                 >
                   <option value="all" className="bg-purple-600 text-white py-3">
-                    Todas las categorías
+                    📚 Todos los cursos
                   </option>
-                  {Array.isArray(courses) &&
+                  {Array.isArray(courses) && courses.length > 0 ? (
                     courses.map((course: Course) => (
                       <option
                         key={course.id}
-                        value={`${course.category}`}
+                        value={course.id}
                         className="bg-purple-600 text-white py-3"
                       >
-                        {getCategoryIcon(course.category)}{" "}
-                        {translateCategory(course.category)}
+                        {course.category === "entrepreneurship" && "💼"}
+                        {course.category === "wellness" && "🌿"}
+                        {course.category === "therapy" && "💆‍♀️"}
+                        {course.category === "business" && "📈"}
+                        {course.category === "personal-development" && "🌟"}
+                        {course.category === "health" && "🏥"}
+                        {course.category === "spirituality" && "🧘‍♀️"}
+                        {![
+                          "entrepreneurship",
+                          "wellness",
+                          "therapy",
+                          "business",
+                          "personal-development",
+                          "health",
+                          "spirituality",
+                        ].includes(course.category) && "📚"}{" "}
+                        {course.title}
+                        {course.instructor && ` - ${course.instructor}`}
                       </option>
-                    ))}
+                    ))
+                  ) : (
+                    <option
+                      value=""
+                      disabled
+                      className="bg-purple-600 text-white py-3"
+                    >
+                      🔄 Cargando cursos...
+                    </option>
+                  )}
                 </select>
               </div>
             </div>
@@ -400,7 +436,7 @@ const CourseManager = () => {
                   type="text"
                   value={searchTerm}
                   onChange={(e) => handleSearchChange(e.target.value)}
-                  placeholder="Buscar servicios..."
+                  placeholder="Buscar lecciones..."
                   className="w-full sm:w-64 pl-10 pr-4 py-2 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/60 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-white/50 focus:bg-white/30 transition-all"
                 />
                 <svg
@@ -433,11 +469,11 @@ const CourseManager = () => {
       {/* Contenido principal */}
       <div className="px-6 py-8">
         <div className="space-y-6">
-          {selectedCourse && (
-            <ModalUpdateCourse
-              course={selectedCourse}
+          {selectedLesson && (
+            <ModalUpdateLesson
+              lesson={selectedLesson}
               onClose={() => setEditModal(false)}
-              onSave={onEditCourse}
+              onSave={onEditLesson}
               isOpen={editModal}
               error={errorUpdate}
               loading={loadingUpdate}
@@ -445,36 +481,36 @@ const CourseManager = () => {
           )}
 
           {createModal && (
-            <ModalCreateCourse
+            <ModalCreateLesson
               onClose={() => setCreateModal(false)}
-              onSave={onCreateCourse}
+              onSave={onCreateLesson}
               error={errorPost}
               loading={loadingPost}
             />
           )}
 
-          {viewCourse && (
-            <ModalViewCourse
-              course={viewCourse}
-              onClose={() => setViewCourse(null)}
+          {viewLesson && (
+            <ModalViewLesson
+              lesson={viewLesson}
+              onClose={() => setViewLesson(null)}
             />
           )}
 
-          {/* Grid de cursos */}
+          {/* Grid de lecciones */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {Array.isArray(courses) && courses.length > 0 ? (
-              courses.map((course: Course) => (
-                <GetCourses
-                  key={course.id}
-                  course={course}
+            {Array.isArray(lessons) && lessons.length > 0 ? (
+              lessons.map((lesson: Lesson) => (
+                <GetLessons
+                  key={lesson.id}
+                  lesson={lesson}
                   onEdit={handleInfoUpdate}
                   onDelete={onDelete}
-                  onView={handleViewCourse}
+                  onView={handleViewLesson}
                 />
               ))
             ) : (
               <div className="col-span-full text-center py-12">
-                <p className="text-gray-500">No hay servicios disponibles</p>
+                <p className="text-gray-500">No hay lecciones disponibles</p>
               </div>
             )}
           </div>
@@ -486,4 +522,4 @@ const CourseManager = () => {
   );
 };
 
-export default CourseManager;
+export default LessonManager;

@@ -1,4 +1,4 @@
-import RegisterForm from "@/components/auth/login/RegisterForm";
+import RegisterForm from "@/components/auth/register/RegisterForm";
 import Link from "next/link";
 import { FiArrowLeft, FiHeart, FiStar, FiShield } from "react-icons/fi";
 

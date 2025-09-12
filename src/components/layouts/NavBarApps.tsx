@@ -42,7 +42,7 @@ const NavBarApps = () => {
       icono: <FiLogIn size={20} />,
     },
     {
-      label: "EcoCare by Xio",
+      label: "Almara by Xio",
       href: "/almarabyxio",
       order: 2,
       icono: <CgProfile size={20} />,
@@ -178,7 +178,7 @@ const NavBarApps = () => {
           </div>
         </div>
       ) : (
-        <nav className="flex items-center px-8 justify-between gap-6 bg-white py-4 relative z-50">
+        <nav className="flex items-center px-8 justify-between gap-6 bg-white py-4 relative z-50 h-[60px]">
           {/* Logo/Brand Section */}
           <div className="flex items-center">
             <Link
@@ -195,10 +195,10 @@ const NavBarApps = () => {
               <div key={item.href}>
                 <Link
                   href={item.href}
-                  className={`flex items-center justify-center gap-2 px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-105 ${
+                  className={`flex items-center justify-center gap-2 px-4 py-2 rounded-xl font-medium transition-all duration-300 hover:scale-101 ${
                     isActive(item)
                       ? "bg-gradient-2 text-white shadow-md"
-                      : "text-verde-oscuro hover:bg-verde-gris hover:text-verde-oscuro"
+                      : "text-verde-oscuro border-b-1 hover:border-1 hover:border-verde-oscuro hover:text-verde-oscuro"
                   }`}
                 >
                   {item.label}

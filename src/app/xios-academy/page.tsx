@@ -1,31 +1,155 @@
 import React from "react";
 import axios from "axios";
-import XiosAcademyClient, { Course } from "../../components/xios-academy/XiosAcademyClient";
+import XiosAcademyClient, {
+  Course,
+} from "../../components/xios-academy/XiosAcademyClient";
 import { shuffle } from "@/utils/suffle";
-
-// Metadatos para SEO
-export const metadata = {
-  title: "Xios Academy - Cursos de Bienestar y Desarrollo Personal",
-  description:
-    "Descubre cursos y eventos que te ayudarán a desarrollar habilidades en bienestar, mindfulness, yoga, nutrición consciente y mucho más. Aprende de expertos reconocidos internacionalmente.",
-  keywords:
-    "cursos bienestar, mindfulness, yoga, nutrición consciente, desarrollo personal, xios academy",
-  openGraph: {
-    title: "Xios Academy - Transforma tu vida a través del aprendizaje",
-    description:
-      "Programas estructurados que te guían paso a paso hacia tus objetivos profesionales y personales en el mundo del bienestar.",
-    type: "website",
-  },
-};
+import { Metadata } from "next";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_BASE_URL;
 
-const XiosAcademyPage = async () => {
+// Función para generar metadata dinámica ULTIMATE para la HOME
+async function generateMetadata(): Promise<Metadata> {
+  let courses: Course[] = [];
+  let coursesCount = 0;
+  let avgPrice = 0;
 
+  try {
+    const response = await axios.get(`${BASE_URL}/xios-courses/courses`);
+    courses = response.data;
+    coursesCount = courses.length;
+    avgPrice =
+      courses.length > 0
+        ? Math.round(
+            courses.reduce(
+              (acc: number, c: Course) => acc + (c.price || 0),
+              0
+            ) / courses.length
+          )
+        : 0;
+  } catch (error) {
+    console.error("Error loading courses for metadata:", error);
+  }
+
+  const baseUrl = process.env.NEXT_PUBLIC_FRONTEND_URL || "https://xios.com";
+  const currentUrl = `${baseUrl}/xios-academy`;
+
+  return {
+    title:
+      "XIOS Academy | Academia Líder en Bienestar, Terapias y Desarrollo Personal - Cursos Certificados",
+    description: `🌟 Academia #1 en Colombia con ${coursesCount}+ cursos certificados de bienestar, masajes terapéuticos, mindfulness y desarrollo personal. Instructores expertos, contenido premium y certificaciones reconocidas. Transforma tu vida y carrera profesional.`,
+
+    keywords: [
+      "academia bienestar colombia",
+      "cursos masajes terapeuticos certificados",
+      "xios academy oficial",
+      "formacion bienestar profesional",
+      "cursos mindfulness certificados",
+      "academia terapias alternativas",
+      "certificacion masajista profesional",
+      "escuela bienestar integral",
+      "cursos desarrollo personal online",
+      "formacion terapeutas colombia",
+      "academia wellness certificada",
+      "cursos aromaterapia certificados",
+      "escuela yoga colombia",
+      "formacion instructores bienestar",
+      "certificaciones terapias holisticas",
+    ].join(", "),
+
+    authors: [{ name: "XIOS Academy" }],
+    creator: "XIOS Academy",
+    publisher: "XIOS Academy",
+
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
+    },
+
+    verification: {
+      google: "your-google-verification-code",
+    },
+
+    openGraph: {
+      type: "website",
+      locale: "es_ES",
+      url: currentUrl,
+      siteName: "XIOS Academy",
+      title:
+        "XIOS Academy | Academia #1 en Bienestar y Terapias - Cursos Certificados",
+      description: `🎓 Más de ${coursesCount} cursos certificados | 🌟 Instructores expertos | 📜 Certificaciones reconocidas | 🚀 Transforma tu carrera en bienestar`,
+      images: [
+        {
+          url: `${baseUrl}/logo-xiomara-sanchez.webp`,
+          width: 1200,
+          height: 630,
+          alt: "XIOS Academy - Academia Líder en Bienestar y Terapias",
+          type: "image/webp",
+        },
+        {
+          url: `${baseUrl}/byxio.webp`,
+          width: 800,
+          height: 600,
+          alt: "Cursos XIOS Academy",
+          type: "image/webp",
+        },
+      ],
+    },
+
+    twitter: {
+      card: "summary_large_image",
+      title: "XIOS Academy | Academia #1 en Bienestar - Cursos Certificados",
+      description: `${coursesCount}+ cursos certificados de bienestar, masajes y terapias`,
+      images: [`${baseUrl}/logo-xiomara-sanchez.webp`],
+      creator: "@xiosacademy",
+      site: "@xiosacademy",
+    },
+
+    alternates: {
+      canonical: currentUrl,
+      languages: {
+        "es-ES": currentUrl,
+        es: currentUrl,
+      },
+    },
+
+    other: {
+      "theme-color": "#10B981",
+      "color-scheme": "light",
+      "twitter:label1": "Cursos Disponibles",
+      "twitter:data1": coursesCount.toString(),
+      "twitter:label2": "Precio Promedio",
+      "twitter:data2":
+        avgPrice > 0 ? `$${avgPrice.toLocaleString()} COP` : "Desde $99.000",
+      "article:author": "XIOS Academy",
+      "article:section": "Educación",
+      "og:region": "CO",
+      "og:country-name": "Colombia",
+      "geo.region": "CO",
+      "geo.placename": "Colombia",
+      "business:contact_data:street_address": "Colombia",
+      "business:contact_data:locality": "Bogotá",
+      "business:contact_data:country_name": "Colombia",
+      "og:email": "info@xiosacademy.com",
+      "og:phone_number": "+57-1-234-5678",
+      "og:fax_number": "+57-1-234-5679",
+    },
+  };
+}
+
+export const metadata = await generateMetadata();
+
+const XiosAcademyPage = async () => {
   let courses: Course[] = [];
 
   try {
-  
     const response = await axios.get(`${BASE_URL}/xios-courses/courses`);
     courses = response.data;
   } catch (error) {
@@ -34,6 +158,132 @@ const XiosAcademyPage = async () => {
 
   console.log("courses", courses);
   courses = shuffle(courses).slice(0, 3);
+
+  // Structured Data ULTIMATE para la HOME
+  const baseUrl = process.env.NEXT_PUBLIC_FRONTEND_URL;
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": ["EducationalOrganization", "LocalBusiness"],
+    name: "XIOS Academy",
+    legalName: "XIOS Academy - Academia de Bienestar y Terapias",
+    description:
+      "Academia líder en Colombia especializada en formación profesional de bienestar, terapias alternativas, masajes terapéuticos y desarrollo personal con certificaciones reconocidas.",
+    url: `${baseUrl}/xios-academy`,
+    sameAs: [
+      "https://www.facebook.com/xiosacademy",
+      "https://www.instagram.com/xiosacademy",
+      "https://www.linkedin.com/company/xiosacademy",
+      "https://www.youtube.com/xiosacademy",
+    ],
+    logo: {
+      "@type": "ImageObject",
+      url: `${baseUrl}/logo-xiomara-sanchez.webp`,
+      width: "300",
+      height: "100",
+    },
+    image: [
+      {
+        "@type": "ImageObject",
+        url: `${baseUrl}/logo-xiomara-sanchez.webp`,
+        width: "1200",
+        height: "630",
+      },
+    ],
+    contactPoint: [
+      {
+        "@type": "ContactPoint",
+        telephone: "+57-1-234-5678",
+        contactType: "customer service",
+        availableLanguage: ["Spanish", "English"],
+        areaServed: "CO",
+      },
+      {
+        "@type": "ContactPoint",
+        telephone: "+57-1-234-5679",
+        contactType: "sales",
+        availableLanguage: "Spanish",
+        areaServed: "CO",
+      },
+    ],
+    address: {
+      "@type": "PostalAddress",
+      addressCountry: "CO",
+      addressRegion: "Bogotá",
+      addressLocality: "Bogotá",
+    },
+    foundingDate: "2020",
+    numberOfEmployees: {
+      "@type": "QuantitativeValue",
+      value: "25-50",
+    },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.9",
+      reviewCount: "500",
+      bestRating: "5",
+      worstRating: "1",
+    },
+    offers: {
+      "@type": "AggregateOffer",
+      priceCurrency: "COP",
+      lowPrice: "99000",
+      highPrice: "2500000",
+      availability: "https://schema.org/InStock",
+    },
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Cursos y Programas de Bienestar",
+      itemListElement: [
+        {
+          "@type": "Course",
+          name: "Formación Masajista Profesional",
+          description:
+            "Curso completo de masajes terapéuticos con certificación",
+          provider: {
+            "@type": "Organization",
+            name: "XIOS Academy",
+          },
+        },
+        {
+          "@type": "Course",
+          name: "Instructor de Mindfulness Certificado",
+          description: "Formación profesional en mindfulness y meditación",
+          provider: {
+            "@type": "Organization",
+            name: "XIOS Academy",
+          },
+        },
+        {
+          "@type": "Course",
+          name: "Especialización en Aromaterapia",
+          description: "Curso avanzado de aceites esenciales y aromaterapia",
+          provider: {
+            "@type": "Organization",
+            name: "XIOS Academy",
+          },
+        },
+      ],
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${baseUrl}/xios-academy`,
+    },
+    potentialAction: [
+      {
+        "@type": "SearchAction",
+        target: `${baseUrl}/xios-academy/courses?search={search_term_string}`,
+        "query-input": "required name=search_term_string",
+      },
+      {
+        "@type": "SubscribeAction",
+        target: `${baseUrl}/xios-academy/newsletter`,
+        object: {
+          "@type": "Newsletter",
+          name: "XIOS Academy Newsletter",
+        },
+      },
+    ],
+  };
 
   const upcomingEvents = [
     {
@@ -144,13 +394,21 @@ const XiosAcademyPage = async () => {
   ];
 
   return (
-    <XiosAcademyClient
-      courses={courses}
-      upcomingEvents={upcomingEvents}
-      stats={stats}
-      learningPaths={learningPaths}
-      testimonials={testimonials}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(structuredData, null, 2),
+        }}
+      />
+      <XiosAcademyClient
+        courses={courses}
+        upcomingEvents={upcomingEvents}
+        stats={stats}
+        learningPaths={learningPaths}
+        testimonials={testimonials}
+      />
+    </>
   );
 };
 

@@ -1,4 +1,3 @@
-
 import React from "react";
 import Link from "next/link";
 import {
@@ -102,8 +101,49 @@ const XiosAcademyClient: React.FC<XiosAcademyClientProps> = ({
   learningPaths,
   testimonials,
 }) => {
+  // Función para obtener el icono según la categoría
+  const getCategoryIcon = (category: string) => {
+    switch (category) {
+      case "entrepreneurship":
+        return "💼";
+      case "wellness":
+        return "🌿";
+      case "therapy":
+        return "💆‍♀️";
+      case "business":
+        return "📈";
+      case "personal-development":
+        return "🌟";
+      case "health":
+        return "🏥";
+      case "spirituality":
+        return "🧘‍♀️";
+      default:
+        return "📚";
+    }
+  };
 
-
+  // Función para traducir la categoría
+  const translateCategory = (category: string) => {
+    switch (category) {
+      case "entrepreneurship":
+        return "Emprendimiento";
+      case "wellness":
+        return "Bienestar";
+      case "therapy":
+        return "Terapia";
+      case "business":
+        return "Negocios";
+      case "personal-development":
+        return "Desarrollo Personal";
+      case "health":
+        return "Salud";
+      case "spirituality":
+        return "Espiritualidad";
+      default:
+        return category;
+    }
+  };
 
   return (
     <div className="min-h-screen ">
@@ -259,7 +299,11 @@ const XiosAcademyClient: React.FC<XiosAcademyClientProps> = ({
                 >
                   <div className="relative h-48">
                     <Image
-                      src={course.images?.[0] ? course.images[0] : "/placeholder.png"}
+                      src={
+                        course.images?.[0]
+                          ? course.images[0]
+                          : "/placeholder.png"
+                      }
                       alt={course.title}
                       width={500}
                       height={300}
@@ -277,17 +321,15 @@ const XiosAcademyClient: React.FC<XiosAcademyClientProps> = ({
                         Categoria:
                       </h4>
                       <ul className="bg-piel-blanco text-white px-3 py-1 rounded-2xl text-start">
-                        {Array.isArray(course.category) &&
-                          course.category.map((cat, index) => (
-                            <li
-                              key={index}
-                              className="text-verde-oscuro text-start text-sm"
-                            >
-                              {" "}
-                              <span className="text-xs">✨</span>{" "}
-                              {cat.charAt(0).toUpperCase() + cat.slice(1)}
-                            </li>
-                          ))}
+                        {course.category && (
+                          <li className="text-verde-oscuro text-start text-sm">
+                            {getCategoryIcon(course.category)}{" "}
+                            {translateCategory(course.category)
+                              .charAt(0)
+                              .toUpperCase() +
+                              translateCategory(course.category).slice(1)}
+                          </li>
+                        )}
                       </ul>
                     </div>
                     <div className="absolute top-4 right-4">
@@ -374,7 +416,7 @@ const XiosAcademyClient: React.FC<XiosAcademyClientProps> = ({
 
           <div className="text-center mt-12">
             <Link
-              href={`/xios-academy/student-portal/courses`}
+              href={`/xios-academy/student-portal`}
               className="inline-flex items-center space-x-2 bg-gradient-2 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:shadow-lg hover:scale-105 transition-all duration-300"
             >
               <span>Ver todos los cursos</span>
@@ -388,6 +430,9 @@ const XiosAcademyClient: React.FC<XiosAcademyClientProps> = ({
       <section className="py-20 bg-gradient-to-r from-piel-claro/20 to-piel-oscuro/10">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16 flex flex-col items-center justify-center">
+            <div className="text-sm text-red-500 ">
+              NOTA: CAMBIAR POR TALLERES REALES
+            </div>
             <h2 className="text-4xl md:text-5xl font-bold text-verde-oscuro mb-6">
               Rutas de Aprendizaje
             </h2>
@@ -450,6 +495,9 @@ const XiosAcademyClient: React.FC<XiosAcademyClientProps> = ({
       <section className="py-20 ">
         <div className="max-w-7xl mx-auto px-4 flex flex-col items-center justify-center">
           <div className="text-center mb-16">
+            <div className="text-sm text-red-500 ">
+              NOTA: CAMBIAR POR TALLERES REALES
+            </div>
             <h2 className="text-4xl md:text-5xl font-bold text-verde-oscuro mb-6">
               Próximos Eventos
             </h2>
@@ -586,15 +634,15 @@ const XiosAcademyClient: React.FC<XiosAcademyClientProps> = ({
                     />
                   ))}
                 </div>
-                <p className="text-verde-claro mb-6 leading-relaxed italic">
+                <p className="text-white mb-6 leading-relaxed italic">
                   &ldquo;{testimonial.text}&rdquo;
                 </p>
                 <div>
-                  <p className="font-semibold text-lg text-verde-oscuro">
+                  <p className="font-bold text-lg text-white">
                     {testimonial.name}
                   </p>
-                  <p className="text-sm text-verde-gris">{testimonial.role}</p>
-                  <p className="text-sm text-verde-gris">
+                  <p className="text-sm text-white">{testimonial.role}</p>
+                  <p className="text-sm text-white">
                     {testimonial.course}
                   </p>
                 </div>

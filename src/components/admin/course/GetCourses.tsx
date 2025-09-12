@@ -25,7 +25,7 @@ interface CourseCardProps {
 }
 
 // Función para obtener el icono según la categoría
-const getCategoryIcon = (category: string) => {
+export const getCategoryIcon = (category: string) => {
   switch (category) {
     case "entrepreneurship":
       return "💼";
@@ -47,7 +47,7 @@ const getCategoryIcon = (category: string) => {
 };
 
 // Función para traducir la categoría
-const translateCategory = (category: string) => {
+export const translateCategory = (category: string) => {
   switch (category) {
     case "entrepreneurship":
       return "Emprendimiento";

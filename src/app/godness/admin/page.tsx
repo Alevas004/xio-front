@@ -2,6 +2,7 @@
 
 import AcademyManager from "@/components/admin/academies/AcademyManager";
 import CourseManager from "@/components/admin/course/CourseManager";
+import LessonManager from "@/components/admin/lesson/LessonManager";
 import ProductManager from "@/components/admin/products/ProductManager";
 import ServiceManager from "@/components/admin/servicesXS/ServiceManager";
 import React, { useState } from "react";
@@ -32,6 +33,12 @@ const GodnessAdminPage = () => {
       icon: FiHome,
       description: "Vista general de todos los negocios",
     },
+      {
+      id: "services",
+      label: "Servicios",
+      icon: FiHeart,
+      description: "Gestión de servicios Xiomara Spa",
+    },
     {
       id: "products",
       label: "Productos",
@@ -51,10 +58,10 @@ const GodnessAdminPage = () => {
       description: "Gestión de cursos Xios Academy",
     },
     {
-      id: "services",
-      label: "Servicios",
-      icon: FiHeart,
-      description: "Gestión de servicios Xiomara Spa",
+      id: "lessons",
+      label: "Lecciones",
+      icon: FiBookOpen,
+      description: "Gestión de lecciones Xios Academy",
     },
     {
       id: "users",
@@ -80,14 +87,16 @@ const GodnessAdminPage = () => {
     switch (activeSection) {
       case "dashboard":
         return <DashboardContent />;
+      case "services":
+        return <ServiceManager />;
       case "products":
         return <ProductManager />;
       case "events":
         return <AcademyManager />;
       case "courses":
         return <CourseManager />;
-      case "services":
-        return <ServiceManager />;
+      case "lessons":
+        return <LessonManager />;
       case "users":
         return <UsersContent />;
       case "analytics":

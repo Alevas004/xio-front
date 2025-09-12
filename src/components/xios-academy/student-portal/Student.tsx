@@ -129,10 +129,14 @@ const Student = ({ paid = null }: StudentProps) => {
     }
   };
 
+  // 🚧 FUNCIONALIDAD DE PROGRESO COMENTADA TEMPORALMENTE
+  // TODO: Implementar cuando esté listo el backend
+  /*
   const getProgressPercentage = () => {
     // Mock progress - en producción vendría de la API
     return Math.floor(Math.random() * 100);
   };
+  */
 
   return (
     <div className="min-h-screen">
@@ -413,7 +417,8 @@ const Student = ({ paid = null }: StudentProps) => {
 
               <div className="grid lg:grid-cols-2 gap-6">
                 {courses.slice(0, 2).map((course) => {
-                  const progress = getProgressPercentage();
+                  // 🚧 PROGRESO COMENTADO TEMPORALMENTE
+                  // const progress = getProgressPercentage();
                   return (
                     <Link
                       href={`/xios-academy/student-portal/courses/${course.slug}`}
@@ -440,6 +445,7 @@ const Student = ({ paid = null }: StudentProps) => {
                           <p className="text-sm text-gray-600 mb-2">
                             {course.instructor}
                           </p>
+                          {/* 🚧 BARRA DE PROGRESO COMENTADA TEMPORALMENTE
                           <div className="space-y-2">
                             <div className="flex justify-between text-sm">
                               <span className="text-gray-500">Progreso</span>
@@ -450,6 +456,16 @@ const Student = ({ paid = null }: StudentProps) => {
                                 className="bg-gradient-to-r from-verde-oscuro to-verde-claro h-2 rounded-full transition-all duration-500"
                                 style={{ width: `${progress}%` }}
                               />
+                            </div>
+                          </div>
+                          */}
+
+                          {/* ✨ BOTÓN BONITO DE CONTINUAR */}
+                          <div className="mt-2">
+                            <div className="flex items-center gap-2 text-verde-oscuro font-medium text-sm">
+                              <FiPlay className="w-4 h-4" />
+                              <span>Continuar viendo</span>
+                              <FiChevronRight className="w-3 h-3" />
                             </div>
                           </div>
                         </div>
@@ -535,8 +551,9 @@ const Student = ({ paid = null }: StudentProps) => {
               }`}
             >
               {filteredCourses.map((course) => {
-                const progress = getProgressPercentage();
-                const isCompleted = progress === 100;
+                // 🚧 PROGRESO COMENTADO TEMPORALMENTE
+                // const progress = getProgressPercentage();
+                // const isCompleted = progress === 100;
 
                 return (
                   <div
@@ -555,6 +572,7 @@ const Student = ({ paid = null }: StudentProps) => {
 
                       {/* Status badge */}
                       <div className="absolute top-4 left-4">
+                        {/* 🚧 ESTADO COMPLETADO COMENTADO TEMPORALMENTE
                         {isCompleted ? (
                           <span className="px-3 py-1 bg-green-500 text-white text-sm font-medium rounded-full flex items-center gap-1">
                             <FiCheck className="w-4 h-4" />
@@ -565,6 +583,10 @@ const Student = ({ paid = null }: StudentProps) => {
                             En Progreso
                           </span>
                         )}
+                        */}
+                        <span className="px-3 py-1 bg-blue-500 text-white text-sm font-medium rounded-full">
+                          Disponible
+                        </span>
                       </div>
 
                       {/* Nivel */}
@@ -611,7 +633,7 @@ const Student = ({ paid = null }: StudentProps) => {
                         </span>
                       </div>
 
-                      {/* Progreso */}
+                      {/* 🚧 PROGRESO COMENTADO TEMPORALMENTE
                       <div className="space-y-2 mb-4">
                         <div className="flex justify-between text-sm">
                           <span className="text-gray-500">Progreso</span>
@@ -624,6 +646,7 @@ const Student = ({ paid = null }: StudentProps) => {
                           />
                         </div>
                       </div>
+                      */}
 
                       {/* Tags */}
                       <div className="flex flex-wrap gap-2 mb-4">
@@ -641,9 +664,10 @@ const Student = ({ paid = null }: StudentProps) => {
                       <div className="flex items-center justify-between">
                         <Link
                           href={`/xios-academy/student-portal/courses/${course.slug}`}
-                          className="px-4 py-2 bg-verde-oscuro text-white rounded-lg hover:bg-verde-claro transition-colors font-medium"
+                          className="flex items-center gap-2 px-4 py-2 bg-verde-oscuro text-white rounded-lg hover:bg-verde-claro transition-colors font-medium"
                         >
-                          {isCompleted ? "Revisar" : "Continuar"}
+                          <FiPlay className="w-4 h-4" />
+                          Ver Curso
                         </Link>
 
                         <div className="flex items-center gap-2">
@@ -849,17 +873,14 @@ const Student = ({ paid = null }: StudentProps) => {
 
                               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 {prerequisiteCourses.map((course) => {
-                                  const progress = getProgressPercentage();
-                                  const isCompleted = progress === 100;
+                                  // 🚧 PROGRESO COMENTADO TEMPORALMENTE
+                                  // const progress = getProgressPercentage();
+                                  // const isCompleted = progress === 100;
 
                                   return (
                                     <div
                                       key={course.id}
-                                      className={`border rounded-xl p-3 transition-all duration-200 ${
-                                        isCompleted
-                                          ? "border-green-200 bg-green-50"
-                                          : "border-orange-200 bg-orange-50"
-                                      }`}
+                                      className={`border rounded-xl p-3 transition-all duration-200 border-blue-200 bg-blue-50`}
                                     >
                                       <div className="flex flex-col sm:flex-row gap-3">
                                         <div className="relative w-full h-32 sm:w-12 sm:h-12 flex-shrink-0">
@@ -869,11 +890,13 @@ const Student = ({ paid = null }: StudentProps) => {
                                             fill
                                             className="object-cover rounded-lg"
                                           />
+                                          {/* 🚧 CHECKMARK COMENTADO TEMPORALMENTE
                                           {isCompleted && (
                                             <div className="absolute top-2 right-2 sm:-top-1 sm:-right-1 w-6 h-6 sm:w-5 sm:h-5 bg-green-500 rounded-full flex items-center justify-center">
                                               <FiCheck className="w-4 h-4 sm:w-3 sm:h-3 text-white" />
                                             </div>
                                           )}
+                                          */}
                                         </div>
 
                                         <div className="flex-1 min-w-0 space-y-2">
@@ -887,7 +910,7 @@ const Student = ({ paid = null }: StudentProps) => {
                                             </p>
                                           </div>
 
-                                          {/* Progress bar */}
+                                          {/* 🚧 BARRA DE PROGRESO COMENTADA TEMPORALMENTE
                                           <div className="space-y-1">
                                             <div className="flex justify-between text-xs">
                                               <span className="text-gray-500">
@@ -916,28 +939,16 @@ const Student = ({ paid = null }: StudentProps) => {
                                               />
                                             </div>
                                           </div>
+                                          */}
 
                                           {/* Action button */}
                                           <div className="flex justify-start">
                                             <Link
                                               href={`/xios-academy/student-portal/courses/${course.slug}`}
-                                              className={`inline-flex items-center gap-1 text-xs font-medium px-3 py-1.5 rounded-md transition-colors ${
-                                                isCompleted
-                                                  ? "text-green-700 bg-green-100 hover:bg-green-200"
-                                                  : "text-orange-700 bg-orange-100 hover:bg-orange-200"
-                                              }`}
+                                              className="inline-flex items-center gap-1 text-xs font-medium px-3 py-1.5 rounded-md transition-colors text-blue-700 bg-blue-100 hover:bg-blue-200"
                                             >
-                                              {isCompleted ? (
-                                                <>
-                                                  <FiCheck className="w-3 h-3" />
-                                                  Completado
-                                                </>
-                                              ) : (
-                                                <>
-                                                  <FiPlay className="w-3 h-3" />
-                                                  Continuar
-                                                </>
-                                              )}
+                                              <FiPlay className="w-3 h-3" />
+                                              Ver Curso
                                             </Link>
                                           </div>
                                         </div>
@@ -947,21 +958,24 @@ const Student = ({ paid = null }: StudentProps) => {
                                 })}
                               </div>
 
-                              {/* Progress summary */}
-                              <div className="mt-4 p-3 bg-gray-50 rounded-lg">
+                              {/* 🚧 PROGRESO DE PRERREQUISITOS COMENTADO TEMPORALMENTE */}
+                              <div className="mt-4 p-3 bg-blue-50 rounded-lg">
                                 <div className="flex items-center justify-between text-sm mb-2">
                                   <span className="text-gray-600">
-                                    Progreso de prerequisitos:
+                                    Cursos prerequisitos:
                                   </span>
                                   <span className="font-medium">
-                                    {
-                                      prerequisiteCourses.filter(
-                                        () => getProgressPercentage() === 100
-                                      ).length
-                                    }{" "}
-                                    de {prerequisiteCourses.length} completados
+                                    {prerequisiteCourses.length} cursos
+                                    disponibles
                                   </span>
                                 </div>
+
+                                <div className="flex items-center gap-2 text-blue-600 text-sm font-medium">
+                                  <FiPlay className="w-4 h-4" />
+                                  ¡Cursos listos para empezar!
+                                </div>
+
+                                {/* 🚧 COMENTADO TEMPORALMENTE
                                 <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
                                   <div
                                     className="bg-gradient-to-r from-verde-oscuro to-verde-claro h-2 rounded-full transition-all duration-500"
@@ -977,7 +991,6 @@ const Student = ({ paid = null }: StudentProps) => {
                                   />
                                 </div>
 
-                                {/* Readiness indicator */}
                                 {prerequisiteCourses.every(
                                   () => getProgressPercentage() === 100
                                 ) ? (
@@ -995,6 +1008,7 @@ const Student = ({ paid = null }: StudentProps) => {
                                     ).toLocaleDateString()}
                                   </div>
                                 )}
+                                */}
                               </div>
                             </div>
                           )}

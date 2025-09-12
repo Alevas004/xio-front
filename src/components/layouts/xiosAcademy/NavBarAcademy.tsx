@@ -177,10 +177,9 @@ const NavBarAcademy = () => {
       ) : (
         <nav className="flex justify-between items-center w-full h-[60px] px-6 bg-white shadow-md">
           <div className="flex items-center">
-            <h2 className="font-bold text-lg m-0 p-0">
-              EcoCare <br />{" "}
-              <span className="text-xs p-0 m-0">By Xiomara Sanchez</span>
-            </h2>
+            <h1 className="font-extrabold text-2xl m-0 p-0 text-verde-oscuro">
+              Xio&apos;s Academy
+            </h1>
           </div>
 
           <div className="flex items-center justify-center gap-2">
@@ -190,13 +189,13 @@ const NavBarAcademy = () => {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`rounded-2xl bg-verde-oscuro transition-all duration-100 hover:bg-piel-claro hover:text-verde-oscuro `}
+                  className={`rounded-2xl bg-verde-oscuro transition-all duration-100 `}
                 >
                   <button
-                    className={`flex items-center justify-center gap-1 w-full rounded-3xl font-semibold px-2 py-1 ${
+                    className={`flex items-center justify-center gap-1 w-full rounded-3xl font-semibold px-2 py-1 cursor-pointer ${
                       isActive(item)
-                        ? "text-verde-oscuro bg-piel-blanco border-b-verde-oscuro border-1"
-                        : "text-white"
+                        ? "text-verde-oscuro bg-white border-b-verde-oscuro border-1"
+                        : "text-white "
                     }`}
                   >
                     {item?.icono}

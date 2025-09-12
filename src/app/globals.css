@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap");
 @import "tailwindcss";
+@import "./custom-scrollbar.css";
 
 *,
 *::before,
@@ -85,6 +86,9 @@ p {
 }
 .text-white {
   color: white !important;
+}
+.text-black {
+  color: black !important;
 }
 .text-transparent {
   color: transparent !important;
