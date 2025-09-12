@@ -1,8 +1,12 @@
 import type { NextConfig } from "next";
 
+// Detectar si estamos en Netlify
+const isNetlify = process.env.NETLIFY === "true";
+
 const nextConfig: NextConfig = {
   images: {
-    unoptimized: true, // Deshabilitar optimización de imágenes para Netlify
+    // Solo deshabilitar optimización en Netlify
+    unoptimized: isNetlify,
     remotePatterns: [
       {
         protocol: "https",
@@ -16,8 +20,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  // Comentamos output export para usar modo normal
-  // output: 'export',
   trailingSlash: true, // Para compatibilidad con Netlify
   eslint: {
     ignoreDuringBuilds: true, // Ignorar errores de ESLint durante el build
