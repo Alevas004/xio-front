@@ -1,8 +1,6 @@
 "use client";
-import { FaFilter } from "react-icons/fa6";
 
 import React, { useState } from "react";
-import { Product } from "./ProductCard";
 import { FiFilter } from "react-icons/fi";
 import FilterCategories, { CategoryWithCount } from "./FilterCategories";
 import useWindowSize from "@/hooks/useWindowSize";
@@ -10,13 +8,11 @@ import { CgClose } from "react-icons/cg";
 
 interface FilterProductsProps {
   currentCategory: string[];
-  products: Product[];
   availableCategories: CategoryWithCount[];
 }
 
 const FilterProducts = ({
   currentCategory,
-  products,
   availableCategories,
 }: FilterProductsProps) => {
   const [openMenu, setOpenMenu] = useState(false);
@@ -38,7 +34,7 @@ const FilterProducts = ({
               onClick={() => setOpenMenu(!openMenu)}
               className="absolute bottom-30 left-4 md:top-25 md:left-10 z-50 bg-black p-2 rounded-full shadow-m"
             >
-              <FaFilter size={30} color="white" />
+              <FiFilter size={30} color="white" />
             </button>
             {openMenu && (
               <div
@@ -97,7 +93,6 @@ const FilterProducts = ({
               <h3 className="font-semibold text-gray-800 mb-3">Categorías</h3>
               <FilterCategories
                 initialValue={currentCategory}
-                products={products}
                 closeMenu={() => {}}
                 availableCategories={availableCategories}
               />

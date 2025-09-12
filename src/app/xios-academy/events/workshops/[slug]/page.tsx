@@ -20,7 +20,6 @@ import {
 import { formatDate } from "@/utils/formatDate";
 import { formatPrice } from "@/utils/formatPrice";
 import { Check } from "lucide-react";
-import { notFound } from "next/navigation";
 import NotFound from "@/components/xios-academy/not-found";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_BASE_URL;

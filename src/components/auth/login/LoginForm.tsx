@@ -1,5 +1,5 @@
 "use client";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { usePost } from "@/hooks/usePost";
@@ -69,7 +69,7 @@ const LoginForm = () => {
       reset();
       router.push("/");
     }
-  }, [data, dispatch]);
+  }, [data, dispatch, reset, router]);
 
   return (
     <div className="w-full py-5 flex flex-col items-center justify-center">

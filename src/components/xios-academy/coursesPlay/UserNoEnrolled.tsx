@@ -38,14 +38,23 @@ const UserNoEnrolled = ({ courseData, isEnrolled, setIsEnrolled }: NoUserProps) 
 
   const [expandedModule, setExpandedModule] = useState<number | null>(null);
 
+interface LessonData {
+  id: string;
+  title: string;
+  description?: string;
+  url?: string;
+  video_url?: string;
+  [key: string]: unknown;
+}
+
   // Estado para el modal de vista previa
   const [previewModal, setPreviewModal] = useState({
     isOpen: false,
-    lessonData: null as any,
+    lessonData: null as LessonData | null,
   });
 
   // Función para manejar click en lección de preview
-  const handlePreviewClick = (lesson: any) => {
+  const handlePreviewClick = (lesson: LessonData) => {
     setPreviewModal({
       isOpen: true,
       lessonData: lesson,

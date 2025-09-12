@@ -94,7 +94,8 @@ export interface Service {
   user: User;
 }
 
-const ServiceXS = async ({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) => {
+const ServiceXS = async ({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) => {
+  const resolvedSearchParams = await searchParams;
   let data: Service[] = [];
 
   // Construir query params dinámicamente
@@ -102,10 +103,10 @@ const ServiceXS = async ({ searchParams }: { searchParams: { [key: string]: stri
     const params = new URLSearchParams();
     
     // Filtro por categoría
-    if (searchParams.category) {
-      const categories = Array.isArray(searchParams.category) 
-        ? searchParams.category 
-        : [searchParams.category];
+    if (resolvedSearchParams.category) {
+      const categories = Array.isArray(resolvedSearchParams.category) 
+        ? resolvedSearchParams.category 
+        : [resolvedSearchParams.category];
       categories.forEach(cat => params.append('category', cat));
     }
     

@@ -9,21 +9,20 @@ export const metadata: Metadata = {
   title: "Xiomara Sánchez - Terapeuta | Bienestar y Certificación",
   description:
     "Terapias, talleres y alianzas. Reserva, forma parte o colabora con Xiomara Sánchez.",
-};
-
-export const openGraph = {
-  title: "Xiomara Sánchez - Terapeuta",
-  description:
-    "Terapias, talleres y alianzas. Reserva, forma parte o colabora con Xiomara Sánchez.",
-  url: "https://xiomarasanchez.com",
-  images: [
-    {
-      url: "https://xiomarasanchez.com/og-image.jpg",
-      width: 1200,
-      height: 630,
-      alt: "Xiomara Sánchez - Terapeuta",
-    },
-  ],
+  openGraph: {
+    title: "Xiomara Sánchez - Terapeuta",
+    description:
+      "Terapias, talleres y alianzas. Reserva, forma parte o colabora con Xiomara Sánchez.",
+    url: "https://xiomarasanchez.com",
+    images: [
+      {
+        url: "https://xiomarasanchez.com/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Xiomara Sánchez - Terapeuta",
+      },
+    ],
+  },
 };
 
 const organizationLd = {

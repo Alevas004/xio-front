@@ -13,6 +13,81 @@ import {
   FiMinimize,
 } from "react-icons/fi";
 
+// Interfaces para YouTube Player API
+interface YouTubePlayerVars {
+  controls?: number;
+  disablekb?: number;
+  fs?: number;
+  iv_load_policy?: number;
+  modestbranding?: number;
+  playsinline?: number;
+  rel?: number;
+  showinfo?: number;
+  autoplay?: number;
+  origin?: string;
+  enablejsapi?: number;
+  endscreen?: number;
+  cc_load_policy?: number;
+  hl?: string;
+  widget_referrer?: string;
+}
+
+interface YouTubePlayerEvent {
+  target: YouTubePlayer;
+  data?: number;
+}
+
+interface YouTubePlayer {
+  playVideo(): void;
+  pauseVideo(): void;
+  seekTo(seconds: number, allowSeekAhead?: boolean): void;
+  setVolume(volume: number): void;
+  getVolume(): number;
+  mute(): void;
+  unMute(): void;
+  getDuration(): number;
+  getCurrentTime(): number;
+  getPlayerState(): number;
+  destroy(): void;
+}
+
+interface YouTubePlayerConfig {
+  height: string;
+  width: string;
+  videoId: string | null;
+  playerVars: YouTubePlayerVars;
+  events: {
+    onReady: (event: YouTubePlayerEvent) => void;
+    onStateChange: (event: YouTubePlayerEvent) => void;
+  };
+}
+
+declare global {
+  interface Window {
+    YT: {
+      Player: new (
+        elementId: string | HTMLElement,
+        config: YouTubePlayerConfig
+      ) => YouTubePlayer;
+      ready: (callback: () => void) => void;
+    };
+    onYouTubeIframeAPIReady: () => void;
+  }
+
+  // Fullscreen API interfaces
+  interface HTMLElement {
+    webkitRequestFullscreen?: () => Promise<void>;
+    msRequestFullscreen?: () => Promise<void>;
+  }
+
+  interface Document {
+    webkitFullscreenElement?: Element;
+    msFullscreenElement?: Element;
+    webkitExitFullscreen?: () => Promise<void>;
+    msExitFullscreen?: () => Promise<void>;
+  }
+}
+
 interface VideoModalProps {
   isOpen: boolean;
   videoUrl: string;
@@ -34,7 +109,7 @@ const VideoModalCustom: React.FC<VideoModalProps> = ({
   onEnrollClick,
 }) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [player, setPlayer] = useState<any>(null);
+  const [player, setPlayer] = useState<YouTubePlayer | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -63,8 +138,19 @@ const VideoModalCustom: React.FC<VideoModalProps> = ({
     return `${mins}:${secs.toString().padStart(2, "0")}`;
   };
 
+  const showControlsTemporarily = useCallback(() => {
+    setShowControls(true);
+    if (hideControlsTimer.current) {
+      clearTimeout(hideControlsTimer.current);
+    }
+    // Ocultar controles después de 3 segundos
+    hideControlsTimer.current = setTimeout(() => {
+      setShowControls(false);
+    }, 3000);
+  }, []);
+
   // Controles del reproductor
-  const togglePlayPause = () => {
+  const togglePlayPause = useCallback(() => {
     if (!player) return;
 
     if (isPlaying) {
@@ -79,7 +165,7 @@ const VideoModalCustom: React.FC<VideoModalProps> = ({
       // Cuando reproduce, mostrar controles temporalmente
       showControlsTemporarily();
     }
-  };
+  }, [player, isPlaying, showControlsTemporarily]);
 
   const seekTo = (percentage: number) => {
     if (!player || !duration) return;
@@ -128,19 +214,6 @@ const VideoModalCustom: React.FC<VideoModalProps> = ({
     showControlsTemporarily();
   };
 
-  const showControlsTemporarily = useCallback(() => {
-    setShowControls(true);
-    if (hideControlsTimer.current) {
-      clearTimeout(hideControlsTimer.current);
-    }
-    // Ocultar controles después de 3 segundos solo si está reproduciendo
-    hideControlsTimer.current = setTimeout(() => {
-      if (isPlaying) {
-        setShowControls(false);
-      }
-    }, 3000);
-  }, [isPlaying]);
-
   const toggleFullscreen = () => {
     if (!modalRef.current) return;
 
@@ -148,19 +221,19 @@ const VideoModalCustom: React.FC<VideoModalProps> = ({
       // Entrar en pantalla completa
       if (modalRef.current.requestFullscreen) {
         modalRef.current.requestFullscreen();
-      } else if ((modalRef.current as any).webkitRequestFullscreen) {
-        (modalRef.current as any).webkitRequestFullscreen();
-      } else if ((modalRef.current as any).msRequestFullscreen) {
-        (modalRef.current as any).msRequestFullscreen();
+      } else if (modalRef.current?.webkitRequestFullscreen) {
+        modalRef.current.webkitRequestFullscreen();
+      } else if (modalRef.current?.msRequestFullscreen) {
+        modalRef.current.msRequestFullscreen();
       }
     } else {
       // Salir de pantalla completa
       if (document.exitFullscreen) {
         document.exitFullscreen();
-      } else if ((document as any).webkitExitFullscreen) {
-        (document as any).webkitExitFullscreen();
-      } else if ((document as any).msExitFullscreen) {
-        (document as any).msExitFullscreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
       }
     }
     showControlsTemporarily();
@@ -176,7 +249,7 @@ const VideoModalCustom: React.FC<VideoModalProps> = ({
 
     const initializeYouTubeAPI = () => {
       // Verificar si la API ya está cargada
-      if ((window as any).YT && (window as any).YT.Player) {
+      if (window.YT && window.YT.Player) {
         createPlayer();
       } else {
         // Cargar la API de YouTube
@@ -187,14 +260,14 @@ const VideoModalCustom: React.FC<VideoModalProps> = ({
           firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
         }
 
-        (window as any).onYouTubeIframeAPIReady = createPlayer;
+        window.onYouTubeIframeAPIReady = createPlayer;
       }
     };
 
     const createPlayer = () => {
       if (!playerRef.current) return;
 
-      const newPlayer = new (window as any).YT.Player(playerRef.current, {
+      const newPlayer = new window.YT.Player(playerRef.current, {
         height: "100%",
         width: "100%",
         videoId: youtubeId,
@@ -217,17 +290,17 @@ const VideoModalCustom: React.FC<VideoModalProps> = ({
           widget_referrer: window.location.origin, // Referrer específico
         },
         events: {
-          onReady: (event: any) => {
+          onReady: (event: YouTubePlayerEvent) => {
             setPlayer(event.target);
             setDuration(event.target.getDuration());
             setVolume(event.target.getVolume());
             setIsLoading(false);
           },
-          onStateChange: (event: any) => {
+          onStateChange: (event: YouTubePlayerEvent) => {
             const playerState = event.data;
             const isCurrentlyPlaying = playerState === 1; // YT.PlayerState.PLAYING
             const isEnded = playerState === 0; // YT.PlayerState.ENDED
-            const isPaused = playerState === 2; // YT.PlayerState.PAUSED
+            // const isPaused = playerState === 2; // YT.PlayerState.PAUSED
 
             setIsPlaying(isCurrentlyPlaying);
 
@@ -265,22 +338,29 @@ const VideoModalCustom: React.FC<VideoModalProps> = ({
 
     // Cleanup
     return () => {
-      if (player && player.destroy) {
-        player.destroy();
-      }
+      // Cleanup al desmontar
       if (hideControlsTimer.current) {
         clearTimeout(hideControlsTimer.current);
       }
     };
-  }, [isOpen, youtubeId]); // Removemos player de las dependencias para evitar warning
+  }, [isOpen, youtubeId]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Cleanup del player cuando se cierra
+  useEffect(() => {
+    return () => {
+      if (player && player.destroy) {
+        player.destroy();
+      }
+    };
+  }, [player]);
 
   // Manejar cambios de pantalla completa
   useEffect(() => {
     const handleFullscreenChange = () => {
       const isCurrentlyFullscreen = !!(
         document.fullscreenElement ||
-        (document as any).webkitFullscreenElement ||
-        (document as any).msFullscreenElement
+        document.webkitFullscreenElement ||
+        document.msFullscreenElement
       );
       setIsFullscreen(isCurrentlyFullscreen);
     };
@@ -413,7 +493,7 @@ const VideoModalCustom: React.FC<VideoModalProps> = ({
         injectedStyle.remove();
       }
     };
-  }, [isOpen]); // Removemos isPlaying y togglePlayPause para evitar warnings
+  }, [isOpen, togglePlayPause]);
 
   if (!isOpen) return null;
 

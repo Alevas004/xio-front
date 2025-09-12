@@ -11,7 +11,6 @@ import {
   FiArrowRight,
   FiPlay,
   FiMapPin,
-  FiPhone,
   FiMail,
   FiMessageCircle,
 } from "react-icons/fi";

@@ -10,7 +10,6 @@ import {
   FiTrendingUp,
   FiShield,
   FiGlobe,
-  FiUser,
   FiMail,
   FiLinkedin,
   FiInstagram,

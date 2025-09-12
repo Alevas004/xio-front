@@ -564,7 +564,6 @@ const Products = async ({ searchParams }: ProductsPageProps) => {
 
           <FilterProducts
             currentCategory={currentCategory}
-            products={products}
             availableCategories={availableCategories}
           />
 

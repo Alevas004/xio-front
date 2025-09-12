@@ -65,9 +65,9 @@ async function getCourseData(slug: string): Promise<Course | null> {
 export async function generateMetadata({
   params,
 }: {
-  params: Params;
+  params: Promise<Params>;
 }): Promise<Metadata> {
-  const slug = params.slug;
+  const { slug } = await params;
   const course = await getCourseData(slug);
 
   if (!course) {
@@ -350,8 +350,8 @@ function generateStructuredData(course: Course, slug: string) {
 }
 
 // 🎯 COMPONENTE PRINCIPAL ÉPICO
-const CourseById = async ({ params }: { params: Params }) => {
-  const slug = params.slug;
+const CourseById = async ({ params }: { params: Promise<Params> }) => {
+  const { slug } = await params;
   let course = null;
 
   try {

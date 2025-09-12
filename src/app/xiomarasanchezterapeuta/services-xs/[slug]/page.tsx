@@ -9,8 +9,6 @@ import {
   CheckCircle,
   Users,
   Heart,
-  ArrowLeft,
-  Phone,
   MessageCircle,
   Calendar,
   Sparkles,
@@ -31,9 +29,9 @@ const cacheConfig = isDevelopment
   : { cache: "force-cache" as const, next: { revalidate: 300 } }; // 5 minutos en producción
 
 interface ServiceDetailsProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 // Generar metadata dinámico para SEO INCREÍBLE

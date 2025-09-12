@@ -9,7 +9,6 @@ import { MdHome } from "react-icons/md";
 import { usePathname } from "next/navigation";
 import { IoMdCloseCircle } from "react-icons/io";
 import { CgMenuGridR } from "react-icons/cg";
-import { BsBagHeartFill } from "react-icons/bs";
 import almarabyxio from "../../../../public/almarabyxio.webp";
 import Image from "next/image";
 import CartAlmara from "@/components/byxio/CartAlmara";
@@ -43,7 +42,6 @@ const menuItems = [
 
 const NavBarByXio = () => {
   const [openMenu, setOpenMenu] = useState(false);
-  const [openCart, setOpenCart] = useState(false);
 
   const pathname = usePathname();
 
@@ -54,12 +52,6 @@ const NavBarByXio = () => {
 
   const handleOpenMenu = () => {
     setOpenMenu(!openMenu);
-    setOpenCart(false);
-  };
-
-  const handleOpenCart = () => {
-    setOpenCart(!openCart);
-    setOpenMenu(false);
   };
 
   return (

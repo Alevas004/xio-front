@@ -8,7 +8,6 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import PlayEnrolledCourse from "./coursesPlay/PlayEnrolledCourse";
 import UserNoEnrolled from "./coursesPlay/UserNoEnrolled";
-import NoUser from "./coursesPlay/NoUser";
 
 // 🎯 Interfaz actualizada basada en la API
 export interface Course {

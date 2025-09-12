@@ -17,20 +17,58 @@ interface Course {
     id: number;
     title: string;
     description: string;
+    description_short?: string;
     duration: string;
     level: string;
     price: number;
     image: string;
     url: string;
-    
+    slug?: string;
+    category?: string[];
+    instructor?: string;
+    includes?: string[];
+}
+
+interface Stat {
+  icon: React.ComponentType<{ className?: string }>;
+  number: string;
+  label: string;
+}
+
+interface LearningPath {
+  icon: React.ComponentType<{ className?: string }>;
+  title: string;
+  description: string;
+  color: string;
+  courses: string;
+  duration: string;
+}
+
+interface Event {
+  id: string;
+  title: string;
+  date: string;
+  location: string;
+  type: string;
+  spots: number;
+  totalSpots: number;
+  price: number;
+}
+
+interface Testimonial {
+  name: string;
+  role: string;
+  text: string;
+  rating: number;
+  course: string;
 }
 
 interface Props {
   courses: Course[];
-  upcomingEvents: string[];
-  stats: string[];
-  learningPaths: string[];
-  testimonials: string[];
+  upcomingEvents: Event[];
+  stats: Stat[];
+  learningPaths: LearningPath[];
+  testimonials: Testimonial[];
 }
 
 const AcademyHome = ({ courses, upcomingEvents, stats, learningPaths, testimonials }: Props) => {
@@ -262,7 +300,7 @@ const AcademyHome = ({ courses, upcomingEvents, stats, learningPaths, testimonia
                     </div>
 
                     <div className="grid grid-cols-2 gap-2 mb-4">
-                      {course.includes.map((feature, index) => (
+                      {course.includes?.map((feature, index) => (
                         <div
                           key={index}
                           className="flex items-center space-x-2 text-xs text-verde-oscuro"
@@ -276,10 +314,11 @@ const AcademyHome = ({ courses, upcomingEvents, stats, learningPaths, testimonia
                     <div className="flex items-center justify-between">
                       <div className="text-2xl font-bold text-verde-oscuro">
                         $
-                        {course.price.toLocaleString({
+                        {course.price.toLocaleString("es-CO", {
+                          style: "currency",
                           currency: "COP",
                           minimumFractionDigits: 0,
-                        })}{" "}
+                        }).replace("COP", "")}{" "}
                         <span className="text-sm">COP</span>
                       </div>
                       <Link

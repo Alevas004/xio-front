@@ -66,7 +66,7 @@ const ModalViewAcademy = ({ academy, onClose }: ModalViewAcademyProps) => {
           {/* Header con gradiente específico para la categoría */}
           <div
             className={`relative bg-gradient-to-br ${getCategoryColor(
-              service.category
+              academy.type
             )} p-6 text-white`}
           >
             <div className="absolute inset-0 bg-black/10"></div>
@@ -75,15 +75,15 @@ const ModalViewAcademy = ({ academy, onClose }: ModalViewAcademyProps) => {
               <div className="flex items-center space-x-4">
                 <div className="p-3 bg-white/20 rounded-2xl backdrop-blur-sm">
                   <span className="text-3xl">
-                    {getCategoryIcon(service.category)}
+                    {getCategoryIcon(academy.type)}
                   </span>
                 </div>
                 <div>
                   <h2 className="text-3xl font-bold text-white text-start leading-tight">
-                    {service.title}
+                    {academy.title}
                   </h2>
                   <p className="text-white/90 text-lg text-start capitalize font-medium mt-1">
-                    {service.category.replace("-", " ")}
+                    {academy.type.replace("-", " ")}
                   </p>
                 </div>
               </div>
@@ -101,12 +101,12 @@ const ModalViewAcademy = ({ academy, onClose }: ModalViewAcademyProps) => {
             <div className="absolute top-6 right-20">
               <span
                 className={`px-4 py-2 rounded-full text-sm font-semibold ${
-                  service.is_active
+                  academy.is_active
                     ? "bg-green-500/20 text-green-100 border border-green-400/30"
                     : "bg-red-500/20 text-red-100 border border-red-400/30"
                 }`}
               >
-                {service.is_active ? "✅ Activo" : "❌ Inactivo"}
+                {academy.is_active ? "✅ Activo" : "❌ Inactivo"}
               </span>
             </div>
           </div>
@@ -118,21 +118,21 @@ const ModalViewAcademy = ({ academy, onClose }: ModalViewAcademyProps) => {
               <div className="space-y-6">
                 {/* Imagen del servicio */}
                 <div className="relative group">
-                  {service.image ? (
+                  {academy.image ? (
                     <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-100 to-gray-200 shadow-lg">
 
-                        {service.image.endsWith(".mp4") ? (
+                        {academy.image.endsWith(".mp4") ? (
                           <video
                             className="w-full h-80 object-cover"
-                            src={service.image}
+                            src={academy.image}
                             autoPlay
                             muted
                             loop
                           />
                         ) : (
                           <Image
-                            src={service.image}
-                            alt={service.title}
+                            src={academy.image}
+                            alt={academy.title}
                             width={500}
                             height={350}
                             className="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-105"
@@ -145,7 +145,7 @@ const ModalViewAcademy = ({ academy, onClose }: ModalViewAcademyProps) => {
                       <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                       <div className="absolute bottom-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         <span className="text-white font-semibold text-lg drop-shadow-lg">
-                          {service.title}
+                          {academy.title}
                         </span>
                       </div>
                     </div>
@@ -172,7 +172,7 @@ const ModalViewAcademy = ({ academy, onClose }: ModalViewAcademyProps) => {
                           Duración
                         </p>
                         <p className="text-green-700 text-lg font-bold">
-                          {service.duration} min
+                          {academy.duration} min
                         </p>
                       </div>
                     </div>
@@ -188,7 +188,7 @@ const ModalViewAcademy = ({ academy, onClose }: ModalViewAcademyProps) => {
                           Precio
                         </p>
                         <p className="text-blue-700 text-lg font-bold">
-                          {formatPrice(service.price)}
+                          {formatPrice(academy.price)}
                         </p>
                       </div>
                     </div>
@@ -209,12 +209,12 @@ const ModalViewAcademy = ({ academy, onClose }: ModalViewAcademyProps) => {
                     </h3>
                   </div>
                   <p className="text-purple-700 leading-relaxed">
-                    {service.detailed_description}
+                    {academy.description_long}
                   </p>
                 </div>
 
                 {/* Beneficios */}
-                {service.benefits && service.benefits.length > 0 && (
+                {academy.includes && academy.includes.length > 0 && (
                   <div className="bg-gradient-to-br from-rose-50 to-pink-50 p-6 rounded-2xl border border-rose-200/50">
                     <div className="flex items-center space-x-3 mb-4">
                       <div className="p-2 bg-rose-500/20 rounded-lg">
@@ -225,11 +225,11 @@ const ModalViewAcademy = ({ academy, onClose }: ModalViewAcademyProps) => {
                       </h3>
                     </div>
                     <div className="space-y-2">
-                      {service.benefits.map((benefit, index) => (
+                      {academy.includes.map((include, index) => (
                         <div key={index} className="flex items-start space-x-2">
                           <div className="text-rose-600 mt-1">✓</div>
                           <p className="text-rose-700 leading-relaxed">
-                            {benefit}
+                            {include}
                           </p>
                         </div>
                       ))}
@@ -238,62 +238,44 @@ const ModalViewAcademy = ({ academy, onClose }: ModalViewAcademyProps) => {
                 )}
 
                 {/* Información adicional */}
-                {service.for_who && (
+                {academy.requirements && academy.requirements.length > 0 && (
                   <div className="bg-gradient-to-br from-amber-50 to-orange-50 p-6 rounded-2xl border border-amber-200/50">
                     <div className="flex items-center space-x-3 mb-4">
                       <div className="p-2 bg-amber-500/20 rounded-lg">
                         <Star className="h-5 w-5 text-amber-600" />
                       </div>
                       <h3 className="text-xl font-bold text-amber-800">
-                        ¿Para quién es?
+                        Requisitos
                       </h3>
                     </div>
-                    <p className="text-amber-700 leading-relaxed">
-                      {service.for_who}
-                    </p>
+                    <div className="space-y-2">
+                      {academy.requirements.map((requirement, index) => (
+                        <div key={index} className="flex items-start space-x-2">
+                          <div className="text-amber-600 mt-1">•</div>
+                          <p className="text-amber-700 leading-relaxed">
+                            {requirement}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 )}
 
-                {/* Frase gancho */}
-                {service.phrase_hook && (
-                  <div className="bg-gradient-to-br from-indigo-50 to-blue-50 p-6 rounded-2xl border border-indigo-200/50">
-                    <div className="flex items-center space-x-3 mb-4">
-                      <div className="p-2 bg-indigo-500/20 rounded-lg">
-                        <Sparkles className="h-5 w-5 text-indigo-600" />
-                      </div>
-                      <h3 className="text-xl font-bold text-indigo-800">
-                        Frase Destacada
-                      </h3>
-                    </div>
-                    <p className="text-indigo-700 leading-relaxed italic text-lg">
-                      &ldquo;{service.phrase_hook}&rdquo;
-                    </p>
-                  </div>
-                )}
-
-                {/* Información del terapeuta */}
-                {service.user && (
+                {/* Información del instructor */}
+                {academy.speaker && (
                   <div className="bg-gradient-to-br from-teal-50 to-cyan-50 p-6 rounded-2xl border border-teal-200/50">
                     <div className="flex items-center space-x-3 mb-4">
                       <div className="p-2 bg-teal-500/20 rounded-lg">
                         <User className="h-5 w-5 text-teal-600" />
                       </div>
                       <h3 className="text-xl font-bold text-teal-800">
-                        Terapeuta
+                        Instructor
                       </h3>
                     </div>
                     <div className="space-y-2">
                       <p className="text-teal-700 font-semibold">
-                        {service.user.first_name} {service.user.last_name}
+                        {academy.speaker}
                       </p>
-                      <p className="text-teal-600 text-sm">
-                        {service.user.email}
-                      </p>
-                      {service.user.phone && (
-                        <p className="text-teal-600 text-sm">
-                          📞 {service.user.phone}
-                        </p>
-                      )}
                     </div>
                   </div>
                 )}
@@ -310,7 +292,7 @@ const ModalViewAcademy = ({ academy, onClose }: ModalViewAcademyProps) => {
                           Creado el
                         </p>
                         <p className="text-gray-700 text-sm">
-                          {formatDate(service.createdAt)}
+                          {formatDate(academy.createdAt)}
                         </p>
                       </div>
                     </div>
@@ -324,7 +306,7 @@ const ModalViewAcademy = ({ academy, onClose }: ModalViewAcademyProps) => {
               <div className="flex justify-between items-center">
                 <div className="flex items-center space-x-2 text-sm text-gray-500">
                   <MapPin className="h-4 w-4" />
-                  <span>ID: {service.id}</span>
+                  <span>ID: {academy.id}</span>
                 </div>
                 <button
                   onClick={onClose}

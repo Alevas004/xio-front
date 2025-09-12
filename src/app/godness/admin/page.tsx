@@ -361,15 +361,6 @@ const DashboardContent = () => {
 
 // Placeholder components for other sections
 
-const CoursesContent = () => (
-  <div className="bg-white rounded-lg shadow p-6">
-    <h3 className="text-lg font-semibold mb-4">Gestión de Cursos</h3>
-    <p className="text-gray-600">
-      Componente de gestión de cursos en desarrollo...
-    </p>
-  </div>
-);
-
 const UsersContent = () => (
   <div className="bg-white rounded-lg shadow p-6">
     <h3 className="text-lg font-semibold mb-4">Gestión de Usuarios</h3>
