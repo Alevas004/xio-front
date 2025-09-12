@@ -40,19 +40,15 @@ export interface Product {
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_BASE_URL;
 
-interface ProductBySlugParams {
-  slug: string;
-}
-
 interface ProductPageProps {
-  params: ProductBySlugParams;
+  params: Promise<{ slug: string }>;
 }
 
 // 🚀 **SEO DINÁMICO ÉPICO** - generateMetadata
 export async function generateMetadata({
   params,
 }: ProductPageProps): Promise<Metadata> {
-  const slug = params.slug;
+  const { slug } = await params;
 
   try {
     const res = await fetch(`${BASE_URL}/byxio/products/${slug}`, {
@@ -185,7 +181,7 @@ export function generateViewport() {
 }
 
 const ProductBySlug = async ({ params }: ProductPageProps) => {
-  const slug = params.slug;
+  const { slug } = await params;
   let product: Product | null = null;
 
   try {
