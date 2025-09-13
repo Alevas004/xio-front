@@ -24,6 +24,12 @@ import NotFound from "@/components/xios-academy/not-found";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_BASE_URL;
 
+// Configuración de caché dinámico según el entorno
+const isDevelopment = process.env.NODE_ENV === "development";
+const cacheConfig = isDevelopment
+  ? { cache: "no-store" as const }
+  : { cache: "force-cache" as const, next: { revalidate: 300 } }; // 5 minutos en producción
+
 interface Workshop {
   id: string;
   slug: string;
@@ -85,8 +91,11 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   try {
     const { slug } = await params;
-    const res = await axios.get(`${BASE_URL}/xios-academy/events/${slug}`);
-    const workshop: Workshop = res.data;
+    const res = await fetch(
+      `${BASE_URL}/xios-academy/events/${slug}`,
+      cacheConfig
+    );
+    const workshop: Workshop = await res.json();
 
     const baseUrl = process.env.NEXT_PUBLIC_FRONTEND_URL;
     const currentUrl = `${baseUrl}/xios-academy/events/workshops/${slug}`;
@@ -215,8 +224,13 @@ const WorkshopDetailPage = async ({ params }: Props) => {
   let workshop: Workshop | null = null;
 
   try {
-    const res = await axios.get(`${BASE_URL}/xios-academy/events/${slug}`);
-    workshop = res.data;
+    const res = await fetch(
+      `${BASE_URL}/xios-academy/events/${slug}`,
+      cacheConfig
+    );
+    if (res.ok) {
+      workshop = await res.json();
+    }
   } catch (error) {
     console.error("Error loading workshop:", error);
     return <NotFound />;

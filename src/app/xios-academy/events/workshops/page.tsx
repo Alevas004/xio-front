@@ -133,8 +133,12 @@ const WorkshopsPage = async () => {
   let workshops = [];
 
   try {
-    const res = await axios.get(`${BASE_URL}/xios-academy/event?type=workshop`);
-    workshops = res.data;
+    const res = await fetch(`${BASE_URL}/xios-academy/event?type=workshop`, {
+      cache: "no-store",
+    });
+    if (res.ok) {
+      workshops = await res.json();
+    }
   } catch (error) {
     console.error("Error loading workshops:", error);
   }
