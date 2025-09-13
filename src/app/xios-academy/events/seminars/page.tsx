@@ -66,7 +66,7 @@ async function generateMetadata(): Promise<Metadata> {
         "max-snippet": -1,
       },
     },
- 
+
     openGraph: {
       type: "website",
       locale: "es_ES",

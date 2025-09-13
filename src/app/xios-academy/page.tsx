@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import XiosAcademyClient, {
   Course,
 } from "../../components/xios-academy/XiosAcademyClient";
@@ -15,8 +14,10 @@ async function generateMetadata(): Promise<Metadata> {
   let avgPrice = 0;
 
   try {
-    const response = await axios.get(`${BASE_URL}/xios-courses/courses`);
-    courses = response.data;
+    const res = await fetch(`${BASE_URL}/xios-courses/courses`);
+    if (res.ok) {
+      courses = await res.json();
+    }
     coursesCount = courses.length;
     avgPrice =
       courses.length > 0
@@ -150,8 +151,10 @@ const XiosAcademyPage = async () => {
   let courses: Course[] = [];
 
   try {
-    const response = await axios.get(`${BASE_URL}/xios-courses/courses`);
-    courses = response.data;
+    const res = await fetch(`${BASE_URL}/xios-courses/courses`);
+    if (res.ok) {
+      courses = await res.json();
+    }
   } catch (error) {
     console.error("Error fetching courses:", error);
   }

@@ -1,19 +1,22 @@
-import axios from "axios";
 import React from "react";
 import { Metadata } from "next";
 import AllWorkshops from "../../../../components/xios-academy/workshops/AllWorkshops";
+import { Academy } from "../../student-portal/page";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_BASE_URL;
 
 // Función para generar metadata dinámica basada en los workshops
 async function generateMetadata(): Promise<Metadata> {
-  let workshops = [];
+  let workshops: Academy[] = [];
   let workshopsCount = 0;
   let avgPrice = 0;
 
   try {
-    const res = await axios.get(`${BASE_URL}/xios-academy/event?type=workshop`);
-    workshops = res.data;
+    const res = await fetch(`${BASE_URL}/xios-academy/event?type=workshop`);
+    if (res.ok) {
+      workshops = await res.json();
+    }
+
     workshopsCount = workshops.length;
     avgPrice =
       workshops.length > 0
