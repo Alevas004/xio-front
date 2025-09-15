@@ -143,6 +143,7 @@ const ServiceCard = ({ service }: ServiceCardProps) => {
         <Link
           href={`https://api.whatsapp.com/send/?phone=573135058584&text=%C2%A1Hola%21+Quiero+reservar+el+servicio:+${service.title}`}
           target="_blank"
+          rel="noopener noreferrer"
           className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] flex items-center justify-center space-x-2 group/btn"
         >
           <span>💬</span>

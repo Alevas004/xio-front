@@ -370,6 +370,7 @@ const ServiceDetails = async ({ params }: ServiceDetailsProps) => {
             <Link
               href={`https://api.whatsapp.com/send/?phone=573135058584&text=%C2%A1Hola%21+Quiero+reservar+el+servicio:+${service.title}`}
               target="_blank"
+              rel="noopener noreferrer"
               className="flex items-center space-x-2 bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-700 transition-colors"
             >
               <MessageCircle className="h-4 w-4" />
@@ -569,6 +570,7 @@ const ServiceDetails = async ({ params }: ServiceDetailsProps) => {
                 <Link
                   href={`https://api.whatsapp.com/send/?phone=573135058584&text=%C2%A1Hola%21+Quiero+reservar+el+servicio:+${service.title}`}
                   target="_blank"
+                  rel="noopener noreferrer"
                   className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] flex items-center justify-center space-x-3 group"
                 >
                   <MessageCircle className="h-6 w-6" />
@@ -947,6 +949,7 @@ const ServiceDetails = async ({ params }: ServiceDetailsProps) => {
               <Link
                 href={`https://api.whatsapp.com/send/?phone=573135058584&text=%C2%A1Hola%21+Quiero+reservar+el+servicio:+${service.title}`}
                 target="_blank"
+                rel="noopener noreferrer"
                 className="w-full sm:w-auto bg-white text-purple-600 font-bold py-4 px-8 rounded-xl hover:bg-gray-100 transition-all duration-300 hover:scale-105 flex items-center justify-center space-x-3 group shadow-lg"
               >
                 <MessageCircle className="h-6 w-6" />
