@@ -15,6 +15,11 @@ const ServiceCard = ({ service }: ServiceCardProps) => {
     window.location.href = `/xiomarasanchezterapeuta/services-xs/${slug}`;
   };
 
+const goToWhatsapp = (serviceTitle: string) => {
+  const whatsappUrl = `https://api.whatsapp.com/send/?phone=573135058584&text=%C2%A1Hola%21+Quiero+reservar+el+servicio:+${serviceTitle}`;
+  window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+}
+
   return (
     <div className="group flex flex-col h-full relative bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl border border-gray-100 transition-all duration-500 hover:scale-[1.01] max-w-md mx-auto">
       {/* Hero Image/Video Section */}
@@ -140,16 +145,14 @@ const ServiceCard = ({ service }: ServiceCardProps) => {
       {/* Action Buttons */}
       <div className="p-6 pt-0 space-y-3">
         {/* Primary CTA - WhatsApp */}
-        <Link
-          href={`https://api.whatsapp.com/send/?phone=573135058584&text=%C2%A1Hola%21+Quiero+reservar+el+servicio:+${service.title}`}
-          target="_blank"
-          rel="noopener noreferrer"
+        <button
+          onClick={() => goToWhatsapp(service.title)}
           className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] flex items-center justify-center space-x-2 group/btn"
         >
           <span>💬</span>
           <span>Reservar ahora</span>
           <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
-        </Link>
+        </button>
 
         {/* Secondary CTA - More Info */}
         <button
