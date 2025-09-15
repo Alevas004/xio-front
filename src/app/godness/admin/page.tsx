@@ -46,8 +46,8 @@ const GodnessAdminPage = () => {
       description: "Gestión de productos By Xio",
     },
     {
-      id: "events",
-      label: "Eventos",
+      id: "workshops",
+      label: "Talleres",
       icon: FiBookOpen,
       description: "Gestión de eventos Xios Academy",
     },
@@ -91,7 +91,7 @@ const GodnessAdminPage = () => {
         return <ServiceManager />;
       case "products":
         return <ProductManager />;
-      case "events":
+      case "workshops":
         return <AcademyManager />;
       case "courses":
         return <CourseManager />;

@@ -212,52 +212,114 @@ const ProductManager = () => {
       )}
 
       {/* Header con estadísticas */}
-      <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-        <div className="flex items-center justify-center md:justify-between flex-wrap">
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900">
-              Gestión de Productos
-            </h2>
-            <p className="text-gray-600 mt-1">
-              {pagination.totalItems} productos en total
-              {selectedCategory !== "all" && (
-                <span className="ml-2 text-blue-600 font-medium">
-                  (filtrado por: {selectedCategory})
-                </span>
-              )}
-            </p>
-          </div>
+      <div className="bg-gradient-to-r from-purple-600 via-purple-400 to-purple-500 shadow-2xl">
+        <div className="px-4 sm:px-6 py-6 sm:py-8 max-w-full w-full">
+          <div className="flex flex-col gap-4 sm:gap-6">
+            {/* Título y descripción */}
+            <div className="space-y-2 sm:space-y-3 flex flex-col justify-center">
+              <div className="flex items-center justify-center space-x-3">
+                <div className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm">
+                  <svg
+                    className="h-5 w-5 sm:h-6 sm:w-6 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    />
+                  </svg>
+                </div>
+                <div className="flex items-center justify-center">
+                  <h1 className="text-xl sm:text-3xl font-bold text-white">
+                    Gestión de Productos
+                  </h1>
+                </div>
+              </div>
+              <div>
+                <p className="text-sm sm:text-lg text-white font-medium">
+                  Administra los productos de Almara
+                </p>
+              </div>
+              <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-xs sm:text-sm text-white">
+                <div className="flex items-center space-x-2">
+                  <div className="h-2 w-2 bg-green-400 rounded-full"></div>
+                  <span>Sistema activo</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <div className="h-2 w-2 bg-blue-400 rounded-full"></div>
+                  <span>
+                    {pagination ? pagination.totalItems : 0} productos
+                  </span>
+                </div>
+              </div>
+            </div>
 
-          <div className="flex items-center space-x-6">
-            {/* Filtro de categorías */}
-            <div>
-              <h3 className="text-sm font-medium text-gray-700 mb-2">
-                Filtrar por categoría
-              </h3>
-              <div className="flex items-center space-x-2">
-                <Select
+            {/* Botón de acción - Centrado en móvil */}
+            <div className="flex justify-center items-center">
+              <button
+                onClick={() => setCreateModal(true)}
+                className="group relative px-4 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-white via-white to-gray-50 text-purple-600 rounded-xl sm:rounded-2xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 hover:from-gray-50 hover:to-white w-full sm:w-auto"
+              >
+                <div className="flex items-center justify-center space-x-3">
+                  <div className="flex items-center justify-center h-6 w-6 sm:h-8 sm:w-8 rounded-lg bg-purple-100 group-hover:bg-purple-200 transition-colors duration-300">
+                    <svg
+                      className="h-3 w-3 sm:h-4 sm:w-4 text-purple-600"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                      />
+                    </svg>
+                  </div>
+                  <span className="text-sm">Crear Nuevo Producto</span>
+                </div>
+                <div className="absolute inset-0 rounded-xl sm:rounded-2xl bg-gradient-to-r from-purple-600/0 via-purple-600/0 to-purple-600/0 group-hover:from-purple-600/5 group-hover:via-purple-600/10 group-hover:to-purple-600/5 transition-all duration-300"></div>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Barra de navegación/filtros - Responsive */}
+        <div className="px-4 sm:px-6 pb-4 sm:pb-6">
+          <div className="flex flex-col items-center justify-center gap-4 bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-3 sm:p-4 border border-white/20">
+            {/* Filtros de Estado - Móvil: vertical, Desktop: horizontal */}
+
+            {/* Filtros de Categoría - Segunda fila en móvil */}
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+              <span className="text-white/80 font-medium text-sm">
+                Categoría:
+              </span>
+              <div className="flex-1 flex items-center space-x-2">
+                <select
                   value={selectedCategory}
-                  onValueChange={handleCategoryChange}
+                  onChange={(e) => handleCategoryChange(e.target.value)}
+                  className="w-full px-3 py-2 bg-white/20 border border-white/30 rounded-lg text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-white/50 focus:bg-white/30 transition-all"
                 >
-                  <SelectTrigger className="w-56">
-                    <SelectValue placeholder="Selecciona una categoría" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white">
-                    <SelectItem value="all">📦 Todas las categorías</SelectItem>
-                    {availableCategories?.map((category) => (
-                      <SelectItem
+                  <option value="all" className="bg-purple-600 text-white py-3">
+                    Todas las categorías
+                  </option>
+                  {Array.isArray(availableCategories) &&
+                    availableCategories.map((category) => (
+                      <option
                         key={category.category}
-                        value={category.category}
+                        value={`${category.category}`}
+                        className="bg-purple-600 text-white py-3"
                       >
                         {category.category.charAt(0).toUpperCase() +
                           category.category.slice(1)}{" "}
                         ({category.count})
-                      </SelectItem>
+                      </option>
                     ))}
-                  </SelectContent>
-                </Select>
-
-                {/* Botón para limpiar filtros */}
+                </select>
                 {selectedCategory !== "all" && (
                   <button
                     onClick={handleClearFilters}
@@ -269,19 +331,15 @@ const ProductManager = () => {
                 )}
               </div>
             </div>
-
-            {/* Estadísticas y botón */}
-            <div className="text-right">
-              <div className="text-sm text-gray-500 mb-2">
-                Página {pagination.currentPage} de {pagination.totalPages}
-              </div>
-              <button
-                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-                onClick={() => setCreateModal(true)}
-              >
-                + Agregar Producto
-              </button>
-            </div>
+            <p className="text-white">
+              {pagination.totalItems} productos en total
+              {selectedCategory !== "all" && (
+                <span className="ml-2 text-white font-bold">
+                  (filtrado por: {selectedCategory})
+                </span>
+              )}
+            </p>
+            {/* Buscador - Tercera fila en móvil */}
           </div>
         </div>
       </div>

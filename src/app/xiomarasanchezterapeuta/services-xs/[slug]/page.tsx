@@ -163,10 +163,8 @@ const ServiceDetails = async ({ params }: ServiceDetailsProps) => {
 
     if (res.ok) {
       const data = await res.json();
-      if (data && data.title && data.slug) {
-        service = data;
-        console.log("Service loaded successfully:", service);
-      }
+      service = data;
+      console.log("Service loaded successfully:", service);
     }
   } catch {
     console.error("Error fetching service details");
@@ -229,7 +227,7 @@ const ServiceDetails = async ({ params }: ServiceDetailsProps) => {
                 service.user?.last_name || "Sánchez"
               }`,
               jobTitle: "Terapeuta Profesional Certificada",
-              url: "https://tudominio.com/xiomarasanchezterapeuta",
+              url: "https://xiomarasanchez.com/xiomarasanchezterapeuta",
               telephone: service.user?.phone || "+573135058584",
               email: service.user?.email,
               image: service.user?.profile_picture,
@@ -259,7 +257,7 @@ const ServiceDetails = async ({ params }: ServiceDetailsProps) => {
               itemCondition: "https://schema.org/NewCondition",
             },
             image: service.image,
-            url: `https://tudominio.com/xiomarasanchezterapeuta/services-xs/${service.slug}`,
+            url: `https://xiomarasanchez.com/xiomarasanchezterapeuta/services-xs/${service.slug}`,
             areaServed: [
               {
                 "@type": "City",
@@ -340,25 +338,25 @@ const ServiceDetails = async ({ params }: ServiceDetailsProps) => {
                 "@type": "ListItem",
                 position: 1,
                 name: "Inicio",
-                item: "https://tudominio.com/",
+                item: "https://xiomarasanchez.com/",
               },
               {
                 "@type": "ListItem",
                 position: 2,
                 name: "Xiomara Sánchez Terapeuta",
-                item: "https://tudominio.com/xiomarasanchezterapeuta",
+                item: "https://xiomarasanchez.com/xiomarasanchezterapeuta",
               },
               {
                 "@type": "ListItem",
                 position: 3,
                 name: "Servicios de Terapia",
-                item: "https://tudominio.com/xiomarasanchezterapeuta/services-xs",
+                item: "https://xiomarasanchez.com/xiomarasanchezterapeuta/services-xs",
               },
               {
                 "@type": "ListItem",
                 position: 4,
                 name: service.title,
-                item: `https://tudominio.com/xiomarasanchezterapeuta/services-xs/${service.slug}`,
+                item: `https://xiomarasanchez.com/xiomarasanchezterapeuta/services-xs/${service.slug}`,
               },
             ],
           }),
@@ -367,20 +365,18 @@ const ServiceDetails = async ({ params }: ServiceDetailsProps) => {
 
       {/* Header Navigation */}
       <div className="fixed bottom-25 right-5 z-10">
-       
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-4">
-              <Link
-                href={`https://api.whatsapp.com/send/?phone=573135058584&text=%C2%A1Hola%21+Quiero+reservar+el+servicio:+${service.title}`}
-                target="_blank"
-                className="flex items-center space-x-2 bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-700 transition-colors"
-              >
-                <MessageCircle className="h-4 w-4" />
-                <span>WhatsApp</span>
-              </Link>
-            </div>
+        <div className="flex items-center justify-between h-16">
+          <div className="flex items-center space-x-4">
+            <Link
+              href={`https://api.whatsapp.com/send/?phone=573135058584&text=%C2%A1Hola%21+Quiero+reservar+el+servicio:+${service.title}`}
+              target="_blank"
+              className="flex items-center space-x-2 bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-700 transition-colors"
+            >
+              <MessageCircle className="h-4 w-4" />
+              <span>WhatsApp</span>
+            </Link>
           </div>
-        
+        </div>
       </div>
 
       {/* Hero Section */}

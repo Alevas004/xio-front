@@ -94,27 +94,33 @@ export interface Service {
   user: User;
 }
 
-const ServiceXS = async ({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) => {
+const ServiceXS = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) => {
   const resolvedSearchParams = await searchParams;
   let data: Service[] = [];
 
   // Construir query params dinámicamente
   const buildQueryParams = () => {
     const params = new URLSearchParams();
-    
+
     // Filtro por categoría
     if (resolvedSearchParams.category) {
-      const categories = Array.isArray(resolvedSearchParams.category) 
-        ? resolvedSearchParams.category 
+      const categories = Array.isArray(resolvedSearchParams.category)
+        ? resolvedSearchParams.category
         : [resolvedSearchParams.category];
-      categories.forEach(cat => params.append('category', cat));
+      categories.forEach((cat) => params.append("category", cat));
     }
-    
+
     return params.toString();
   };
 
   const queryString = buildQueryParams();
-  const apiUrl = `${BASE_URL}/xiomarasanchezterapeuta/servicesxs${queryString ? `?${queryString}` : ''}`;
+  const apiUrl = `${BASE_URL}/xiomarasanchezterapeuta/servicesxs${
+    queryString ? `?${queryString}` : ""
+  }`;
 
   try {
     const res = await fetch(apiUrl, {
@@ -156,12 +162,12 @@ const ServiceXS = async ({ searchParams }: { searchParams: Promise<{ [key: strin
             <span className="text-purple-200 italic">Renovación</span>
           </h1>
 
-          <p className="text-lg md:text-xl mb-6 text-purple-100 max-w-2xl mx-auto">
+          <span className="text-lg md:text-xl text-purple-300 max-w-2xl mx-auto">
             Descubre nuestros servicios especializados diseñados para tu
             bienestar integral.
-          </p>
+          </span>
 
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
+          <div className="flex flex-col sm:flex-row justify-center gap-4 mt-3">
             <Link
               href="https://api.whatsapp.com/send/?phone=573135058584&text=%C2%A1Hola%21+Quiero+m%C3%A1s+informaci%C3%B3n+sobre+tus+servicios"
               target="_blank"
@@ -190,33 +196,37 @@ const ServiceXS = async ({ searchParams }: { searchParams: Promise<{ [key: strin
           </div>
         </div>
       </div>
-      
+
       {/* Componente de Filtros */}
       <FilterServices services={data} />
 
       {/* Nota informativa mejorada */}
       <div className="max-w-6xl mx-auto px-6 py-6">
         <div className="bg-gradient-to-r from-purple-50 to-indigo-50 border-l-4 border-purple-500 p-6 rounded-xl shadow-sm">
-          <div className="flex items-start space-x-3">
-            <div className="p-2 bg-purple-500/20 rounded-lg">
-              <span className="text-purple-600">ℹ️</span>
-            </div>
-            <div>
-              <h3 className="text-lg font-bold text-purple-800 mb-2">
+          <div className="flex flex-col justify-center items-start space-x-3 w-full">
+            <div className="flex justify-center items-center">
+              <h3 className="text-lg font-bold text-purple-800">
                 Información Importante
               </h3>
-              <p className="text-purple-700 leading-relaxed">
-                El{" "}
-                <span className="font-semibold bg-purple-200/50 px-2 py-1 rounded">
-                  precio del servicio puede variar según la ubicación
-                </span>{" "}
-                dentro del Eje Cafetero. También realizamos sesiones en otras
-                ciudades de Colombia, pero únicamente en
-                <span className="font-semibold bg-purple-200/50 px-2 py-1 rounded ml-1">
-                  fechas especiales de gira
-                </span>
-                .
-              </p>
+            </div>
+            <div className="flex items-start space-x-4">
+              <div className="p-2 bg-purple-500/20 rounded-lg">
+                <span className="text-purple-600">ℹ️</span>
+              </div>
+              <div>
+                <p className="text-purple-700 leading-relaxed text-start">
+                  El{" "}
+                  <span className="font-semibold bg-purple-200/50 px-2 py-1 rounded">
+                    precio del servicio puede variar según la ubicación
+                  </span>{" "}
+                  dentro del Eje Cafetero. También realizamos sesiones en otras
+                  ciudades de Colombia, pero únicamente en
+                  <span className="font-semibold bg-purple-200/50 px-2 py-1 rounded ml-1">
+                    fechas especiales de gira
+                  </span>
+                  .
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -254,7 +264,7 @@ const ServiceXS = async ({ searchParams }: { searchParams: Promise<{ [key: strin
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             ¿Quieres que vayamos a tu ciudad?
           </h2>
-          <p className="text-lg mb-6 text-purple-100 leading-relaxed">
+          <p className="text-lg mb-6 text-white leading-relaxed">
             Organizamos giras especiales en diferentes ciudades de Colombia.
           </p>
           <Link
