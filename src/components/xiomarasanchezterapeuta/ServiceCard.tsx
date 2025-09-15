@@ -1,20 +1,15 @@
-"use client";
 import { Service } from "@/app/xiomarasanchezterapeuta/services-xs/page";
 import Image from "next/image";
 import React from "react";
 import { Clock, Star, ArrowRight, Users, Heart, Sparkles } from "lucide-react";
 import BtnToWhatsapp from "./BtnToWhatsapp";
+import BtnToProductBySlug from "./BtnToProductBySlug";
 
 interface ServiceCardProps {
   service: Service;
 }
 
 const ServiceCard = ({ service }: ServiceCardProps) => {
-  const handleProductBySlug = (slug: string) => {
-    // Redirigir a la página del producto
-    window.location.href = `/xiomarasanchezterapeuta/services-xs/${slug}`;
-  };
-
   return (
     <div className="group flex flex-col h-full relative bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl border border-gray-100 transition-all duration-500 hover:scale-[1.01] max-w-md mx-auto">
       {/* Hero Image/Video Section */}
@@ -149,13 +144,12 @@ const ServiceCard = ({ service }: ServiceCardProps) => {
         </BtnToWhatsapp>
 
         {/* Secondary CTA - More Info */}
-        <button
-          onClick={() => handleProductBySlug(service.slug)}
-          className="w-full bg-white hover:bg-gray-50 text-gray-700 hover:text-gray-900 font-medium py-3 px-6 rounded-xl border-2 border-gray-200 hover:border-gray-300 transition-all duration-300 hover:scale-[1.01] flex items-center justify-center space-x-2 group/btn mt-3"
-        >
-          <span>Más información</span>
-          <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
-        </button>
+        <BtnToProductBySlug productSlug={service.slug}>
+          <button className="w-full bg-white hover:bg-gray-50 text-gray-700 hover:text-gray-900 font-medium py-3 px-6 rounded-xl border-2 border-gray-200 hover:border-gray-300 transition-all duration-300 hover:scale-[1.01] flex items-center justify-center space-x-2 group/btn mt-3">
+            <span>Más información</span>
+            <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
+          </button>
+        </BtnToProductBySlug>
       </div>
 
       {/* Hover Glow Effect */}

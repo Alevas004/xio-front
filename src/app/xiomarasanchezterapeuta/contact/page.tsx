@@ -1,8 +1,8 @@
-"use client";
 import React from "react";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import Link from "next/link";
+import BtnToWhatsapp from "@/components/xiomarasanchezterapeuta/BtnToWhatsapp";
 
 const Contact = () => {
   return (
@@ -46,15 +46,12 @@ const Contact = () => {
           <p className=" text-piel-blanco">
             Escríbeme por WhatsApp y resolveré todas tus dudas al instante.
           </p>
-          <Link
-            href="https://wa.me/573135058584?text=¡Hola!%20Quiero%20más%20información%20sobre%20tus%20servicios"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 bg-verde-oscuro text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:bg-verde-claro transition-all"
-          >
-            <FaWhatsapp className="text-2xl" />
-            Escríbeme en WhatsApp
-          </Link>
+          <BtnToWhatsapp serviceTitle="" isService={false}>
+            <button className="inline-flex items-center gap-3 bg-verde-oscuro text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:bg-verde-claro transition-all">
+              <FaWhatsapp className="text-2xl" />
+              Escríbeme en WhatsApp
+            </button>
+          </BtnToWhatsapp>
         </div>
       </section>
     </section>
