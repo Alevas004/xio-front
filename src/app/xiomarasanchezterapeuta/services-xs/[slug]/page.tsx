@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { formatDate } from "@/utils/formatDate";
 import { formatDateInYears } from "@/utils/formatDateInYears";
+import BtnToWhatsapp from "@/components/xiomarasanchezterapeuta/BtnToWhatsapp";
 
 const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_BASE_URL;
 
@@ -367,15 +368,12 @@ const ServiceDetails = async ({ params }: ServiceDetailsProps) => {
       <div className="fixed bottom-25 right-5 z-10">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center space-x-4">
-            <Link
-              href={`https://api.whatsapp.com/send/?phone=573135058584&text=%C2%A1Hola%21+Quiero+reservar+el+servicio:+${service.title}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center space-x-2 bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-700 transition-colors"
-            >
-              <MessageCircle className="h-4 w-4" />
-              <span>WhatsApp</span>
-            </Link>
+            <BtnToWhatsapp serviceTitle={service.title}>
+              <button className="flex items-center space-x-2 bg-green-600 text-white px-4 py-2 rounded-full hover:bg-green-700 transition-colors shadow-lg cursor-pointer">
+                <MessageCircle className="h-4 w-4" />
+                <span>WhatsApp</span>
+              </button>
+            </BtnToWhatsapp>
           </div>
         </div>
       </div>
@@ -567,16 +565,13 @@ const ServiceDetails = async ({ params }: ServiceDetailsProps) => {
 
               {/* CTA Principal */}
               <div className="space-y-4">
-                <Link
-                  href={`https://api.whatsapp.com/send/?phone=573135058584&text=%C2%A1Hola%21+Quiero+reservar+el+servicio:+${service.title}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] flex items-center justify-center space-x-3 group"
-                >
-                  <MessageCircle className="h-6 w-6" />
-                  <span className="text-lg">Reservar {service.title}</span>
-                  <Zap className="h-5 w-5 transition-transform group-hover:scale-110" />
-                </Link>
+                <BtnToWhatsapp serviceTitle={service.title}>
+                  <button className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] flex items-center justify-center space-x-3 group cursor-pointer">
+                    <MessageCircle className="h-6 w-6" />
+                    <span className="text-lg">Reservar {service.title}</span>
+                    <Zap className="h-5 w-5 transition-transform group-hover:scale-110" />
+                  </button>
+                </BtnToWhatsapp>
 
                 <div className="flex items-center justify-center space-x-4 text-sm text-gray-500">
                   <div className="flex items-center space-x-1">
@@ -946,16 +941,13 @@ const ServiceDetails = async ({ params }: ServiceDetailsProps) => {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-md mx-auto">
-              <Link
-                href={`https://api.whatsapp.com/send/?phone=573135058584&text=%C2%A1Hola%21+Quiero+reservar+el+servicio:+${service.title}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full sm:w-auto bg-white text-purple-600 font-bold py-4 px-8 rounded-xl hover:bg-gray-100 transition-all duration-300 hover:scale-105 flex items-center justify-center space-x-3 group shadow-lg"
-              >
-                <MessageCircle className="h-6 w-6" />
-                <span>Reservar por WhatsApp</span>
-                <Zap className="h-5 w-5 transition-transform group-hover:scale-110" />
-              </Link>
+              <BtnToWhatsapp serviceTitle={service.title}>
+                <button className="w-full sm:w-auto bg-white text-purple-600 font-bold py-4 px-8 rounded-xl hover:bg-gray-100 transition-all duration-300 hover:scale-105 flex items-center justify-center space-x-3 group shadow-lg cursor-pointer">
+                  <MessageCircle className="h-6 w-6" />
+                  <span>Reservar por WhatsApp</span>
+                  <Zap className="h-5 w-5 transition-transform group-hover:scale-110" />
+                </button>
+              </BtnToWhatsapp>
             </div>
 
             <div className="flex items-center justify-center space-x-8 text-purple-200 text-sm">
