@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import React from "react";
 
 interface BtnToWhatsappProps {
@@ -8,16 +7,12 @@ interface BtnToWhatsappProps {
 }
 
 const BtnToWhatsapp = ({ serviceTitle, children }: BtnToWhatsappProps) => {
-  return (
-    <Link
-      href={`https://api.whatsapp.com/send/?phone=573135058584&text=%C2%A1Hola%21+Quiero+reservar+el+servicio:+${serviceTitle}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="cursor-pointer"
-    >
-      {children}
-    </Link>
-  );
+  const goToWhatsapp = () => {
+    const whatsappUrl = `https://api.whatsapp.com/send/?phone=573135058584&text=%C2%A1Hola%21+Quiero+reservar+el+servicio:+${serviceTitle}`;
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+  };
+
+  return <div onClick={goToWhatsapp}>{children}</div>;
 };
 
 export default BtnToWhatsapp;
